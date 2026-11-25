@@ -1,0 +1,15 @@
+{
+  "format_id": "fmt-step-ladder",
+  "skill_name": "fmt-step-ladder",
+  "contract_version": "1.0",
+  "phase": "perform",
+  "accepts": { "content_kinds": ["ordered_procedure"], "requires_fields": ["steps", "variables", "constraints"], "optional_fields": ["plot", "bugs", "accepted_paths"] },
+  "selects_when": { "objective_verbs": ["perform", "compute"], "needs": ["steps"] },
+  "retry_class": "procedural",
+  "emits": ["item_presented", "answer_submitted", "hint_shown", "worked_step_shown", "item_completed", "outcome", "skill_progress"],
+  "outcomes": ["advance", "retry_same_step", "hint_next_level", "show_worked_step", "step_twin_new_numbers", "checkpoint_return_prefilled", "full_restart", "route_to_format", "mastered"],
+  "a11y": { "keyboard": true, "untimed": true, "non_drag": true, "text_alt": true },
+  "pdf": { "renders_as": "worked solution table: data, method, one calculation per row at the declared carry, drawing, interpretation, common mistake", "key_included": true },
+  "fixtures": ["AF-LAD-01", "AF-LAD-02", "AF-LAD-03"],
+  "evidence": "step-level feedback A; worked examples then backward fading for novices B (near transfer); step locking C; restart composite C"
+}

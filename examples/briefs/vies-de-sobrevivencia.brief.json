@@ -1,0 +1,21 @@
+{
+  "request": "Uma aula curta sobre viés de sobrevivência para quem começa a analisar dados: o que é, o exemplo dos aviões de Abraham Wald e como evitar o erro.",
+  "topic": "Viés de sobrevivência",
+  "language": "pt-BR",
+  "domain": "humanities",
+  "sources": [
+    { "id": "s-mangel1984", "title": "Abraham Wald's work on aircraft survivability", "short": "Mangel e Samaniego (1984)",
+      "citation": "Mangel, M.; Samaniego, F. J. Abraham Wald's work on aircraft survivability. Journal of the American Statistical Association, v. 79, n. 386, p. 259-267, 1984.", "doi": "10.1080/01621459.1984.10478038" }
+  ],
+  "points": [
+    { "title": "Os aviões que voltaram", "source_id": "s-mangel1984",
+      "text": "Na Segunda Guerra Mundial, o estatístico Abraham Wald trabalhou com os danos contados nos aviões que voltaram das missões para estimar onde os aviões eram mais vulneráveis. Os aviões abatidos não podiam ser examinados: os dados vinham só dos que sobreviveram." },
+    { "title": "O erro de olhar só para quem passou pelo filtro",
+      "text": "Viés de sobrevivência é concluir algo sobre um grupo inteiro olhando só para os casos que passaram por um filtro, como empresas que não fecharam ou aviões que voltaram." }
+  ],
+  "terms": [
+    { "term": "Viés de sobrevivência", "definition": "Erro de tirar conclusões olhando só para os casos que passaram por um filtro." },
+    { "term": "Aviões que voltaram", "definition": "Os únicos aviões cujos danos puderam ser contados nos dados que Wald analisou.", "source_id": "s-mangel1984" },
+    { "term": "População", "definition": "O grupo inteiro sobre o qual queremos concluir, incluindo os casos que não aparecem nos dados." }
+  ]
+}

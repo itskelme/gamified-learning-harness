@@ -1,0 +1,15 @@
+{
+  "format_id": "fmt-retrieval-cloze",
+  "skill_name": "fmt-retrieval-cloze",
+  "contract_version": "1.0",
+  "phase": "retrieval",
+  "accepts": { "content_kinds": ["declarative", "ordered_procedure"], "requires_fields": ["blanks"], "optional_fields": ["cue_ladder", "template"] },
+  "selects_when": { "objective_verbs": ["recall", "define"], "needs": ["blanks"] },
+  "retry_class": "declarative",
+  "emits": ["item_presented", "answer_submitted", "hint_shown", "item_completed", "outcome", "skill_progress"],
+  "outcomes": ["advance", "retry_same", "hint_next_level", "requeue_later", "due_on", "mastered"],
+  "a11y": { "keyboard": true, "untimed": true, "non_drag": true, "text_alt": true },
+  "pdf": { "renders_as": "fill-in blanks with a lined answer key; cue ladder as a numbered hint box", "key_included": true },
+  "fixtures": ["AF-CLZ-01"],
+  "evidence": "production retrieval with feedback A/B; practitioner card rules unverified C"
+}

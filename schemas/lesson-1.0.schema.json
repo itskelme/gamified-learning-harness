@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/gamified-learning/lesson-1.0.schema.json",
+  "title": "Portable lesson 1.0",
+  "description": "One lesson representation for every artifact (study PDF, LaTeX, package, slides). Earlier files are migrated by scripts/lesson_contract.py: schema 0.1 (examples/*.lesson.json) -> kind slides-practice; ordered-procedure 0.2.0 (lessons/prova3-statistics.lesson.json) -> kind ordered-procedure. `revision` is the content version: progress files and builds key on it and on the content digest (docs/SCHEMA.md).",
+  "type": "object",
+  "required": ["schema_version", "kind", "id", "revision", "title", "language", "locale", "domain", "objectives", "sources"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "kind": { "enum": ["ordered-procedure", "declarative-case", "slides-practice"] },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]+$" },
+    "revision": { "type": "integer", "minimum": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "language": { "type": "string", "minLength": 2 },
+    "locale": { "type": "string", "minLength": 2 },
+    "domain": { "type": "string", "minLength": 2 },
+    "objectives": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/objective" } },
+    "sources": { "type": "array", "items": { "$ref": "#/$defs/source" } },
+    "claims": { "type": "array", "items": { "$ref": "#/$defs/claim" } },
+    "study": { "$ref": "#/$defs/study" },
+    "slides": { "type": "array", "items": { "$ref": "#/$defs/slide" } },
+    "practice": { "type": "object", "required": ["units"], "properties": { "units": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/unit" } } } },
+    "restart": { "type": "object", "required": ["default_policy"], "properties": {
+      "default_policy": { "enum": ["full", "failed-step", "checkpoint", "after-n-errors"] },
+      "after_n_errors": { "type": "integer", "minimum": 2 },
+      "policies": { "type": "array", "items": { "enum": ["full", "failed-step", "checkpoint", "after-n-errors"] } } } },
+    "brief": { "$ref": "#/$defs/brief" },
+    "migrated_from": { "type": "object", "required": ["schema"], "properties": { "schema": { "type": "string" }, "version": { "type": "string" } } },
+    "exercises": { "type": "array", "minItems": 1 },
+    "conventions": { "type": "object" },
+    "carry_paths": { "type": "object" },
+    "methods": { "type": "array" },
+    "decision_map": { "type": "object" },
+    "source_notes": { "type": "array" }
+  },
+  "allOf": [
+    { "if": { "properties": { "kind": { "const": "ordered-procedure" } } },
+      "then": { "required": ["exercises", "conventions", "carry_paths", "methods", "restart"], "properties": { "exercises": { "items": { "$ref": "#/$defs/procedure_exercise" } } } } },
+    { "if": { "properties": { "kind": { "const": "declarative-case" } } },
+      "then": { "required": ["claims", "study", "practice"] } },
+    { "if": { "properties": { "kind": { "const": "slides-practice" } } },
+      "then": { "required": ["slides", "exercises", "restart"], "properties": { "exercises": { "items": { "$ref": "#/$defs/simple_exercise" } } } } }
+  ],
+  "$defs": {
+    "objective": { "type": "object", "additionalProperties": false, "required": ["id", "text"], "properties": {
+      "id": { "type": "string", "minLength": 1 }, "text": { "type": "string", "minLength": 1 },
+      "verb": { "enum": ["perform", "compute", "recall", "define", "recognize", "interpret", "discriminate", "classify", "sequence", "decide", "evaluate", "explain_relationship", "predict", "retain", "review"] } } },
+    "source": { "type": "object", "required": ["id", "status"], "properties": {
+      "id": { "type": "string" },
+      "status": { "enum": ["verified", "unverified", "author-created-example", "supplied-material"] },
+      "title": { "type": "string" }, "citation": { "type": "string" }, "short": { "type": "string" },
+      "url": { "type": "string" }, "doi": { "type": "string" }, "path": { "type": "string" },
+      "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }, "verification": { "type": "string" },
+      "description": { "type": "string" }, "learner_label": { "type": "string" } },
+      "allOf": [{ "if": { "properties": { "status": { "const": "supplied-material" } } }, "then": { "required": ["path", "sha256"] } }] },
+    "claim": { "type": "object", "additionalProperties": false, "required": ["id", "text", "status", "source_ids"], "properties": {
+      "id": { "type": "string" }, "text": { "type": "string", "minLength": 1 },
+      "status": { "enum": ["sourced", "author-example", "unverified"] },
+      "source_ids": { "type": "array", "items": { "type": "string" } },
+      "note": { "type": "string" } },
+      "allOf": [{ "if": { "properties": { "status": { "enum": ["sourced", "author-example"] } } }, "then": { "properties": { "source_ids": { "minItems": 1 } } } }] },
+    "study": { "type": "object", "required": ["sections"], "properties": {
+      "intro": { "type": "string" },
+      "sections": { "type": "array", "minItems": 1, "items": { "type": "object", "additionalProperties": false, "required": ["id", "title", "paragraphs"], "properties": {
+        "id": { "type": "string" }, "title": { "type": "string" },
+        "paragraphs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "claim_ids": { "type": "array", "items": { "type": "string" } },
+        "retrieval": { "type": "object", "required": ["prompt", "answer"], "properties": { "prompt": { "type": "string" }, "answer": { "type": "string" } } } } } },
+      "glossary": { "type": "array", "items": { "type": "object", "required": ["term", "definition"] } },
+      "summary": { "type": "array", "items": { "type": "string" } } } },
+    "slide": { "type": "object", "required": ["id", "title", "body", "retrieval_prompt"], "properties": {
+      "id": { "type": "string" }, "title": { "type": "string" }, "body": { "type": "string" },
+      "retrieval_prompt": { "type": "string" }, "retrieval_answer": { "type": "string" } } },
+    "unit": { "type": "object", "required": ["id", "kind", "objectives", "items"], "properties": {
+      "id": { "type": "string" }, "kind": { "enum": ["declarative", "ordered_procedure", "reorderable"] }, "title": { "type": "string" },
+      "objectives": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+      "items": { "type": "array", "minItems": 1, "items": { "type": "object", "required": ["id", "format", "payload"], "properties": {
+        "id": { "type": "string" }, "format": { "type": "string", "pattern": "^fmt-[a-z-]+$" }, "title": { "type": "string" },
+        "claim_ids": { "type": "array", "items": { "type": "string" } }, "payload": { "type": "object" } } } } } },
+    "brief": { "type": "object", "required": ["provider", "assumptions", "unverified_claims"], "properties": {
+      "provider": { "type": "string" }, "request": { "type": "string" },
+      "assumptions": { "type": "array", "items": { "type": "string" } },
+      "unverified_claims": { "type": "array", "items": { "type": "string" } } } },
+    "procedure_exercise": { "type": "object", "required": ["id", "number", "title", "statement_template", "variables", "steps"] },
+    "simple_exercise": { "type": "object", "required": ["id", "statement", "translation", "steps", "interpretation"] }
+  }
+}

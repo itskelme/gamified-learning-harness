@@ -1,0 +1,16 @@
+{
+  "id": "strict-kelme",
+  "version": "1.0.0",
+  "label": "founder preference, no comparative evidence; cost grows geometrically for novices",
+  "for": "full restart with new numbers and the same step order everywhere; one click from the start screen",
+  "slots": {
+    "restart_on_error.procedural": { "option": "full_restart" },
+    "restart_on_error.declarative": { "option": "full_restart_reshuffle" },
+    "feedback_ladder": { "option": "hint_then_show_step", "hint_levels": 0 },
+    "step_lock": { "option": "locked_sequential" },
+    "gamification.points_ladder": { "option": "on" },
+    "gamification.return_streak": { "option": "off" },
+    "gamification.timer": { "option": "off" },
+    "gamification.lifelines": { "option": "off" }
+  }
+}

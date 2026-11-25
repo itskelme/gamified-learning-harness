@@ -1,0 +1,15 @@
+{
+  "format_id": "fmt-review-mix",
+  "skill_name": "fmt-review-mix",
+  "contract_version": "1.0",
+  "phase": "review",
+  "accepts": { "content_kinds": ["ordered_procedure", "declarative", "reorderable"], "requires_fields": [], "optional_fields": ["exam_date"] },
+  "selects_when": { "objective_verbs": ["retain", "review"], "needs": [] },
+  "retry_class": "declarative",
+  "emits": ["item_presented", "outcome", "run_finished"],
+  "outcomes": ["due_on", "requeue_later", "mastered", "route_to_format", "worked_debrief"],
+  "a11y": { "keyboard": true, "untimed": true, "non_drag": true, "text_alt": true },
+  "pdf": { "renders_as": "dated review plan table, due items with format and due date, confidence column, day-7 and day-30 twin sheets", "key_included": true },
+  "fixtures": ["AF-REV-01"],
+  "evidence": "spacing direction A; run structure B; proportional-gap interpolation and clamp C"
+}

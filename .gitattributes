@@ -1,0 +1,2 @@
+# Preserve every byte: inputs, session exports and fixtures are digest-checked.
+* -text

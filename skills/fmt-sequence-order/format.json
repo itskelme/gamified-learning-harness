@@ -1,0 +1,15 @@
+{
+  "format_id": "fmt-sequence-order",
+  "skill_name": "fmt-sequence-order",
+  "contract_version": "1.0",
+  "phase": "reconstruct",
+  "accepts": { "content_kinds": ["ordered_procedure", "reorderable", "declarative"], "requires_fields": ["order_key"], "optional_fields": ["indent", "distractors"] },
+  "selects_when": { "objective_verbs": ["sequence"], "needs": ["order_key"] },
+  "retry_class": "order",
+  "emits": ["item_presented", "answer_submitted", "hint_shown", "item_completed", "outcome", "skill_progress"],
+  "outcomes": ["advance", "retry_same", "hint_next_level", "worked_debrief", "route_to_format", "mastered"],
+  "a11y": { "keyboard": true, "untimed": true, "non_drag": true, "text_alt": true },
+  "pdf": { "renders_as": "numbered blank slots with the cards in one fixed shuffled order; key with the reason for each adjacency", "key_included": true },
+  "fixtures": ["AF-SEQ-01", "AF-SEQ-02"],
+  "evidence": "HYPOTHESIS H-SEQ, C"
+}

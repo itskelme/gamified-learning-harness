@@ -1,0 +1,32 @@
+{
+  "name": "gamified-learning-harness",
+  "version": "0.1.0",
+  "private": true,
+  "license": "CC-BY-NC-4.0",
+  "description": "Skills and local harness that turn course material into worked solutions, step-by-step games and slide lessons",
+  "engines": {
+    "node": ">=24.15.0"
+  },
+  "scripts": {
+    "rea": "rea",
+    "rea:doctor": "rea mcp doctor --json",
+    "test": "python3 -m unittest discover -s tests -v",
+    "doctor": "python3 scripts/harness.py doctor",
+    "demo": "python3 scripts/harness.py build examples/humanities.lesson.json",
+    "test:contract": "node --test tests/core.test.js 'tests/contract/*.test.js'",
+    "mutation:core": "bash scripts/mutation-check-core.sh",
+    "pilot:build": "node scripts/build-pilot.mjs",
+    "pilot:test": "node --test tests/pilot-engine.test.js && node scripts/build-pilot.mjs && node tests/pilot-browser.mjs",
+    "package:build": "node scripts/build-package.mjs prova3",
+    "package:test": "node scripts/build-package.mjs prova3 && node tests/package-browser.mjs prova3",
+    "mutation:package-ui": "bash scripts/mutation-check-package-ui.sh"
+  },
+  "dependencies": {
+    "katex": "0.19.1",
+    "rea-agents": "6.7.0"
+  },
+  "devDependencies": {
+    "axe-core": "4.14.1",
+    "playwright-core": "1.58.2"
+  }
+}

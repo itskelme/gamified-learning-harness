@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="__LANG__">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+<meta name="generator" content="gamified-learning-harness package player">
+<title>__TITLE__</title>
+<style>
+/* Same tokens as templates/ordered-procedure.html. */
+:root{--ink:#1f2a26;--muted:#4e5c56;--line:#c6cfc9;--bg:#f5f4ef;--card:#fff;--brand:#1d4b6e;--ok:#2f7a4f;--bad:#9a2b1b;--warn:#8a4b00;--focus:#b35400;font:17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}
+*{box-sizing:border-box}body{margin:0}
+.wrap{max-width:960px;margin:0 auto;padding:20px 16px 64px}
+header h1{font-size:clamp(1.5rem,4.5vw,2.4rem);line-height:1.15;margin:.2em 0}
+h2{font-size:clamp(1.2rem,3.2vw,1.5rem);margin:.2em 0 .4em}
+.eyebrow{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0;overflow-wrap:anywhere}
+.muted{color:var(--muted);font-size:.92rem}
+@media (max-width:599px){.card{padding:12px}.wrap{padding:16px 10px 48px}}
+button,input,select{font:inherit;color:inherit}
+button{border:1px solid var(--brand);border-radius:6px;background:#fff;padding:9px 16px;cursor:pointer;min-height:44px}
+button.primary{background:var(--brand);color:#fff}
+button:disabled{opacity:.55;cursor:not-allowed}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+a{color:var(--brand)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin:0 0 16px;min-width:0}
+.box{border-left:5px solid var(--brand);background:#f1f5f8;padding:10px 14px;margin:12px 0;border-radius:4px}
+.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}caption{text-align:left;font-weight:600;padding:4px 0}
+.plot svg{width:100%;height:auto;display:block}figure{margin:12px 0}figcaption,.alt{font-size:.9rem;color:var(--muted)}
+.explore{border-top:1px dashed var(--line);margin-top:16px;padding-top:8px}.explore .table-wrap{margin:8px 0 12px}
+.range-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.range-row input[type=range]{flex:1 1 220px;min-height:44px}.range-row input[type=number]{width:7em;min-height:44px;padding:8px}
+fieldset{border:1px solid var(--line);border-radius:6px;margin:10px 0;min-width:0}legend{font-weight:600;padding:0 4px}
+/* Each option row is the click target (label + radio), at least 44 px tall; the radio itself is 24 px (WCAG 2.5.8). */
+.opt{display:flex;gap:10px;align-items:center;min-height:44px;margin:4px 0;padding:4px 0;border-bottom:1px solid #eef1ee}.opt:last-child{border-bottom:0}
+.opt input{width:24px;height:24px;flex:none;margin:0}
+label{display:block;margin:10px 0 4px;font-weight:600}.opt label{font-weight:400;margin:0;flex:1;cursor:pointer}
+a.go{display:inline-flex;align-items:center;min-height:44px;padding:9px 16px;border:1px solid var(--brand);border-radius:6px;text-decoration:none;font-weight:600}
+input[type=text],input[type=date],select{max-width:100%;padding:10px;border:1px solid var(--muted);border-radius:4px;background:#fff;min-height:44px}
+select{width:100%}input.blank{width:6em;margin:0 4px}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+ol.cases{list-style:none;padding:0}ol.cases>li{margin:0 0 10px}
+ol.seq{padding-left:2.2em}
+/* Label and move buttons share one row whenever they fit, so the whole order stays visible while rearranging. */
+.seq-card{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px;border:1px solid var(--line);border-radius:6px;padding:6px 10px;margin:6px 0;background:#fff}
+.seq-card .row{margin:0;flex:none}.seq-card .step-name{flex:1 1 12em}
+ol.done{font-size:.92rem;padding-left:2.2em}.step-name{font-weight:600}.val{font-variant-numeric:tabular-nums}
+.feedback{min-height:3em;padding:10px 14px;border-radius:6px;background:#eef2ef;margin-top:12px}.feedback.wrong{background:#fbefed}
+.prompt{font-size:1.05rem;line-height:2.4}.nowrap{white-space:nowrap}
+code{overflow-wrap:anywhere}
+input[type=file]{display:block;max-width:100%;min-height:44px;padding:8px 0}
+.settings select{max-width:100%}
+ol.debrief{padding-left:1.6em}ol.debrief>li{margin:0 0 10px}ol.debrief p{margin:.2em 0}
+.principle{border-top:1px dashed var(--line);margin-top:12px;padding-top:8px}
+.sr-path{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+legend:focus,h3:focus{outline:3px solid var(--focus);outline-offset:3px}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+@media screen {
+  :root { --bg:#f4f1e9; --card:#fffdf8; --ink:#192c26; --brand:#235543; --line:#d7d9cc; }
+  .wrap { max-width:66rem; padding-inline:clamp(12px, 3vw, 35px); }
+  .wrap > header {
+    margin-bottom:1rem; padding:clamp(18px, 4vw, 44px);
+    border:1px solid #cbd6c7; border-radius:16px;
+    background:linear-gradient(115deg, #fcfaf2, #e8eee4);
+  }
+  header h1 { font:500 clamp(1.9rem, 4vw, 3.4rem)/1.06 Georgia,serif; letter-spacing:-.045em; text-wrap:balance; }
+  .eyebrow { color:var(--brand); font-weight:650; font-size:.73rem; }
+  .card { border-radius:11px; }
+  .card h2 { font:500 clamp(1.4rem, 3vw, 2.1rem)/1.15 Georgia,serif; }
+  th, .box { background:#edf3e9; }
+  button:not(:disabled):hover, a.go:hover { background:#e8eee4; color:var(--ink); }
+  button.primary:not(:disabled):hover { background:#173f31; color:#fff; }
+}
+</style>
+__MATH_RENDERER__
+</head>
+<body>
+<div class="wrap">
+<header>
+  <p class="eyebrow">Prática guiada · funciona sem internet</p>
+  <h1 id="title"></h1>
+  <p class="muted" id="rules"></p>
+  <p class="muted">Sem cronômetro e sem cadastro. Seu progresso fica só neste navegador.</p>
+</header>
+<main id="units"></main>
+<footer class="muted">
+  <!-- Filled only on an internal event-contract violation (a bug), so it is never learner copy in normal use. -->
+  <pre id="event-errors" role="alert"></pre>
+</footer>
+</div>
+<script type="application/json" id="package-data">__PACKAGE_JSON__</script>
+__SCRIPTS__
+</body>
+</html>

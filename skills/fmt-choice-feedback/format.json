@@ -1,0 +1,15 @@
+{
+  "format_id": "fmt-choice-feedback",
+  "skill_name": "fmt-choice-feedback",
+  "contract_version": "1.0",
+  "phase": "application",
+  "accepts": { "content_kinds": ["declarative", "ordered_procedure"], "requires_fields": ["stem", "options"], "optional_fields": ["confusable_with", "confidence_prompt"] },
+  "selects_when": { "objective_verbs": ["recognize", "interpret"], "needs": ["options"] },
+  "retry_class": "declarative",
+  "emits": ["item_presented", "answer_submitted", "item_completed", "outcome", "skill_progress"],
+  "outcomes": ["advance", "retry_same", "requeue_later", "worked_debrief", "route_to_format", "mastered"],
+  "a11y": { "keyboard": true, "untimed": true, "non_drag": true, "text_alt": true },
+  "pdf": { "renders_as": "question page with lettered options in one fixed order; key page with explanation and misconception tag per distractor", "key_included": true },
+  "fixtures": ["AF-MCQ-01"],
+  "evidence": "retrieval practice with explanatory feedback B/A; confidence flag C"
+}

@@ -1,0 +1,1425 @@
+{
+ "AF-BRA-01": {
+  "bad_path_events": [
+   {
+    "assisted": false,
+    "item_id": "shop-case",
+    "misconception_tag": "post_hoc_causation",
+    "response": "a",
+    "result": "incorrect",
+    "score": {
+     "earned": 0,
+     "max": 2
+    },
+    "step_id": "n1",
+    "type": "answer_submitted"
+   },
+   {
+    "assisted": false,
+    "item_id": "shop-case",
+    "misconception_tag": "restated_claim_not_evidence",
+    "response": "b",
+    "result": "incorrect",
+    "score": {
+     "earned": 0,
+     "max": 2
+    },
+    "step_id": "n2",
+    "type": "answer_submitted"
+   },
+   {
+    "item_id": "shop-case",
+    "path": [
+     "n1:a",
+     "n2:b"
+    ],
+    "score": {
+     "earned": 0,
+     "max": 4
+    },
+    "terminal_id": "t_weak",
+    "type": "item_completed",
+    "unaided": true
+   },
+   {
+    "item_id": "shop-case",
+    "parameters": {},
+    "route": "worked_debrief_then_requeue_branch",
+    "type": "outcome"
+   }
+  ],
+  "good_path_events": [
+   {
+    "assisted": false,
+    "item_id": "shop-case",
+    "response": "b",
+    "result": "correct",
+    "score": {
+     "earned": 2,
+     "max": 2
+    },
+    "step_id": "n1",
+    "type": "answer_submitted"
+   },
+   {
+    "assisted": false,
+    "item_id": "shop-case",
+    "response": "a",
+    "result": "correct",
+    "score": {
+     "earned": 2,
+     "max": 2
+    },
+    "step_id": "n2",
+    "type": "answer_submitted"
+   },
+   {
+    "item_id": "shop-case",
+    "path": [
+     "n1:b",
+     "n2:a"
+    ],
+    "score": {
+     "earned": 4,
+     "max": 4
+    },
+    "terminal_id": "t_good",
+    "type": "item_completed",
+    "unaided": true
+   },
+   {
+    "item_id": "shop-case",
+    "parameters": {},
+    "route": "advance",
+    "type": "outcome"
+   }
+  ],
+  "graph_problems": [],
+  "invalid_graph_example": {
+   "problems": [
+    "unreachable:orphan",
+    "terminal_without_principle:y"
+   ]
+  }
+ },
+ "AF-CLZ-01": {
+  "blank_specs": {
+   "number": {
+    "tolerance": 0.0,
+    "type": "number",
+    "value": 12
+   },
+   "text": {
+    "accepted": [
+     "hypercorrection"
+    ],
+    "near_miss_min_len": 6,
+    "type": "text"
+   }
+  },
+  "errors_derived_by_rule_3_4": [
+   {
+    "input": "13",
+    "spec": "number"
+   },
+   {
+    "input": "hypocorrection",
+    "spec": "text"
+   },
+   {
+    "input": "hyper",
+    "spec": "text"
+   }
+  ],
+  "results": [
+   {
+    "event": {
+     "assisted": false,
+     "item_id": "cloze-shop",
+     "response": "12",
+     "result": "correct",
+     "score": {
+      "earned": 1,
+      "max": 1
+     },
+     "step_id": "b1",
+     "type": "answer_submitted"
+    },
+    "input": "12",
+    "spec": "number"
+   },
+   {
+    "event": {
+     "assisted": false,
+     "item_id": "cloze-shop",
+     "response": "12%",
+     "result": "correct",
+     "score": {
+      "earned": 1,
+      "max": 1
+     },
+     "step_id": "b1",
+     "type": "answer_submitted"
+    },
+    "input": "12%",
+    "spec": "number"
+   },
+   {
+    "event": {
+     "assisted": false,
+     "item_id": "cloze-shop",
+     "response": " 12,0 ",
+     "result": "correct",
+     "score": {
+      "earned": 1,
+      "max": 1
+     },
+     "step_id": "b1",
+     "type": "answer_submitted"
+    },
+    "input": " 12,0 ",
+    "spec": "number"
+   },
+   {
+    "event": {
+     "assisted": false,
+     "item_id": "cloze-shop",
+     "response": "12.0",
+     "result": "correct",
+     "score": {
+      "earned": 1,
+      "max": 1
+     },
+     "step_id": "b1",
+     "type": "answer_submitted"
+    },
+    "input": "12.0",
+    "spec": "number"
+   },
+   {
+    "event": {
+     "assisted": false,
+     "item_id": "cloze-shop",
+     "response": "13",
+     "result": "incorrect",
+     "score": {
+      "earned": 0,
+      "max": 1
+     },
+     "step_id": "b1",
+     "type": "answer_submitted"
+    },
+    "input": "13",
+    "spec": "number"
+   },
+   {
+    "event": {
+     "assisted": false,
+     "item_id": "cloze-shop",
+     "response": "twelve",
+     "result": "invalid",
+     "step_id": "b1",
+     "type": "answer_submitted"
+    },
+    "input": "twelve",
+    "spec": "number"
+   },
+   {
+    "event": {
+     "assisted": false,
+     "item_id": "cloze-shop",
+     "response": "",
+     "result": "invalid",
+     "step_id": "b1",
+     "type": "answer_submitted"
+    },
+    "input": "",
+    "spec": "number"
+   },
+   {
+    "event": {
+     "assisted": false,
+     "item_id": "cloze-shop",
+     "response": "1,2,3",
+     "result": "invalid",
+     "step_id": "b1",
+     "type": "answer_submitted"
+    },
+    "input": "1,2,3",
+    "spec": "number"
+   },
+   {
+    "event": {
+     "assisted": false,
+     "item_id": "cloze-shop",
+     "response": "Hypercorrection ",
+     "result": "correct",
+     "score": {
+      "earned": 1,
+      "max": 1
+     },
+     "step_id": "b1",
+     "type": "answer_submitted"
+    },
+    "input": "Hypercorrection ",
+    "spec": "text"
+   },
+   {
+    "event": {
+     "assisted": false,
+     "item_id": "cloze-shop",
+     "response": "hypercorection",
+     "result": "near_miss",
+     "score": {
+      "earned": 0,
+      "max": 1
+     },
+     "step_id": "b1",
+     "type": "answer_submitted"
+    },
+    "input": "hypercorection",
+    "spec": "text"
+   },
+   {
+    "event": {
+     "assisted": false,
+     "item_id": "cloze-shop",
+     "response": "hypocorrection",
+     "result": "incorrect",
+     "score": {
+      "earned": 0,
+      "max": 1
+     },
+     "step_id": "b1",
+     "type": "answer_submitted"
+    },
+    "input": "hypocorrection",
+    "spec": "text"
+   },
+   {
+    "event": {
+     "assisted": false,
+     "item_id": "cloze-shop",
+     "response": "hyper",
+     "result": "incorrect",
+     "score": {
+      "earned": 0,
+      "max": 1
+     },
+     "step_id": "b1",
+     "type": "answer_submitted"
+    },
+    "input": "hyper",
+    "spec": "text"
+   },
+   {
+    "event": {
+     "assisted": false,
+     "item_id": "cloze-shop",
+     "response": "",
+     "result": "invalid",
+     "step_id": "b1",
+     "type": "answer_submitted"
+    },
+    "input": "",
+    "spec": "text"
+   }
+  ],
+  "template": "Sales fell by {{b1}}% in the first month."
+ },
+ "AF-COM-02": {
+  "event_types_seen": [
+   "answer_submitted",
+   "control_changed",
+   "hint_shown",
+   "item_completed",
+   "outcome",
+   "worked_step_shown"
+  ],
+  "events_checked": 71,
+  "negative_control_violations_found": 2,
+  "routes_seen": [
+   "advance",
+   "checkpoint_return_prefilled",
+   "due_on",
+   "full_restart",
+   "requeue_later",
+   "retry_same_step",
+   "step_twin_new_numbers",
+   "worked_debrief_then_requeue_branch"
+  ],
+  "violations": []
+ },
+ "AF-LAD-01": {
+  "expected": {
+   "choose_distribution": "t",
+   "df": 15,
+   "interpret": "interval_of_plausible_means",
+   "lower": 35.843,
+   "margin": 2.5572,
+   "separate_data": {
+    "n": 16,
+    "s": 4.8,
+    "xbar": 38.4
+   },
+   "std_error": 1.2,
+   "t_critical": 2.131,
+   "upper": 40.957
+  },
+  "input": {
+   "n": 16,
+   "s": 4.8,
+   "table": "instructor t(95%) excerpt",
+   "xbar": 38.4
+  },
+  "step_ids": [
+   "separate_data",
+   "choose_distribution",
+   "df",
+   "t_critical",
+   "std_error",
+   "margin",
+   "lower",
+   "upper",
+   "interpret"
+  ],
+  "wrong_answers": {
+   "std_error": {
+    "diagnosis": "forgot_square_root",
+    "submitted": 0.3
+   },
+   "t_critical": {
+    "diagnosis": "z_used_where_t_required",
+    "submitted": 1.96
+   }
+  }
+ },
+ "AF-LAD-02": {
+  "seeds_checked": 200,
+  "smoke_test": {
+   "checked": "key order of the answer_key dict built by solve_ci_t equals step_ids",
+   "limit": "true by construction (the dict literal fixes its own order); it exercises no retry path and is NOT evidence that a player preserves step order. The contract test for that belongs to the player (card 4.1).",
+   "passed": true
+  },
+  "total_discarded_over_200_seeds": 0,
+  "variant": {
+   "answer_key": {
+    "choose_distribution": "t",
+    "df": 10,
+    "interpret": "interval_of_plausible_means",
+    "lower": 48.286,
+    "margin": 1.8138,
+    "separate_data": {
+     "n": 11,
+     "s": 2.7,
+     "xbar": 50.1
+    },
+    "std_error": 0.8141,
+    "t_critical": 2.228,
+    "upper": 51.914
+   },
+   "discarded_before_accept": 0,
+   "variables": {
+    "n": 11,
+    "s": 2.7,
+    "xbar": 50.1
+   },
+   "variant_seed": 20261119
+  }
+ },
+ "AF-LAD-03": {
+  "checkpoint_variant_check": {
+   "n": 20,
+   "s": 6.0,
+   "xbar": 27.7
+  },
+  "errors": "step 'upper': error 1 then 2 then 3, hint_then_show_step + each rule",
+  "new_variant_seed_note": "fnv1a32(f'{seed}:retry:{errors_in_exercise}')",
+  "trace": [
+   {
+    "error1": [
+     {
+      "item_id": "ci-t-ex2",
+      "level": 1,
+      "step_id": "upper",
+      "type": "hint_shown"
+     },
+     {
+      "item_id": "ci-t-ex2",
+      "parameters": {
+       "cursor": "upper"
+      },
+      "route": "retry_same_step",
+      "type": "outcome"
+     }
+    ],
+    "error2": [
+     {
+      "item_id": "ci-t-ex2",
+      "step_id": "upper",
+      "type": "worked_step_shown"
+     },
+     {
+      "item_id": "ci-t-ex2",
+      "parameters": {
+       "cursor": "upper"
+      },
+      "route": "retry_same_step",
+      "type": "outcome"
+     }
+    ],
+    "error3": [
+     {
+      "item_id": "ci-t-ex2",
+      "step_id": "upper",
+      "type": "worked_step_shown"
+     },
+     {
+      "item_id": "ci-t-ex2",
+      "parameters": {
+       "cursor": "upper"
+      },
+      "route": "retry_same_step",
+      "type": "outcome"
+     }
+    ],
+    "rule": "none"
+   },
+   {
+    "error1": [
+     {
+      "item_id": "ci-t-ex2",
+      "level": 1,
+      "step_id": "upper",
+      "type": "hint_shown"
+     },
+     {
+      "item_id": "ci-t-ex2",
+      "parameters": {
+       "cursor": "upper"
+      },
+      "route": "retry_same_step",
+      "type": "outcome"
+     }
+    ],
+    "error2": [
+     {
+      "item_id": "ci-t-ex2",
+      "step_id": "upper",
+      "type": "worked_step_shown"
+     },
+     {
+      "item_id": "ci-t-ex2",
+      "parameters": {
+       "cursor": "separate_data",
+       "new_variant_seed": 1806903463
+      },
+      "route": "full_restart",
+      "type": "outcome"
+     }
+    ],
+    "error3": [
+     {
+      "item_id": "ci-t-ex2",
+      "step_id": "upper",
+      "type": "worked_step_shown"
+     },
+     {
+      "item_id": "ci-t-ex2",
+      "parameters": {
+       "cursor": "separate_data",
+       "new_variant_seed": 1790125844
+      },
+      "route": "full_restart",
+      "type": "outcome"
+     }
+    ],
+    "rule": "full_restart"
+   },
+   {
+    "error1": [
+     {
+      "item_id": "ci-t-ex2",
+      "level": 1,
+      "step_id": "upper",
+      "type": "hint_shown"
+     },
+     {
+      "item_id": "ci-t-ex2",
+      "parameters": {
+       "cursor": "upper"
+      },
+      "route": "retry_same_step",
+      "type": "outcome"
+     }
+    ],
+    "error2": [
+     {
+      "item_id": "ci-t-ex2",
+      "step_id": "upper",
+      "type": "worked_step_shown"
+     },
+     {
+      "item_id": "ci-t-ex2",
+      "parameters": {
+       "cursor": "upper",
+       "twin": {
+        "expected_upper": 22.2,
+        "inputs": {
+         "margin": 0.7,
+         "xbar": 21.5
+        }
+       }
+      },
+      "route": "step_twin_new_numbers",
+      "type": "outcome"
+     }
+    ],
+    "error3": [
+     {
+      "item_id": "ci-t-ex2",
+      "step_id": "upper",
+      "type": "worked_step_shown"
+     },
+     {
+      "item_id": "ci-t-ex2",
+      "parameters": {
+       "cursor": "upper",
+       "twin": {
+        "expected_upper": 46.8,
+        "inputs": {
+         "margin": 1.3,
+         "xbar": 45.5
+        }
+       }
+      },
+      "route": "step_twin_new_numbers",
+      "type": "outcome"
+     }
+    ],
+    "rule": "restart_at_failed_step_new_numbers"
+   },
+   {
+    "error1": [
+     {
+      "item_id": "ci-t-ex2",
+      "level": 1,
+      "step_id": "upper",
+      "type": "hint_shown"
+     },
+     {
+      "item_id": "ci-t-ex2",
+      "parameters": {
+       "cursor": "upper"
+      },
+      "route": "retry_same_step",
+      "type": "outcome"
+     }
+    ],
+    "error2": [
+     {
+      "item_id": "ci-t-ex2",
+      "step_id": "upper",
+      "type": "worked_step_shown"
+     },
+     {
+      "item_id": "ci-t-ex2",
+      "parameters": {
+       "cursor": "margin",
+       "new_variant_seed": 1806903463,
+       "prefilled_read_only": [
+        "separate_data",
+        "choose_distribution",
+        "df",
+        "t_critical",
+        "std_error"
+       ]
+      },
+      "route": "checkpoint_return_prefilled",
+      "type": "outcome"
+     }
+    ],
+    "error3": [
+     {
+      "item_id": "ci-t-ex2",
+      "step_id": "upper",
+      "type": "worked_step_shown"
+     },
+     {
+      "item_id": "ci-t-ex2",
+      "parameters": {
+       "cursor": "margin",
+       "new_variant_seed": 1790125844,
+       "prefilled_read_only": [
+        "separate_data",
+        "choose_distribution",
+        "df",
+        "t_critical",
+        "std_error"
+       ]
+      },
+      "route": "checkpoint_return_prefilled",
+      "type": "outcome"
+     }
+    ],
+    "rule": "last_checkpoint_plus_worked_step"
+   },
+   {
+    "error1": [
+     {
+      "item_id": "ci-t-ex2",
+      "level": 1,
+      "step_id": "upper",
+      "type": "hint_shown"
+     },
+     {
+      "item_id": "ci-t-ex2",
+      "parameters": {
+       "cursor": "upper"
+      },
+      "route": "retry_same_step",
+      "type": "outcome"
+     }
+    ],
+    "error2": [
+     {
+      "item_id": "ci-t-ex2",
+      "step_id": "upper",
+      "type": "worked_step_shown"
+     },
+     {
+      "item_id": "ci-t-ex2",
+      "parameters": {
+       "cursor": "upper"
+      },
+      "route": "retry_same_step",
+      "type": "outcome"
+     }
+    ],
+    "error3": [
+     {
+      "item_id": "ci-t-ex2",
+      "step_id": "upper",
+      "type": "worked_step_shown"
+     },
+     {
+      "item_id": "ci-t-ex2",
+      "parameters": {
+       "cursor": "separate_data",
+       "new_variant_seed": 1790125844
+      },
+      "route": "full_restart",
+      "type": "outcome"
+     }
+    ],
+    "rule": "full_restart_after_n_errors"
+   }
+  ]
+ },
+ "AF-MAT-01": {
+  "categories": [
+   "z_interval_mean",
+   "t_interval_mean",
+   "interval_proportion",
+   "z_test_two_means"
+  ],
+  "derived": {
+   "confusion_view": [
+    {
+     "expected_category": "t_interval_mean",
+     "item_id": "m2",
+     "misconception_tag": "sigma_known_vs_unknown",
+     "response": "z_interval_mean"
+    }
+   ],
+   "score": {
+    "earned": 3,
+    "max": 4
+   }
+  },
+  "event_order_note": "answer_submitted events are listed in presented order; the contract compares them keyed by item_id, cross-item order is not contractual",
+  "expected_events": [
+   {
+    "assisted": false,
+    "item_id": "m2",
+    "misconception_tag": "sigma_known_vs_unknown",
+    "response": "z_interval_mean",
+    "result": "incorrect",
+    "score": {
+     "earned": 0,
+     "max": 1
+    },
+    "type": "answer_submitted"
+   },
+   {
+    "assisted": false,
+    "item_id": "m1",
+    "response": "z_interval_mean",
+    "result": "correct",
+    "score": {
+     "earned": 1,
+     "max": 1
+    },
+    "type": "answer_submitted"
+   },
+   {
+    "assisted": false,
+    "item_id": "m3",
+    "response": "interval_proportion",
+    "result": "correct",
+    "score": {
+     "earned": 1,
+     "max": 1
+    },
+    "type": "answer_submitted"
+   },
+   {
+    "assisted": false,
+    "item_id": "m4",
+    "response": "z_test_two_means",
+    "result": "correct",
+    "score": {
+     "earned": 1,
+     "max": 1
+    },
+    "type": "answer_submitted"
+   },
+   {
+    "item_id": "m2",
+    "parameters": {
+     "gap_items": 3,
+     "interleave_with": "confusable"
+    },
+    "route": "requeue_later",
+    "type": "outcome"
+   }
+  ],
+  "items": [
+   {
+    "category": "z_interval_mean",
+    "id": "m1",
+    "misconception_tag": "sigma_known_vs_unknown",
+    "text": "The population standard deviation of 8 minutes is known from earlier studies."
+   },
+   {
+    "category": "t_interval_mean",
+    "id": "m2",
+    "misconception_tag": "sigma_known_vs_unknown",
+    "text": "Only the sample standard deviation, 4.8 minutes, is given; the population value is unknown."
+   },
+   {
+    "category": "interval_proportion",
+    "id": "m3",
+    "misconception_tag": "mean_vs_proportion",
+    "text": "236 of 400 users completed the sign-up without help."
+   },
+   {
+    "category": "z_test_two_means",
+    "id": "m4",
+    "misconception_tag": "interval_vs_test",
+    "text": "Two independent groups with known population deviations; test whether the means differ."
+   }
+  ],
+  "learner_assignment": {
+   "m1": "z_interval_mean",
+   "m2": "z_interval_mean",
+   "m3": "interval_proportion",
+   "m4": "z_test_two_means"
+  },
+  "presented_item_order": [
+   "m2",
+   "m1",
+   "m3",
+   "m4"
+  ]
+ },
+ "AF-MCQ-01": {
+  "expected_events": [
+   {
+    "assisted": false,
+    "item_id": "shop-fact",
+    "misconception_tag": "post_hoc_causation",
+    "response": "o2",
+    "result": "incorrect",
+    "score": {
+     "earned": 0,
+     "max": 1
+    },
+    "type": "answer_submitted"
+   },
+   {
+    "item_id": "shop-fact",
+    "parameters": {
+     "gap_items": 3
+    },
+    "route": "requeue_later",
+    "type": "outcome"
+   }
+  ],
+  "feedback_text_for_pick": "A before-and-after change does not isolate the cause.",
+  "item": {
+   "explanation": "Only the first statement describes a measurement.",
+   "format": "mcq",
+   "id": "shop-fact",
+   "options": [
+    {
+     "correct": true,
+     "id": "o1",
+     "text": "Sales fell by 12% in that month."
+    },
+    {
+     "correct": false,
+     "feedback": "A before-and-after change does not isolate the cause.",
+     "id": "o2",
+     "misconception_tag": "post_hoc_causation",
+     "text": "The new hours caused every lost sale."
+    },
+    {
+     "correct": false,
+     "feedback": "The report measures one month; it makes no forecast.",
+     "id": "o3",
+     "misconception_tag": "unsupported_forecast",
+     "text": "Demand will keep falling."
+    }
+   ],
+   "stem": "Which statement is directly supported by the sales report?"
+  },
+  "learner_pick": "o2",
+  "presented_attempt1": [
+   "o2",
+   "o1",
+   "o3"
+  ],
+  "presented_attempt2": [
+   "o1",
+   "o3",
+   "o2"
+  ],
+  "validation": {
+   "options_referring_to_position": [],
+   "rejected_examples": {
+    "All of the above": true,
+    "Both A and B": true,
+    "None of the above": true,
+    "Option c is right": true,
+    "See the options above": true
+   }
+  }
+ },
+ "AF-REV-01": {
+  "clamp_rule": "d clamped to [7, 365] days before interpolation: fraction is constant 0.30 below 7 days and constant 0.075 above 365 days (this catalog's choice, not a Cepeda 2008 value)",
+  "convention_fixed_intervals_1_3_7_21": [
+   "2026-11-20",
+   "2026-11-22",
+   "2026-11-26",
+   "2026-12-10"
+  ],
+  "days_to_exam": 30,
+  "due_today": [
+   "q1",
+   "q2",
+   "q3",
+   "q4"
+  ],
+  "exam": "2026-12-19",
+  "first_gap_days": 7,
+  "fraction_at_365_days": 0.075,
+  "fraction_at_7_days": 0.3,
+  "gap_fraction": 0.2172,
+  "next_session_offset_days": 1,
+  "plan": [
+   {
+    "clamp": "none",
+    "date": "2026-11-26",
+    "days_to_exam_before": 30,
+    "fraction_used": 0.2172,
+    "gap_days": 7
+   },
+   {
+    "clamp": "none",
+    "date": "2026-12-01",
+    "days_to_exam_before": 23,
+    "fraction_used": 0.2323,
+    "gap_days": 5
+   },
+   {
+    "clamp": "none",
+    "date": "2026-12-05",
+    "days_to_exam_before": 18,
+    "fraction_used": 0.2463,
+    "gap_days": 4
+   },
+   {
+    "clamp": "none",
+    "date": "2026-12-09",
+    "days_to_exam_before": 14,
+    "fraction_used": 0.2606,
+    "gap_days": 4
+   },
+   {
+    "clamp": "none",
+    "date": "2026-12-12",
+    "days_to_exam_before": 10,
+    "fraction_used": 0.2797,
+    "gap_days": 3
+   },
+   {
+    "clamp": "none",
+    "date": "2026-12-14",
+    "days_to_exam_before": 7,
+    "fraction_used": 0.3,
+    "gap_days": 2
+   },
+   {
+    "clamp": "floor_below_7_days",
+    "date": "2026-12-16",
+    "days_to_exam_before": 5,
+    "fraction_used": 0.3,
+    "gap_days": 2
+   },
+   {
+    "clamp": "floor_below_7_days",
+    "date": "2026-12-17",
+    "days_to_exam_before": 3,
+    "fraction_used": 0.3,
+    "gap_days": 1
+   },
+   {
+    "clamp": "floor_below_7_days",
+    "date": "2026-12-18",
+    "days_to_exam_before": 2,
+    "fraction_used": 0.3,
+    "gap_days": 1
+   }
+  ],
+  "plan_entries_clamped": 3,
+  "queue_input": [
+   {
+    "category": "z",
+    "due": "2026-11-18",
+    "id": "q1"
+   },
+   {
+    "category": "z",
+    "due": "2026-11-18",
+    "id": "q2"
+   },
+   {
+    "category": "t",
+    "due": "2026-11-19",
+    "id": "q3"
+   },
+   {
+    "category": "t",
+    "due": "2026-11-19",
+    "id": "q4"
+   },
+   {
+    "category": "prop",
+    "due": "2026-11-25",
+    "id": "q5"
+   }
+  ],
+  "queue_seed_20261119": [
+   "q2",
+   "q4",
+   "q1",
+   "q3"
+  ],
+  "requeue_cases": [
+   {
+    "events": [
+     {
+      "item_id": "q2",
+      "parameters": {
+       "gap_items": 3
+      },
+      "route": "requeue_later",
+      "type": "outcome"
+     },
+     {
+      "item_id": "q2",
+      "parameters": {
+       "date": "2026-11-20"
+      },
+      "route": "due_on",
+      "type": "outcome"
+     }
+    ],
+    "failed_item": "q2",
+    "gap_items": 3,
+    "items_behind_it": 3,
+    "items_presented_before_it_returns": 3,
+    "queue_before": [
+     "q2",
+     "q4",
+     "q1",
+     "q3"
+    ],
+    "remaining_queue_after": [
+     "q4",
+     "q1",
+     "q3",
+     "q2"
+    ],
+    "remaining_queue_note": "queue from the failed item onward after the requeue; items before the failed item were already presented and are not repeated"
+   },
+   {
+    "events": [
+     {
+      "item_id": "q2",
+      "parameters": {
+       "gap_items": 2
+      },
+      "route": "requeue_later",
+      "type": "outcome"
+     },
+     {
+      "item_id": "q2",
+      "parameters": {
+       "date": "2026-11-20"
+      },
+      "route": "due_on",
+      "type": "outcome"
+     }
+    ],
+    "failed_item": "q2",
+    "gap_items": 2,
+    "items_behind_it": 3,
+    "items_presented_before_it_returns": 2,
+    "queue_before": [
+     "q2",
+     "q4",
+     "q1",
+     "q3"
+    ],
+    "remaining_queue_after": [
+     "q4",
+     "q1",
+     "q2",
+     "q3"
+    ],
+    "remaining_queue_note": "queue from the failed item onward after the requeue; items before the failed item were already presented and are not repeated"
+   },
+   {
+    "events": [
+     {
+      "item_id": "q4",
+      "parameters": {
+       "gap_items": 3
+      },
+      "route": "requeue_later",
+      "type": "outcome"
+     },
+     {
+      "item_id": "q4",
+      "parameters": {
+       "date": "2026-11-20"
+      },
+      "route": "due_on",
+      "type": "outcome"
+     }
+    ],
+    "failed_item": "q4",
+    "gap_items": 3,
+    "items_behind_it": 2,
+    "items_presented_before_it_returns": 2,
+    "queue_before": [
+     "q2",
+     "q4",
+     "q1",
+     "q3"
+    ],
+    "remaining_queue_after": [
+     "q1",
+     "q3",
+     "q4"
+    ],
+    "remaining_queue_note": "queue from the failed item onward after the requeue; items before the failed item were already presented and are not repeated"
+   },
+   {
+    "events": [
+     {
+      "item_id": "q3",
+      "parameters": {
+       "gap_items": 3
+      },
+      "route": "requeue_later",
+      "type": "outcome"
+     },
+     {
+      "item_id": "q3",
+      "parameters": {
+       "date": "2026-11-20"
+      },
+      "route": "due_on",
+      "type": "outcome"
+     }
+    ],
+    "failed_item": "q3",
+    "gap_items": 3,
+    "items_behind_it": 0,
+    "items_presented_before_it_returns": 0,
+    "queue_before": [
+     "q2",
+     "q4",
+     "q1",
+     "q3"
+    ],
+    "remaining_queue_after": [
+     "q3"
+    ],
+    "remaining_queue_note": "queue from the failed item onward after the requeue; items before the failed item were already presented and are not repeated"
+   }
+  ],
+  "today": "2026-11-19"
+ },
+ "AF-SEQ-01": {
+  "expected": {
+   "adjacent_pairs_correct": 2,
+   "adjacent_pairs_total": 5,
+   "first_wrong_position": 2,
+   "kendall_tau_distance": 1,
+   "kendall_tau_max": 15,
+   "positions_correct": 4
+  },
+  "key_order": [
+   "separate_data",
+   "choose_distribution",
+   "compute_standard_error",
+   "compute_margin",
+   "compute_limits",
+   "interpret"
+  ],
+  "learner_answer": [
+   "separate_data",
+   "choose_distribution",
+   "compute_margin",
+   "compute_standard_error",
+   "compute_limits",
+   "interpret"
+  ],
+  "perfect": {
+   "adjacent_pairs_correct": 5,
+   "adjacent_pairs_total": 5,
+   "first_wrong_position": null,
+   "kendall_tau_distance": 0,
+   "kendall_tau_max": 15,
+   "positions_correct": 6
+  },
+  "presentation_check": {
+   "distinct_presented_orders": 170,
+   "key_equal_before_and_after_every_shuffle": true,
+   "key_sha256_after": "f6186a12afdaa10530340914a89247715f72b79b138e1be9bfbe86f15f4471a2",
+   "key_sha256_before": "f6186a12afdaa10530340914a89247715f72b79b138e1be9bfbe86f15f4471a2",
+   "negative_control_in_place_shuffle_detected": true,
+   "presented_orders_sha256": "c995b24d7692e5b52b41f5d88178d6ac796779f07fc9523383a8ccc841864017",
+   "shuffles": 200
+  },
+  "presented_attempt1": [
+   "interpret",
+   "choose_distribution",
+   "compute_limits",
+   "separate_data",
+   "compute_standard_error",
+   "compute_margin"
+  ],
+  "presented_attempt2": [
+   "choose_distribution",
+   "separate_data",
+   "interpret",
+   "compute_standard_error",
+   "compute_limits",
+   "compute_margin"
+  ],
+  "reverse": {
+   "adjacent_pairs_correct": 0,
+   "adjacent_pairs_total": 5,
+   "first_wrong_position": 0,
+   "kendall_tau_distance": 15,
+   "kendall_tau_max": 15,
+   "positions_correct": 0
+  }
+ },
+ "AF-SEQ-02": {
+  "derived_key": [
+   "e1",
+   "e3",
+   "e2",
+   "e4"
+  ],
+  "expected": {
+   "adjacent_pairs_correct": 0,
+   "adjacent_pairs_total": 3,
+   "first_wrong_position": 1,
+   "kendall_tau_distance": 1,
+   "kendall_tau_max": 6,
+   "positions_correct": 2
+  },
+  "learner_answer": [
+   "e1",
+   "e2",
+   "e3",
+   "e4"
+  ],
+  "timeline_input_unsorted": [
+   {
+    "date": "2026-03-01",
+    "id": "e1",
+    "label": "Shop shortens its opening hours"
+   },
+   {
+    "date": "2026-04-02",
+    "id": "e2",
+    "label": "First monthly report shows a 12% sales drop"
+   },
+   {
+    "date": "2026-03-20",
+    "id": "e3",
+    "label": "A competitor opens nearby"
+   },
+   {
+    "date": "2026-05-15",
+    "id": "e4",
+    "label": "Hours are restored"
+   }
+  ]
+ },
+ "AF-SIM-01": {
+  "model": "normal, sigma known: x_bar +/- z*sigma/sqrt(n); inputs x_bar=72, sigma=8, z=1.96",
+  "plot_spec": {
+   "kind": "line",
+   "marks": [
+    {
+     "label": "-z",
+     "x": -1.96
+    },
+    {
+     "label": "+z",
+     "x": 1.96
+    }
+   ],
+   "note": "exact 0.024998 vs table 0.5-0.4750=0.0250: show both, accept either",
+   "tail_area_each_exact": 0.024998,
+   "tail_area_instructor_table": 0.025,
+   "x": [
+    -4,
+    -3,
+    -2,
+    -1,
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "y_micro": [
+    134,
+    4432,
+    53991,
+    241971,
+    398942,
+    241971,
+    53991,
+    4432,
+    134
+   ]
+  },
+  "plot_spec_sha256": "5e5e1fe564fdf9a1370c8f6317f9f0ce4a1ea0c38fdd5368547cc71bbfc40078",
+  "prediction": {
+   "check": {
+    "ratio": 0.5,
+    "width_256": 1.96,
+    "width_64": 3.92
+   },
+   "expected": "halve",
+   "expected_events": [
+    {
+     "assisted": false,
+     "item_id": "ci-width-lab",
+     "response": "halve",
+     "result": "correct",
+     "score": {
+      "earned": 1,
+      "max": 1
+     },
+     "step_id": "predict_width",
+     "type": "answer_submitted"
+    },
+    {
+     "control_id": "n",
+     "item_id": "ci-width-lab",
+     "type": "control_changed",
+     "value": 64
+    },
+    {
+     "control_id": "n",
+     "item_id": "ci-width-lab",
+     "type": "control_changed",
+     "value": 256
+    },
+    {
+     "item_id": "ci-width-lab",
+     "score": {
+      "earned": 1,
+      "max": 1
+     },
+     "type": "item_completed",
+     "unaided": true
+    },
+    {
+     "item_id": "ci-width-lab",
+     "parameters": {},
+     "route": "advance",
+     "type": "outcome"
+    }
+   ],
+   "options": [
+    "double",
+    "halve",
+    "stay equal"
+   ],
+   "prompt": "n goes from 64 to 256. The interval width will..."
+  },
+  "states": {
+   "16": {
+    "lower": 68.08,
+    "margin": 3.92,
+    "n": 16,
+    "se": 2.0,
+    "upper": 75.92,
+    "width": 7.84
+   },
+   "256": {
+    "lower": 71.02,
+    "margin": 0.98,
+    "n": 256,
+    "se": 0.5,
+    "upper": 72.98,
+    "width": 1.96
+   },
+   "64": {
+    "lower": 70.04,
+    "margin": 1.96,
+    "n": 64,
+    "se": 1.0,
+    "upper": 73.96,
+    "width": 3.92
+   }
+  },
+  "text_alternative_template": "Interval {lower} to {upper}; width {width}; n={n}."
+ },
+ "meta": {
+  "anchor": {
+   "first3": [
+    0.41342555545270443,
+    0.24859068961814046,
+    0.6046006879769266
+   ],
+   "fnv1a32('anchor')": 1122880180
+  },
+  "generated_by": "format_fixtures.py",
+  "prng": "mulberry32 seeded by fnv1a32(utf8 text); shuffle = Fisher-Yates from the end with j=floor(rnd*(i+1))",
+  "rounding": "half_up(x,d)=floor(x*10^d+0.5)/10^d"
+ }
+}

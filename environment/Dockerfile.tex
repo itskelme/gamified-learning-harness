@@ -1,0 +1,7 @@
+FROM debian:bookworm-slim
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    texlive-latex-extra texlive-science texlive-fonts-recommended \
+    texlive-lang-portuguese lmodern latexmk poppler-utils \
+    && rm -rf /var/lib/apt/lists/*
+WORKDIR /work
+ENTRYPOINT ["latexmk", "-pdf", "-interaction=nonstopmode", "-halt-on-error", "-outdir=build/pdf"]

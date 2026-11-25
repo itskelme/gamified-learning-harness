@@ -1,0 +1,11 @@
+{
+  "id": "fgv-style-quiz",
+  "version": "1.0.0",
+  "label": "reference fidelity, C as a learning engine",
+  "for": "declarative quizzes in the FGV reference style (functional reference only; original content and design); the 60 s timer stays optional (off unless overridden)",
+  "slots": {
+    "restart_on_error.declarative": { "option": "full_restart_reshuffle" },
+    "gamification.points_ladder": { "option": "on" },
+    "gamification.lifelines": { "option": "fifty_fifty_assisted" }
+  }
+}

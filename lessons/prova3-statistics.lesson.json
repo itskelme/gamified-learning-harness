@@ -1,0 +1,887 @@
+{
+  "format": "ordered-procedure",
+  "format_version": "0.2.0",
+  "id": "prova3-estatistica",
+  "revision": 3,
+  "title": "Revisão da Prova 3 — Intervalos de confiança e testes de hipóteses",
+  "language": "pt-BR",
+  "locale": "pt-BR",
+  "domain": "statistics",
+  "objectives": [
+    "Separar os dados do enunciado e escolher a fórmula pelo mapa de decisão da professora.",
+    "Calcular erro-padrão, valor crítico, margem de erro, estatística de teste e limites, uma conta por vez.",
+    "Escrever a conclusão em linguagem simples, com a unidade."
+  ],
+  "sources": [
+    {
+      "id": "pdf",
+      "path": "inputs/example-output.pdf",
+      "sha256": "345d4594565de94577287cb211d562c201d7367c507e64a137a6fc8e4677d3df",
+      "description": "Material fornecido pelo aprendiz: Revisão Prova 3, 17 páginas (pdfTeX). Números de página abaixo referem-se a este arquivo.",
+      "learner_label": "Revisão Prova 3 da professora (PDF, 17 páginas). Todas as páginas citadas nesta revisão (p.1, p.4, ...) são desse material."
+    },
+    {
+      "id": "tex",
+      "path": "inputs/zip/didactic-worked-solutions/examples/example_worked_solutions.tex",
+      "sha256": "d635945199e62dcc0d75cbe8f9d1b16b28dc6de3052cc9451430ee1e3bf49aea",
+      "description": "Fonte LaTeX correspondente ao PDF."
+    }
+  ],
+  "conventions": {
+    "confidence": 0.95,
+    "alpha": 0.05,
+    "two_sided": true,
+    "z95": 1.96,
+    "z95_source": "tabela Z da professora, área 0,4750 entre 0 e z (PDF p.4)",
+    "t_table": { "10": 2.228, "12": 2.179, "15": 2.131, "16": 2.12, "19": 2.093, "20": 2.086, "30": 2.042 },
+    "t_table_source": "0,025 em cada cauda (PDF p.4)",
+    "rounding_rule": "Carregue pelo menos 4 casas decimais nas contas do meio e arredonde só no final (PDF p.1). Em cada passo, sua resposta é aceita quando fica bem perto do resultado. Nas resoluções, cada resultado do meio que entra numa conta seguinte aparece com pelo menos 4 casas (mais, se for preciso para a conta da linha fechar exatamente).",
+    "carry_decimals": 4,
+    "decision_rule": "Bilateral: rejeita H0 se |estatística| > valor crítico (PDF p.12).",
+    "step_rules": {
+      "data": "Valores copiados do enunciado, sem arredondamento; aceitos só se iguais ao enunciado.",
+      "critical": "O gabarito usa o valor da tabela da professora (z = 1,96; t do excerto da p.4), não o quantil exato. O quantil exato serve para conferir a tabela e, no Ex. 2, também é aceito como resposta (t calculado na calculadora ou no software), sempre com o aviso de que o gabarito usa a tabela.",
+      "compute": "Cada passo usa os resultados anteriores com precisão total (regra da capa, p.1); nada é arredondado antes do fim. Cada passo tem a sua tolerância: ±0,0005 no valor crítico; ±0,001 na margem dos IC de média, nos limites dos IC de média e nas estatísticas Z e t; ±0,0005 nos limites do IC de proporção; contas intermediárias até ±0,006 conforme a escala do valor. O gabarito do PDF é conferido exatamente nas casas decimais impressas (diferença de 0,001 num limite é detectada). Quem arredonda os resultados anteriores nas casas que cada passo pede ou segue os próprios valores já aceitos também é aceito, com a mesma tolerância do passo e um aviso; um valor recusado nunca entra na conta seguinte.",
+      "statistic": "Mesma regra das contas. No Ex. 5 o gabarito carrega precisão total (t = 2,724); dividir pelos valores impressos já arredondados (EP = 0,477) dá 2,725, que também é aceito, não como erro. Cada divergência está listada abaixo com a página.",
+      "decision": "Derivada de |estatística| comparada com o valor crítico da tabela.",
+      "interpretation": "Derivada da decisão e do sinal da diferença; nunca escolhida por sorteio."
+    },
+    "first_attempt": "A primeira tentativa usa o enunciado e os números originais do PDF, sem corrigir os números da professora."
+  },
+  "restart": {
+    "default_policy": "after-n-errors",
+    "after_n_errors": 3,
+    "new_variant_on_retry": true,
+    "policies": ["full", "failed-step", "checkpoint", "after-n-errors"],
+    "learner_help": "Modo padrão: a cada erro você vê uma explicação e uma dica; a partir do segundo erro aparece também o passo resolvido, e você refaz só o passo errado. Depois de N erros no exercício, ele recomeça do passo 1. Recomeçar do passo 1 treina a sequência inteira, mas leva mais tempo; repetir só o passo errado é mais rápido; o ponto de controle fica no meio-termo. Com números novos, o enunciado e a ordem dos passos não mudam.",
+    "source_rationale": "Por que este é o modo padrão: nos primeiros erros você recebe uma dica e o passo resolvido em vez de recomeçar tudo; depois de N erros, o exercício recomeça do passo 1 para treinar a sequência inteira. Recomeçar do passo 1 a cada erro continua disponível como modo próprio. Nenhum estudo comparou esses modos diretamente: é uma escolha de como praticar, não um resultado medido."
+  },
+  "carry_paths": {
+    "display": {
+      "label": "resultados anteriores arredondados nas casas que cada passo pede",
+      "note": "Você fez a conta com os resultados anteriores arredondados nas casas que cada passo pede. Está aceito; com mais casas, o gabarito dá {=gabarito}."
+    },
+    "learner": {
+      "label": "os seus próprios valores já aceitos nos passos anteriores",
+      "note": "Você seguiu os valores que digitou e que foram aceitos nos passos anteriores. Está aceito; com os valores do gabarito, o resultado é {=gabarito}."
+    }
+  },
+  "methods": [
+    { "id": "z_mean_ci", "label": "IC para a média com Z: x̄ ± 1,96 · σ/√n" },
+    { "id": "t_mean_ci", "label": "IC para a média com t: x̄ ± t · s/√n, gl = n − 1" },
+    { "id": "prop_ci", "label": "IC para a proporção: p̂ ± 1,96 · √(p̂(1 − p̂)/n)" },
+    { "id": "z_two_means", "label": "Teste Z para duas médias (σ conhecidos)" },
+    { "id": "t_pooled", "label": "Teste t com S conjunto (σ desconhecidos, variâncias iguais)" }
+  ],
+  "decision_map": {
+    "source": "PDF p.5",
+    "rows": [
+      { "asks": "Intervalo", "of": "Média", "condition": "σ da população conhecido", "keywords": "“desvio-padrão populacional conhecido”, “estudos anteriores permitem considerar conhecido”", "method": "z_mean_ci", "exercise": 1 },
+      { "asks": "Intervalo", "of": "Média", "condition": "σ desconhecido, só o s da amostra", "keywords": "“desvio-padrão amostral”, “populacional desconhecido”", "method": "t_mean_ci", "exercise": 2 },
+      { "asks": "Intervalo", "of": "Proporção", "condition": "quantos de um total", "keywords": "“proporção”, “percentual”, “quantos de um total”", "method": "prop_ci", "exercise": 3 },
+      { "asks": "Teste (dois grupos)", "of": "Duas médias", "condition": "σ₁ e σ₂ conhecidos", "keywords": "“desvios-padrão populacionais conhecidos”", "method": "z_two_means", "exercise": 4 },
+      { "asks": "Teste (dois grupos)", "of": "Duas médias", "condition": "só s₁ e s₂, variâncias iguais", "keywords": "“variâncias desconhecidas e iguais”, “S conjunto”", "method": "t_pooled", "exercise": 5 }
+    ]
+  },
+  "source_notes": [
+    {
+      "id": "note-ex5-t-rounding",
+      "exercise": "ex5-teste-t-conjunto",
+      "pages": [16],
+      "kind": "minor-disagreement",
+      "text": "O PDF imprime t ≈ 2,724, valor obtido sem arredondar as contas do meio (t = 2,7244). Recalculando a partir dos valores impressos já arredondados (1,3 ÷ 0,477) obtém-se 2,725. O próprio PDF reconhece a diferença. Esta revisão usa a regra da capa (arredondar só no final, p.1), mostra 2,724 e aceita 2,725; a decisão (rejeitar H0) não muda."
+    },
+    {
+      "id": "note-ex5-root",
+      "exercise": "ex5-teste-t-conjunto",
+      "pages": [16],
+      "kind": "minor-disagreement",
+      "text": "No Passo 4 o PDF escreve 0,0833 + 0,1000 = 0,1833 e √0,1833 = 0,4282. A raiz do valor impresso 0,1833 é 0,4281; 0,4282 vem do valor não arredondado 0,18333. Esta revisão mostra 0,4282 e aceita 0,4281."
+    },
+    {
+      "id": "note-ex3-ep",
+      "exercise": "ex3-ic-proporcao",
+      "pages": [10, 17],
+      "kind": "internal-inconsistency",
+      "text": "A folha-resumo (p.17) lista EP ≈ 0,025, mas a p.10 avisa que usar 0,025 dá E = 0,049 e afasta o resultado do gabarito. Esta revisão segue a p.10 (EP = 0,0246, E = 0,0482 ≈ 0,048) e trata 0,049 como o erro de arredondamento antecipado."
+    },
+    {
+      "id": "note-ex2-exact-t",
+      "exercise": "ex2-ic-media-t",
+      "pages": [8],
+      "kind": "convention",
+      "text": "O gabarito usa t = 2,131 da tabela da professora: E = 2,557 e IC = (35,843; 40,957). Com o quantil exato t = 2,1314 obtém-se E = 2,558 e IC = (35,842; 40,958). A primeira tentativa mostra os números da professora; o modo Praticar também aceita o caminho do t exato (tolerância ±0,001 nos limites) e avisa que o gabarito usa a tabela."
+    },
+    {
+      "id": "note-critical-values",
+      "exercise": null,
+      "pages": [4],
+      "kind": "convention",
+      "text": "O valor crítico 1,96 e o excerto da tabela t são convenções da professora. Cada valor foi conferido, por um cálculo separado, contra o quantil exato (z = 1,95996; t com gl = 15: 2,1314; gl = 20: 2,0860): a diferença é sempre menor que 0,0006."
+    }
+  ],
+  "exercises": [
+    {
+      "id": "ex1-ic-media-z",
+      "number": 1,
+      "title": "Exercício 1 — Intervalo para a média com σ conhecido (Z)",
+      "branch": "z_mean_ci",
+      "source": { "pdf_pages": [6, 7], "tex_lines": "250-299" },
+      "original_statement": "Uma equipe de desenvolvimento de software quer estimar o tempo médio necessário para concluir uma tarefa de teste de usabilidade. Em uma amostra aleatória de 64 sessões, o tempo médio foi de 72 minutos. Estudos anteriores permitem considerar conhecido o desvio-padrão populacional de 8 minutos. Construa um intervalo de confiança de 95% para o tempo médio populacional.",
+      "statement_template": "Uma equipe de desenvolvimento de software quer estimar o tempo médio necessário para concluir uma tarefa de teste de usabilidade. Em uma amostra aleatória de {n} sessões, o tempo médio foi de {xbar} minutos. Estudos anteriores permitem considerar conhecido o desvio-padrão populacional de {sigma} minutos. Construa um intervalo de confiança de 95% para o tempo médio populacional.",
+      "translation_template": "Mediram {n} sessões e a média deu {xbar} minutos. Queremos uma faixa de valores onde provavelmente está a média verdadeira de todas as sessões.",
+      "variables": {
+        "n": { "type": "int", "min": 36, "max": 144, "original": 64, "unit": "sessões", "symbol": "n" },
+        "xbar": { "type": "int", "min": 50, "max": 95, "original": 72, "unit": "min", "symbol": "x̄" },
+        "sigma": { "type": "int", "min": 5, "max": 12, "original": 8, "unit": "min", "symbol": "σ" }
+      },
+      "constraints": [
+        { "expr": "lower > 0", "message": "O limite inferior de um tempo precisa ser positivo." }
+      ],
+      "steps": [
+        {
+          "id": "givens", "type": "givens", "role": "data",
+          "title": "Passo 1 — Separe os dados",
+          "prompt": "O que o problema me deu? Digite cada valor do enunciado.",
+          "fields": [
+            { "var": "n", "label": "n — tamanho da amostra" },
+            { "var": "xbar", "label": "x̄ — média da amostra (minutos)" },
+            { "var": "sigma", "label": "σ — desvio-padrão populacional (minutos)" }
+          ],
+          "hints": ["Procure no enunciado: quantas sessões, qual média e qual desvio.", "n = {n}; x̄ = {xbar}; σ = {sigma}."],
+          "misconception": "Confira cada número: n é a quantidade de sessões, x̄ a média e σ o desvio populacional.",
+          "worked": "n = {n}; x̄ = {xbar} min; σ = {sigma} min (populacional, conhecido); confiança 95% ⇒ α = 0,05."
+        },
+        {
+          "id": "metodo", "type": "choice", "role": "method", "options_from": "methods", "answer": "z_mean_ci", "checkpoint": true,
+          "title": "Passo 2 — Escolha a fórmula pelo mapa de decisão",
+          "prompt": "O problema pede um intervalo para uma média e diz “desvio-padrão populacional conhecido”. Qual fórmula?",
+          "feedback": {
+            "t_mean_ci": "A tabela t só entra quando o σ da população é desconhecido. Aqui o enunciado diz que o σ é conhecido.",
+            "prop_ci": "Não é “quantos de um total”: é um tempo médio.",
+            "z_two_means": "Não há dois grupos para comparar; o problema pede um intervalo.",
+            "t_pooled": "Não há dois grupos nem teste; o problema pede um intervalo."
+          },
+          "hints": ["Mapa de decisão (p.5): intervalo → média → σ conhecido?", "“Estudos anteriores permitem considerar conhecido” ⇒ Z."],
+          "misconception": "Releia a palavra-chave: o σ é populacional e conhecido.",
+          "worked": "σ populacional conhecido ⇒ Z. Fórmula: IC = x̄ ± 1,96 · σ/√n."
+        },
+        {
+          "id": "zc", "type": "numeric", "role": "critical", "expr": "z95", "display_decimals": 2, "tolerance": { "abs": 0.0005 },
+          "title": "Passo 3 — Valor crítico",
+          "prompt": "Qual é o valor crítico z para 95% de confiança?",
+          "bugs": [
+            { "id": "z90", "expr": "1.645", "feedback": "1,645 é o valor de 90%. Para 95% procure 0,4750 na tabela." },
+            { "id": "area", "expr": "0.475", "feedback": "0,4750 é a área procurada dentro da tabela; o valor crítico é o z dessa linha e coluna." }
+          ],
+          "hints": ["95% no meio da curva ⇒ 47,5% de cada lado do zero.", "Procure 0,4750 dentro da tabela Z e leia a linha e a coluna."],
+          "misconception": "Para 95%, a área entre 0 e z é 0,4750.",
+          "worked": "Área 0,4750 na tabela ⇒ z = {zc}."
+        },
+        {
+          "id": "ep", "type": "numeric", "role": "compute", "expr": "sigma / sqrt(n)", "display_decimals": 3, "unit": "min", "tolerance": { "abs": 0.0005 },
+          "title": "Passo 4 — Erro-padrão",
+          "prompt": "Calcule EP = σ / √n.",
+          "bugs": [
+            { "id": "sem-raiz", "expr": "sigma / n", "feedback": "Faltou a raiz: divida σ pela raiz de n, não por n." },
+            { "id": "invertido", "expr": "sqrt(n) / sigma", "feedback": "A fração está invertida: é σ em cima e √n embaixo." }
+          ],
+          "hints": ["EP = desvio dividido pela raiz de n.", "√{n} = {sqrtn:4}; agora divida {sigma} por esse valor."],
+          "misconception": "EP = σ/√n: primeiro a raiz de n, depois a divisão.",
+          "worked": "EP = σ/√n = {sigma}/√{n} = {ep:result} min."
+        },
+        {
+          "id": "E", "type": "numeric", "role": "compute", "expr": "zc * ep", "display_decimals": 3, "unit": "min", "tolerance": { "abs": 0.001 }, "checkpoint": true,
+          "title": "Passo 5 — Margem de erro",
+          "prompt": "Calcule E = 1,96 × EP.",
+          "bugs": [ { "id": "so-ep", "expr": "ep", "feedback": "Esse é o EP. A margem é o valor crítico vezes o EP." } ],
+          "hints": ["E = valor crítico × EP.", "E = {zc} × {ep}."],
+          "misconception": "Margem de erro = valor crítico × erro-padrão.",
+          "worked": "E = 1,96 × {ep:carry} = {E:result} min."
+        },
+        {
+          "id": "lower", "type": "numeric", "role": "compute", "expr": "xbar - E", "display_decimals": 3, "unit": "min", "tolerance": { "abs": 0.001 },
+          "title": "Passo 6 — Limite inferior",
+          "prompt": "Calcule o limite inferior: x̄ − E.",
+          "bugs": [ { "id": "soma", "expr": "xbar + E", "feedback": "Esse é o limite superior. O inferior é x̄ menos E." } ],
+          "hints": ["Limite inferior = estimativa − E.", "{xbar} − {E}."],
+          "misconception": "Inferior: subtraia a margem da média da amostra.",
+          "worked": "Limite inferior = {xbar} − {E:carry} = {lower} min."
+        },
+        {
+          "id": "upper", "type": "numeric", "role": "compute", "expr": "xbar + E", "display_decimals": 3, "unit": "min", "tolerance": { "abs": 0.001 },
+          "title": "Passo 7 — Limite superior",
+          "prompt": "Calcule o limite superior: x̄ + E.",
+          "bugs": [ { "id": "subtrai", "expr": "xbar - E", "feedback": "Esse é o limite inferior. O superior é x̄ mais E." } ],
+          "hints": ["Limite superior = estimativa + E.", "{xbar} + {E}."],
+          "misconception": "Superior: some a margem à média da amostra.",
+          "worked": "Limite superior = {xbar} + {E:carry} = {upper} min. IC 95% = ({lower}; {upper}) minutos."
+        },
+        {
+          "id": "interp", "type": "choice", "role": "interpretation", "answer": "ok",
+          "title": "Passo 8 — Interpretação em linguagem simples",
+          "prompt": "Qual frase interpreta corretamente o intervalo?",
+          "options": [
+            { "id": "ok", "label": "Com 95% de confiança, o tempo médio verdadeiro de todas as sessões está entre {lower:2} e {upper:2} minutos." },
+            { "id": "individuais", "label": "95% das sessões individuais duram entre {lower:2} e {upper:2} minutos.", "feedback": "O intervalo é para a média da população, não para cada sessão individual." },
+            { "id": "amostra", "label": "Há 95% de chance de a média da amostra ({xbar} minutos) estar entre {lower:2} e {upper:2}.", "feedback": "A média da amostra já é conhecida: ela é o centro do intervalo. O IC fala da média populacional μ." },
+            { "id": "exato", "label": "O tempo médio verdadeiro é exatamente {xbar} minutos.", "feedback": "x̄ é uma estimativa; por isso o intervalo tem margem de erro." }
+          ],
+          "hints": ["O intervalo estima a média de todas as sessões (μ).", "Inclua a confiança, os dois limites e a unidade."],
+          "misconception": "A conclusão fala da média populacional, com 95% de confiança.",
+          "worked": "Com 95% de confiança, o tempo médio verdadeiro está entre {lower:2} e {upper:2} minutos."
+        }
+      ],
+      "derived": [ { "id": "sqrtn", "expr": "sqrt(n)" } ],
+      "interpretation_template": "Com 95% de confiança, o tempo médio verdadeiro para concluir a tarefa (considerando todas as sessões, não só as {n}) está entre {lower:2} e {upper:2} minutos.",
+      "common_mistakes": ["Usar a tabela t quando o σ populacional é conhecido.", "Dividir σ por n em vez de √n."],
+      "preserve_answers": ["metodo", "interp"],
+      "source_answer_key": { "printed": { "ep": "1,000", "E": "1,960", "lower": "70,040", "upper": "73,960" }, "choices": { "interp": "ok" }, "pages": { "ep": 6, "E": 6, "lower": 6, "upper": 6, "interp": 7 } },
+      "plot": { "kind": "interval", "dist": "z", "crit": "zc", "center": "xbar", "lower": "lower", "upper": "upper", "margin": "E", "center_symbol": "x̄", "unit": "min", "label_values": ["lower", "upper"] },
+      "explore": { "var": "n", "min": 16, "max": 400, "step": 1, "label": "Tamanho da amostra n", "predict": { "quantity": "E", "delta": 5, "question": "Antes de mexer: se a amostra tiver mais sessões (n maior), a margem de erro E…" } }
+    },
+    {
+      "id": "ex2-ic-media-t",
+      "number": 2,
+      "title": "Exercício 2 — Intervalo para a média com s (t de Student)",
+      "branch": "t_mean_ci",
+      "source": { "pdf_pages": [8, 9], "tex_lines": "301-354" },
+      "original_statement": "Uma equipe de suporte técnico quer estimar o tempo médio de resolução de chamados. Em uma amostra aleatória de 16 chamados, o tempo médio foi de 38,4 minutos e o desvio-padrão amostral foi de 4,8 minutos. O desvio-padrão populacional é desconhecido. Admitindo população aproximadamente normal, construa um intervalo de confiança de 95% para a média.",
+      "statement_template": "Uma equipe de suporte técnico quer estimar o tempo médio de resolução de chamados. Em uma amostra aleatória de {n} chamados, o tempo médio foi de {xbar} minutos e o desvio-padrão amostral foi de {s} minutos. O desvio-padrão populacional é desconhecido. Admitindo população aproximadamente normal, construa um intervalo de confiança de 95% para a média.",
+      "translation_template": "É igual ao exercício 1, com uma diferença: agora não sabemos o desvio da população, só o da amostra (s = {s}). Por isso usamos a tabela t, que deixa o intervalo um pouco mais largo.",
+      "variables": {
+        "n": { "type": "int", "values": [11, 13, 16, 17, 20, 21, 31], "original": 16, "unit": "chamados", "symbol": "n" },
+        "xbar": { "type": "decimal", "decimals": 1, "min": 20.0, "max": 60.0, "original": 38.4, "unit": "min", "symbol": "x̄" },
+        "s": { "type": "decimal", "decimals": 1, "min": 2.0, "max": 9.0, "original": 4.8, "unit": "min", "symbol": "s" }
+      },
+      "constraints": [
+        { "expr": "intable(n - 1)", "message": "gl = n − 1 precisa existir no excerto da tabela t da professora." },
+        { "expr": "lower > 0", "message": "O limite inferior de um tempo precisa ser positivo." }
+      ],
+      "steps": [
+        {
+          "id": "givens", "type": "givens", "role": "data",
+          "title": "Passo 1 — Separe os dados",
+          "prompt": "O que o problema me deu? Digite cada valor do enunciado.",
+          "fields": [
+            { "var": "n", "label": "n — tamanho da amostra" },
+            { "var": "xbar", "label": "x̄ — média da amostra (minutos)" },
+            { "var": "s", "label": "s — desvio-padrão amostral (minutos)" }
+          ],
+          "hints": ["Quantos chamados, qual média, qual desvio amostral.", "n = {n}; x̄ = {xbar}; s = {s}."],
+          "misconception": "Confira cada número no enunciado.",
+          "worked": "n = {n}; x̄ = {xbar} min; s = {s} min (amostral); σ desconhecido."
+        },
+        {
+          "id": "metodo", "type": "choice", "role": "method", "options_from": "methods", "answer": "t_mean_ci", "checkpoint": true,
+          "title": "Passo 2 — Escolha a fórmula pelo mapa de decisão",
+          "prompt": "Intervalo para uma média, com “desvio-padrão populacional desconhecido”. Qual fórmula?",
+          "feedback": {
+            "z_mean_ci": "Só se usa 1,96 quando o σ da população é conhecido. Aqui só temos o s da amostra.",
+            "prop_ci": "É um tempo médio, não “quantos de um total”.",
+            "z_two_means": "Não há dois grupos; o problema pede um intervalo.",
+            "t_pooled": "Não há dois grupos; o problema pede um intervalo."
+          },
+          "hints": ["Mapa de decisão: intervalo → média → σ conhecido?", "“Populacional desconhecido” ⇒ t de Student."],
+          "misconception": "σ desconhecido ⇒ t de Student.",
+          "worked": "σ desconhecido ⇒ t de Student. IC = x̄ ± t · s/√n."
+        },
+        {
+          "id": "gl", "type": "numeric", "role": "critical", "expr": "n - 1", "display_decimals": 0, "tolerance": { "abs": 0 },
+          "title": "Passo 3 — Graus de liberdade",
+          "prompt": "Calcule gl = n − 1.",
+          "bugs": [ { "id": "gl-n", "expr": "n", "feedback": "gl = n − 1: {n} chamados dão {gl} graus de liberdade, não {n}." } ],
+          "hints": ["Uma amostra: gl = n − 1.", "{n} − 1."],
+          "misconception": "Uma amostra: gl = n − 1.",
+          "worked": "gl = {n} − 1 = {gl}."
+        },
+        {
+          "id": "tc", "type": "numeric", "role": "critical", "expr": "tcrit(gl)", "display_decimals": 3, "tolerance": { "abs": 0.0005 },
+          "title": "Passo 4 — Valor crítico na tabela t",
+          "prompt": "Na tabela t (linha gl = {gl}, coluna 0,025), qual é o valor crítico?",
+          "bugs": [
+            { "id": "usou-z", "expr": "z95", "feedback": "1,96 é da tabela Z. Com σ desconhecido, leia a tabela t." },
+            { "id": "linha-n", "expr": "tcrit(n)", "feedback": "Essa é a linha gl = n. Use a linha gl = n − 1 = {gl}." }
+          ],
+          "hints": ["Vá à linha gl = {gl} e à coluna 0,025 (bilateral, 95%).", "Tabela da professora (p.4): gl 10 → 2,228; 12 → 2,179; 15 → 2,131; 16 → 2,120; 19 → 2,093; 20 → 2,086; 30 → 2,042."],
+          "misconception": "Linha = gl; coluna = 0,025 em cada cauda.",
+          "worked": "Tabela t, gl = {gl}, 0,025 ⇒ t = {tc}."
+        },
+        {
+          "id": "ep", "type": "numeric", "role": "compute", "expr": "s / sqrt(n)", "display_decimals": 3, "unit": "min", "tolerance": { "abs": 0.0005 },
+          "title": "Passo 5 — Erro-padrão",
+          "prompt": "Calcule EP = s / √n.",
+          "bugs": [ { "id": "sem-raiz", "expr": "s / n", "feedback": "Faltou a raiz: divida s por √n." } ],
+          "hints": ["EP = s/√n.", "√{n} = {sqrtn:4}."],
+          "misconception": "EP = s/√n.",
+          "worked": "EP = {s}/√{n} = {ep:result} min."
+        },
+        {
+          "id": "E", "type": "numeric", "role": "compute", "expr": "tc * ep", "display_decimals": 3, "unit": "min", "tolerance": { "abs": 0.001 }, "checkpoint": true,
+          "title": "Passo 6 — Margem de erro",
+          "prompt": "Calcule E = t × EP.",
+          "bugs": [ { "id": "usou-z", "expr": "z95 * ep", "feedback": "Você usou 1,96. Aqui o valor crítico é o t da tabela ({tc})." } ],
+          "hints": ["E = t × EP.", "{tc} × {ep}."],
+          "misconception": "Margem = t × EP.",
+          "worked": "E = {tc} × {ep:carry} = {E:result} min."
+        },
+        {
+          "id": "lower", "type": "numeric", "role": "compute", "expr": "xbar - E", "display_decimals": 3, "unit": "min", "tolerance": { "abs": 0.001 },
+          "title": "Passo 7 — Limite inferior",
+          "prompt": "Calcule x̄ − E.",
+          "bugs": [ { "id": "soma", "expr": "xbar + E", "feedback": "Esse é o limite superior." } ],
+          "hints": ["Inferior = x̄ − E.", "{xbar} − {E}."],
+          "misconception": "Inferior: x̄ − E.",
+          "worked": "Limite inferior = {xbar} − {E:carry} = {lower} min."
+        },
+        {
+          "id": "upper", "type": "numeric", "role": "compute", "expr": "xbar + E", "display_decimals": 3, "unit": "min", "tolerance": { "abs": 0.001 },
+          "title": "Passo 8 — Limite superior",
+          "prompt": "Calcule x̄ + E.",
+          "bugs": [ { "id": "subtrai", "expr": "xbar - E", "feedback": "Esse é o limite inferior." } ],
+          "hints": ["Superior = x̄ + E.", "{xbar} + {E}."],
+          "misconception": "Superior: x̄ + E.",
+          "worked": "Limite superior = {xbar} + {E:carry} = {upper} min. IC 95% = ({lower}; {upper}) minutos."
+        },
+        {
+          "id": "interp", "type": "choice", "role": "interpretation", "answer": "ok",
+          "title": "Passo 9 — Interpretação em linguagem simples",
+          "prompt": "Qual frase interpreta corretamente o intervalo?",
+          "options": [
+            { "id": "ok", "label": "Com 95% de confiança, o tempo médio verdadeiro de resolução de chamados está entre {lower:1} e {upper:1} minutos (aproximadamente)." },
+            { "id": "individuais", "label": "95% dos chamados são resolvidos entre {lower:1} e {upper:1} minutos.", "feedback": "O intervalo é para o tempo médio, não para cada chamado." },
+            { "id": "amostra", "label": "Há 95% de chance de a média da amostra ({xbar} min) estar no intervalo.", "feedback": "A média da amostra é conhecida e é o centro do intervalo; o IC fala de μ." },
+            { "id": "z-melhor", "label": "O intervalo com 1,96 seria o correto; o t só deixa o resultado menos preciso.", "feedback": "Com σ desconhecido, o t é o método correto; o intervalo mais largo reflete a incerteza extra sobre o desvio." }
+          ],
+          "hints": ["O IC estima o tempo médio de todos os chamados.", "Inclua confiança, limites e unidade."],
+          "misconception": "A conclusão fala da média populacional, com 95% de confiança.",
+          "worked": "Com 95% de confiança, o tempo médio verdadeiro está entre {lower:1} e {upper:1} minutos."
+        }
+      ],
+      "derived": [ { "id": "sqrtn", "expr": "sqrt(n)" } ],
+      "interpretation_template": "Com 95% de confiança, o tempo médio verdadeiro de resolução de chamados está entre {lower:1} e {upper:1} minutos (aproximadamente).",
+      "common_mistakes": ["Não use 1,96 aqui: só com σ populacional conhecido.", "gl = n − 1 ({n} chamados dão {gl} graus de liberdade, não {n})."],
+      "preserve_answers": ["metodo", "interp"],
+      "key_path": "t da tabela da professora (2,131 para gl = 15), contas do meio em precisão total, arredondamento só no fim. É o caminho do gabarito (PDF p.8).",
+      "accepted_paths": [
+        { "id": "exact-t", "label": "quantil t exato (calculadora/software) em vez da tabela", "note": "Você usou o t exato da calculadora. Está aceito; o gabarito da professora usa a tabela (t = {tc}).", "overrides": { "tc": "tquant(gl)" } }
+      ],
+      "source_answer_key": { "printed": { "gl": "15", "tc": "2,131", "ep": "1,200", "E": "2,557", "lower": "35,843", "upper": "40,957" }, "choices": { "interp": "ok" }, "pages": { "gl": 8, "tc": 8, "ep": 8, "E": 8, "lower": 8, "upper": 8, "interp": 9 } },
+      "plot": { "kind": "interval", "dist": "t", "df": "gl", "crit": "tc", "center": "xbar", "lower": "lower", "upper": "upper", "margin": "E", "center_symbol": "x̄", "unit": "min", "overlay_normal": true, "label_values": ["lower", "upper"] },
+      "explore": { "var": "s", "min": 1.0, "max": 12.0, "step": 0.1, "label": "Desvio-padrão amostral s", "predict": { "quantity": "E", "delta": 0.5, "question": "Antes de mexer: se os chamados variarem mais (s maior), a margem de erro E…" } }
+    },
+    {
+      "id": "ex3-ic-proporcao",
+      "number": 3,
+      "title": "Exercício 3 — Intervalo para a proporção",
+      "branch": "prop_ci",
+      "source": { "pdf_pages": [10, 11], "tex_lines": "356-409" },
+      "original_statement": "Uma plataforma de ensino on-line quer estimar a proporção de usuários que concluem o cadastro sem ajuda. Em uma amostra aleatória de 400 usuários, 236 concluíram o cadastro sem assistência. Construa um intervalo de confiança de 95% para a proporção populacional.",
+      "statement_template": "Uma plataforma de ensino on-line quer estimar a proporção de usuários que concluem o cadastro sem ajuda. Em uma amostra aleatória de {n} usuários, {x} concluíram o cadastro sem assistência. Construa um intervalo de confiança de 95% para a proporção populacional.",
+      "translation_template": "Agora não é tempo nem nota: é “quantos de um total” ({x} de {n}). Queremos saber que porcentagem de todos os usuários consegue se cadastrar sozinha.",
+      "variables": {
+        "n": { "type": "int", "min": 200, "max": 600, "original": 400, "unit": "usuários", "symbol": "n" },
+        "x": { "type": "int", "min": 60, "max": 480, "original": 236, "unit": "usuários", "symbol": "x" }
+      },
+      "constraints": [
+        { "expr": "x < n", "message": "x precisa ser menor que n." },
+        { "expr": "phat >= 0.2 && phat <= 0.8", "message": "p̂ fica entre 0,2 e 0,8, como no exercício original." },
+        { "expr": "n * phat >= 10 && n * (1 - phat) >= 10", "message": "Condição da aproximação normal: n·p̂ e n·(1 − p̂) pelo menos 10." },
+        { "expr": "lower > 0 && upper < 1", "message": "O intervalo precisa ficar entre 0 e 1." }
+      ],
+      "steps": [
+        {
+          "id": "givens", "type": "givens", "role": "data",
+          "title": "Passo 1 — Separe os dados",
+          "prompt": "Quantos foram observados e quantos têm a característica?",
+          "fields": [
+            { "var": "n", "label": "n — total da amostra" },
+            { "var": "x", "label": "x — quantos concluíram sem ajuda" }
+          ],
+          "hints": ["Total observado e quantos têm a característica.", "n = {n}; x = {x}."],
+          "misconception": "n é o total; x é quantos têm a característica.",
+          "worked": "n = {n} usuários; x = {x} (cadastraram sozinhos); 95% ⇒ z = 1,96."
+        },
+        {
+          "id": "metodo", "type": "choice", "role": "method", "options_from": "methods", "answer": "prop_ci", "checkpoint": true,
+          "title": "Passo 2 — Escolha a fórmula pelo mapa de decisão",
+          "prompt": "O problema fala em “proporção de usuários”. Qual fórmula?",
+          "feedback": {
+            "z_mean_ci": "Não há média nem σ: a pergunta é “quantos de um total”.",
+            "t_mean_ci": "Não há média nem desvio amostral: é uma proporção.",
+            "z_two_means": "Não há dois grupos; é um intervalo.",
+            "t_pooled": "Não há dois grupos; é um intervalo."
+          },
+          "hints": ["Palavras-chave: “quantos de um total”, “proporção”.", "Mapa de decisão: intervalo → proporção."],
+          "misconception": "“Proporção” ⇒ IC da proporção.",
+          "worked": "Proporção ⇒ IC = p̂ ± 1,96 · √(p̂(1 − p̂)/n)."
+        },
+        {
+          "id": "zc", "type": "numeric", "role": "critical", "expr": "z95", "display_decimals": 2, "tolerance": { "abs": 0.0005 },
+          "title": "Passo 3 — Valor crítico",
+          "prompt": "Qual é o valor crítico z para 95%?",
+          "bugs": [ { "id": "z90", "expr": "1.645", "feedback": "1,645 é o valor de 90%." } ],
+          "hints": ["Mesmo z do exercício 1.", "Área 0,4750 ⇒ z = 1,96."],
+          "misconception": "Para 95%, z = 1,96.",
+          "worked": "z = {zc}."
+        },
+        {
+          "id": "phat", "type": "numeric", "role": "compute", "expr": "x / n", "display_decimals": 3, "percent": true, "tolerance": { "abs": 0.0006 },
+          "title": "Passo 4 — Proporção da amostra",
+          "prompt": "Calcule p̂ = x / n (pode digitar 0,59 ou 59%).",
+          "bugs": [ { "id": "invertido", "expr": "n / x", "feedback": "A fração está invertida: é x dividido por n (fica entre 0 e 1)." } ],
+          "hints": ["p̂ = quantos têm ÷ total.", "{x} ÷ {n}."],
+          "misconception": "p̂ = x/n, um número entre 0 e 1.",
+          "worked": "p̂ = {x}/{n} = {phat:result} (= {phat|pct:1}%)."
+        },
+        {
+          "id": "q", "type": "numeric", "role": "compute", "expr": "1 - phat", "display_decimals": 3, "percent": true, "tolerance": { "abs": 0.0006 },
+          "title": "Passo 5 — O “resto”",
+          "prompt": "Calcule 1 − p̂ (quem não conseguiu sozinho).",
+          "hints": ["1 menos a proporção.", "1 − {phat}."],
+          "misconception": "1 − p̂ é a proporção complementar.",
+          "worked": "1 − p̂ = 1 − {phat:carry} = {q:result}."
+        },
+        {
+          "id": "prod", "type": "numeric", "role": "compute", "expr": "phat * q", "display_decimals": 4, "tolerance": { "abs": 0.0006 },
+          "title": "Passo 6 — Multiplique",
+          "prompt": "Calcule p̂ × (1 − p̂).",
+          "hints": ["Uma conta por vez: só a multiplicação.", "{phat} × {q}."],
+          "misconception": "Multiplique p̂ por (1 − p̂).",
+          "worked": "{phat:carry} × {q:carry} = {prod:result}."
+        },
+        {
+          "id": "var", "type": "numeric", "role": "compute", "expr": "prod / n", "display_decimals": 8, "tolerance": { "rel": 0.004 },
+          "title": "Passo 7 — Divida por n",
+          "prompt": "Calcule p̂(1 − p̂) ÷ n.",
+          "hints": ["Divida o resultado anterior por n.", "{prod} ÷ {n}."],
+          "misconception": "Divida pelo tamanho da amostra n.",
+          "worked": "{prod:carry} ÷ {n} = {var:result}."
+        },
+        {
+          "id": "ep", "type": "numeric", "role": "compute", "expr": "sqrt(var)", "display_decimals": 4, "tolerance": { "abs": 0.0002 },
+          "title": "Passo 8 — Tire a raiz (erro-padrão)",
+          "prompt": "Calcule EP = √(p̂(1 − p̂)/n).",
+          "bugs": [
+            { "id": "ep-arredondado-cedo", "expr": "round(ep, 3)", "feedback": "Você arredondou o EP para 3 casas cedo demais. Carregue 4 casas decimais, como pede a capa (PDF p.1): arredondar aqui desloca a margem e os limites (PDF p.10)." },
+            { "id": "sem-raiz", "expr": "var", "feedback": "Faltou a raiz quadrada." },
+            { "id": "raiz-parcial", "expr": "sqrt(prod) / n", "feedback": "A raiz cobre a fração inteira: √(p̂(1 − p̂)/n), não √(p̂(1 − p̂))/n." }
+          ],
+          "hints": ["Tecla √ no resultado do passo anterior.", "√{var}."],
+          "misconception": "A raiz cobre a fração inteira.",
+          "worked": "EP = √{var:carry} = {ep:result}."
+        },
+        {
+          "id": "E", "type": "numeric", "role": "compute", "expr": "zc * ep", "display_decimals": 4, "tolerance": { "abs": 0.0004 }, "checkpoint": true,
+          "title": "Passo 9 — Margem de erro",
+          "prompt": "Calcule E = 1,96 × EP.",
+          "bugs": [ { "id": "ep-arredondado-cedo", "expr": "zc * round(ep, 3)", "feedback": "Você arredondou o EP cedo demais. Use {ep} (4 casas): com 0,025 a margem vira 0,049 e se afasta do gabarito (PDF p.10)." } ],
+          "hints": ["E = 1,96 × EP, com o EP de 4 casas.", "1,96 × {ep}."],
+          "misconception": "Use o EP com mais casas antes de multiplicar.",
+          "worked": "E = 1,96 × {ep:carry} = {E:result}."
+        },
+        {
+          "id": "lower", "type": "numeric", "role": "compute", "expr": "phat - E", "display_decimals": 3, "percent": true, "tolerance": { "abs": 0.0005 },
+          "title": "Passo 10 — Limite inferior",
+          "prompt": "Calcule p̂ − E (pode digitar em %).",
+          "bugs": [ { "id": "soma", "expr": "phat + E", "feedback": "Esse é o limite superior." } ],
+          "hints": ["Inferior = p̂ − E.", "{phat} − {E:3}."],
+          "misconception": "Inferior: p̂ − E.",
+          "worked": "Limite inferior = {phat:carry} − {E:carry} = {lower} ({lower|pct:1}%)."
+        },
+        {
+          "id": "upper", "type": "numeric", "role": "compute", "expr": "phat + E", "display_decimals": 3, "percent": true, "tolerance": { "abs": 0.0005 },
+          "title": "Passo 11 — Limite superior",
+          "prompt": "Calcule p̂ + E (pode digitar em %).",
+          "bugs": [ { "id": "subtrai", "expr": "phat - E", "feedback": "Esse é o limite inferior." } ],
+          "hints": ["Superior = p̂ + E.", "{phat} + {E:3}."],
+          "misconception": "Superior: p̂ + E.",
+          "worked": "Limite superior = {phat:carry} + {E:carry} = {upper} ({upper|pct:1}%). IC 95% = ({lower}; {upper})."
+        },
+        {
+          "id": "interp", "type": "choice", "role": "interpretation", "answer": "ok",
+          "title": "Passo 12 — Interpretação em linguagem simples",
+          "prompt": "Qual frase interpreta corretamente o intervalo?",
+          "options": [
+            { "id": "ok", "label": "Com 95% de confiança, entre {lower|pct:1}% e {upper|pct:1}% de todos os usuários da plataforma concluem o cadastro sem ajuda." },
+            { "id": "amostra", "label": "Entre {lower|pct:1}% e {upper|pct:1}% dos {n} usuários da amostra concluíram sozinhos.", "feedback": "Na amostra sabemos o valor exato ({phat|pct:1}%). O intervalo fala de todos os usuários." },
+            { "id": "certeza", "label": "Exatamente {phat|pct:1}% de todos os usuários concluem sozinhos.", "feedback": "{phat|pct:1}% é a estimativa da amostra; o intervalo mostra a incerteza." },
+            { "id": "chance", "label": "Cada usuário tem entre {lower|pct:1}% e {upper|pct:1}% de chance de se cadastrar sozinho, com certeza.", "feedback": "O IC tem 95% de confiança, não certeza, e fala da proporção na população." }
+          ],
+          "hints": ["Fale da proporção de todos os usuários.", "Inclua 95% de confiança e os dois limites em %."],
+          "misconception": "A conclusão fala da proporção na população.",
+          "worked": "Com 95% de confiança, entre {lower|pct:1}% e {upper|pct:1}% de todos os usuários concluem o cadastro sem ajuda."
+        }
+      ],
+      "derived": [],
+      "interpretation_template": "Com 95% de confiança, entre {lower|pct:1}% e {upper|pct:1}% de todos os usuários da plataforma concluem o cadastro sem ajuda.",
+      "common_mistakes": ["A raiz cobre a fração inteira: √(p̂(1 − p̂)/n).", "Não arredonde o EP para 0,025 antes de multiplicar (PDF p.10)."],
+      "preserve_answers": ["metodo", "interp"],
+      "source_answer_key": { "printed": { "phat": "0,590", "q": "0,410", "prod": "0,2419", "var": "0,00060475", "ep": "0,0246", "E": "0,0482", "lower": "0,542", "upper": "0,638" }, "choices": { "interp": "ok" }, "pages": { "phat": 10, "q": 10, "prod": 10, "var": 10, "ep": 10, "E": 10, "lower": 10, "upper": 10, "interp": 11 } },
+      "plot": { "kind": "interval", "dist": "z", "crit": "zc", "center": "phat", "lower": "lower", "upper": "upper", "margin": "E", "center_symbol": "p̂", "unit": "", "percent": true, "label_values": ["lower", "upper"] },
+      "explore": { "var": "x", "min": 80, "max": 320, "step": 1, "label": "Quantos concluíram sem ajuda (x)", "predict": { "quantity": "E", "delta": 5, "question": "Antes de mexer: se mais usuários concluírem sozinhos (x maior, p̂ se afasta de 50%), a margem de erro E…" } }
+    },
+    {
+      "id": "ex4-teste-z-duas-medias",
+      "number": 4,
+      "title": "Exercício 4 — Teste Z para duas médias (σ conhecidos)",
+      "branch": "z_two_means",
+      "source": { "pdf_pages": [13, 14], "tex_lines": "440-493" },
+      "original_statement": "Uma empresa compara a pontuação média de usabilidade de duas versões independentes de um sistema, em escala de 0 a 100. Na versão A, 50 usuários tiveram média 84; na versão B, 50 usuários independentes tiveram média 79. Considere conhecidos os desvios-padrão populacionais de 10 pontos em cada grupo. Teste, com significância de 5% e teste bilateral, se as médias populacionais diferem.",
+      "statement_template": "Uma empresa compara a pontuação média de usabilidade de duas versões independentes de um sistema, em escala de 0 a 100. Na versão A, {n1} usuários tiveram média {x1}; na versão B, {n2} usuários independentes tiveram média {x2}. Considere conhecidos os desvios-padrão populacionais de {sigma} pontos em cada grupo. Teste, com significância de 5% e teste bilateral, se as médias populacionais diferem.",
+      "translation_template": "A versão A teve nota {x1} e a B teve {x2}. A diferença é {diffabs} pontos. A pergunta é: essa diferença é real ou pode ter sido sorte da amostra?",
+      "variables": {
+        "n1": { "type": "int", "min": 30, "max": 80, "original": 50, "unit": "usuários", "symbol": "n₁" },
+        "n2": { "type": "int", "min": 30, "max": 80, "original": 50, "unit": "usuários", "symbol": "n₂" },
+        "x1": { "type": "int", "min": 65, "max": 92, "original": 84, "unit": "pontos", "symbol": "x̄₁" },
+        "x2": { "type": "int", "min": 65, "max": 92, "original": 79, "unit": "pontos", "symbol": "x̄₂" },
+        "sigma": { "type": "int", "min": 6, "max": 15, "original": 10, "unit": "pontos", "symbol": "σ" }
+      },
+      "constraints": [
+        { "expr": "x1 != x2", "message": "As médias amostrais precisam ser diferentes." },
+        { "expr": "abs(abs(z) - zc) >= 0.1", "message": "A estatística não pode ficar colada no valor crítico (decisão ambígua por arredondamento).", "scope": "variant" }
+      ],
+      "steps": [
+        {
+          "id": "givens", "type": "givens", "role": "data",
+          "title": "Passo 1 — Separe os dados",
+          "prompt": "Separe os dados de cada grupo.",
+          "fields": [
+            { "var": "n1", "label": "n₁ — usuários da versão A" },
+            { "var": "x1", "label": "x̄₁ — média da versão A" },
+            { "var": "n2", "label": "n₂ — usuários da versão B" },
+            { "var": "x2", "label": "x̄₂ — média da versão B" },
+            { "var": "sigma", "label": "σ — desvio populacional de cada grupo" }
+          ],
+          "hints": ["Grupo 1 = versão A; grupo 2 = versão B.", "n₁ = {n1}; x̄₁ = {x1}; n₂ = {n2}; x̄₂ = {x2}; σ₁ = σ₂ = {sigma}."],
+          "misconception": "Confira de qual grupo é cada número.",
+          "worked": "Versão A: n₁ = {n1}, x̄₁ = {x1}, σ₁ = {sigma}. Versão B: n₂ = {n2}, x̄₂ = {x2}, σ₂ = {sigma}."
+        },
+        {
+          "id": "hip", "type": "choice", "role": "hypotheses", "answer": "ok",
+          "title": "Passo 2a — Hipóteses",
+          "prompt": "Quais são as hipóteses do teste bilateral?",
+          "options": [
+            { "id": "ok", "label": "H0: μ₁ = μ₂ e H1: μ₁ ≠ μ₂" },
+            { "id": "amostrais", "label": "H0: x̄₁ = x̄₂ e H1: x̄₁ ≠ x̄₂", "feedback": "As hipóteses falam das médias da população (μ), não das amostras, que já conhecemos." },
+            { "id": "unilateral", "label": "H0: μ₁ = μ₂ e H1: μ₁ > μ₂", "feedback": "O enunciado pede teste bilateral: H1 diz apenas “diferente”." },
+            { "id": "trocadas", "label": "H0: μ₁ ≠ μ₂ e H1: μ₁ = μ₂", "feedback": "H0 é sempre “não há diferença” (o “inocente” do tribunal)." }
+          ],
+          "hints": ["H0 é o “inocente”: as médias são iguais.", "Bilateral: H1 é “diferente” (≠)."],
+          "misconception": "H0: μ₁ = μ₂; H1: μ₁ ≠ μ₂.",
+          "worked": "H0: μ₁ = μ₂ (mesma média); H1: μ₁ ≠ μ₂ (diferentes)."
+        },
+        {
+          "id": "metodo", "type": "choice", "role": "method", "options_from": "methods", "answer": "z_two_means", "checkpoint": true,
+          "title": "Passo 2b — Escolha da distribuição",
+          "prompt": "Teste com dois grupos e “desvios-padrão populacionais conhecidos”. Qual método?",
+          "feedback": {
+            "t_pooled": "O S conjunto é para quando só temos s₁ e s₂ das amostras. Aqui os σ são conhecidos.",
+            "z_mean_ci": "O problema pede um teste entre dois grupos, não um intervalo.",
+            "t_mean_ci": "O problema pede um teste entre dois grupos, não um intervalo.",
+            "prop_ci": "É uma pontuação média, não uma proporção."
+          },
+          "hints": ["Mapa de decisão: teste → os σ são conhecidos?", "σ conhecidos ⇒ Z."],
+          "misconception": "σ conhecidos ⇒ teste Z.",
+          "worked": "σ conhecidos ⇒ Z = (x̄₁ − x̄₂) / √(σ₁²/n₁ + σ₂²/n₂). Críticos: ±1,96."
+        },
+        {
+          "id": "zc", "type": "numeric", "role": "critical", "expr": "z95", "display_decimals": 2, "tolerance": { "abs": 0.0005 },
+          "title": "Passo 2c — Valor crítico",
+          "prompt": "Qual é o valor crítico (bilateral, 5%)?",
+          "bugs": [ { "id": "unilateral", "expr": "1.645", "feedback": "1,645 é unilateral. Bilateral 5% ⇒ 2,5% em cada cauda ⇒ 1,96." } ],
+          "hints": ["5% divididos nas duas caudas.", "2,5% em cada cauda ⇒ 1,96."],
+          "misconception": "Bilateral 5% ⇒ ±1,96.",
+          "worked": "Valores críticos: −{zc} e +{zc}."
+        },
+        {
+          "id": "v1", "type": "numeric", "role": "compute", "expr": "sigma^2 / n1", "display_decimals": 3, "tolerance": { "abs": 0.002 },
+          "title": "Passo 3a — σ₁²/n₁",
+          "prompt": "Eleve σ₁ ao quadrado e divida por n₁.",
+          "bugs": [ { "id": "sem-quadrado", "expr": "sigma / n1", "feedback": "Eleve o desvio ao quadrado antes de dividir: σ² = {sigma}² = {sigsq}." } ],
+          "hints": ["σ₁² = {sigma}² = {sigsq}.", "{sigsq} ÷ {n1}."],
+          "misconception": "Use σ² (variância), não σ.",
+          "worked": "σ₁² = {sigma}² = {sigsq}; {sigsq} ÷ {n1} = {v1:result}."
+        },
+        {
+          "id": "v2", "type": "numeric", "role": "compute", "expr": "sigma^2 / n2", "display_decimals": 3, "tolerance": { "abs": 0.002 },
+          "title": "Passo 3b — σ₂²/n₂",
+          "prompt": "Eleve σ₂ ao quadrado e divida por n₂.",
+          "bugs": [ { "id": "sem-quadrado", "expr": "sigma / n2", "feedback": "Eleve o desvio ao quadrado antes de dividir." } ],
+          "hints": ["σ₂² = {sigsq}.", "{sigsq} ÷ {n2}."],
+          "misconception": "Use σ², não σ.",
+          "worked": "{sigsq} ÷ {n2} = {v2:result}."
+        },
+        {
+          "id": "soma", "type": "numeric", "role": "compute", "expr": "v1 + v2", "display_decimals": 3, "tolerance": { "abs": 0.003 },
+          "title": "Passo 3c — Some",
+          "prompt": "Some as duas partes.",
+          "hints": ["Só a soma.", "{v1} + {v2}."],
+          "misconception": "Some σ₁²/n₁ + σ₂²/n₂.",
+          "worked": "{v1:carry} + {v2:carry} = {soma:result}."
+        },
+        {
+          "id": "ep", "type": "numeric", "role": "compute", "expr": "sqrt(soma)", "display_decimals": 3, "tolerance": { "abs": 0.002 }, "checkpoint": true,
+          "title": "Passo 3d — Tire a raiz (erro-padrão)",
+          "prompt": "Calcule EP = √(soma).",
+          "bugs": [ { "id": "sem-raiz", "expr": "soma", "feedback": "Faltou a raiz quadrada da soma." } ],
+          "hints": ["Tecla √.", "√{soma}."],
+          "misconception": "EP é a raiz da soma.",
+          "worked": "EP = √{soma:carry} = {ep:result}."
+        },
+        {
+          "id": "z", "type": "numeric", "role": "statistic", "expr": "(x1 - x2) / ep", "display_decimals": 3, "tolerance": { "abs": 0.001 },
+          "title": "Passo 4 — Calcule Z",
+          "prompt": "Z = (x̄₁ − x̄₂) / EP.",
+          "bugs": [ { "id": "sobre-soma", "expr": "(x1 - x2) / soma", "feedback": "Divida pelo EP (a raiz), não pela soma." } ],
+          "hints": ["Diferença das médias dividida pelo EP.", "({x1} − {x2}) ÷ {ep}."],
+          "misconception": "Z = diferença ÷ EP.",
+          "worked": "Z = ({x1} − {x2}) / {ep:carry} = {diff}/{ep:carry} = {z}."
+        },
+        {
+          "id": "decisao", "type": "choice", "role": "decision",
+          "title": "Passo 5 — Compare e decida",
+          "prompt": "Compare |Z| com 1,96. Qual é a decisão?",
+          "options": [
+            { "id": "rejeita", "label": "|Z| = {zabs} > {zc} ⇒ rejeito H0", "when": "abs(z) > zc", "feedback": "Compare |Z| = {zabs} com {zc}: {zabs} não é maior." },
+            { "id": "nao-rejeita", "label": "|Z| = {zabs} ≤ {zc} ⇒ não rejeito H0", "when": "abs(z) <= zc", "feedback": "|Z| = {zabs} é maior que {zc}: caiu na região de rejeição." }
+          ],
+          "hints": ["Olhe o módulo, sem o sinal.", "Maior que o crítico ⇒ região vermelha ⇒ rejeito."],
+          "misconception": "Rejeita se |Z| > valor crítico.",
+          "worked": "{@decisao}."
+        },
+        {
+          "id": "interp", "type": "choice", "role": "interpretation",
+          "title": "Passo 6 — Interpretação em linguagem simples",
+          "prompt": "Qual conclusão está correta?",
+          "options": [
+            { "id": "dif-a", "label": "Há evidência de que as pontuações médias são diferentes; a versão A teve a média maior.", "when": "abs(z) > zc && x1 > x2", "feedback": "Confira a decisão do passo anterior e qual versão teve a média maior." },
+            { "id": "dif-b", "label": "Há evidência de que as pontuações médias são diferentes; a versão B teve a média maior.", "when": "abs(z) > zc && x2 > x1", "feedback": "Confira a decisão do passo anterior e qual versão teve a média maior." },
+            { "id": "sem-evidencia", "label": "A diferença pode ser acaso: não há evidência de que as médias populacionais diferem.", "when": "abs(z) <= zc", "feedback": "|Z| passou do valor crítico: a diferença é grande demais para ser só acaso." },
+            { "id": "prova-igual", "label": "O teste prova que as duas versões têm exatamente a mesma média.", "when": "0", "feedback": "Um teste nunca prova igualdade; no máximo não encontra evidência de diferença." }
+          ],
+          "hints": ["Use a decisão do passo 5.", "Diga qual versão teve média maior, se houver diferença."],
+          "misconception": "A conclusão segue a decisão e fala das médias populacionais.",
+          "worked": "{@interp}"
+        }
+      ],
+      "derived": [
+        { "id": "sigsq", "expr": "sigma^2" },
+        { "id": "diff", "expr": "x1 - x2" },
+        { "id": "diffabs", "expr": "abs(x1 - x2)" },
+        { "id": "zabs", "expr": "abs(z)", "decimals": 3 }
+      ],
+      "interpretation_template": "{@interp}",
+      "common_mistakes": ["Hipóteses são sobre μ (população), não sobre x̄.", "Compare o módulo |Z| com 1,96."],
+      "preserve_answers": ["metodo", "decisao", "interp"],
+      "source_answer_key": { "printed": { "v1": "2", "v2": "2", "soma": "4", "ep": "2,000", "z": "2,500" }, "choices": { "decisao": "rejeita", "interp": "dif-a" }, "pages": { "v1": 13, "v2": 13, "soma": 13, "ep": 13, "z": 13, "decisao": 14, "interp": 14 } },
+      "plot": { "kind": "test", "dist": "z", "crit": "zc", "stat": "z", "stat_symbol": "Z", "label_values": ["z"] },
+      "explore": { "var": "x1", "min": 70, "max": 95, "step": 1, "label": "Média da versão A (x̄₁)", "predict": { "quantity": "z", "delta": 5, "question": "Antes de mexer: se a média da versão A subir, a estatística Z…" } }
+    },
+    {
+      "id": "ex5-teste-t-conjunto",
+      "number": 5,
+      "title": "Exercício 5 — Teste t com S conjunto (σ desconhecidos)",
+      "branch": "t_pooled",
+      "source": { "pdf_pages": [15, 16], "tex_lines": "495-569" },
+      "original_statement": "Uma equipe compara o tempo médio para completar uma tarefa em duas interfaces independentes. Na interface A, 12 usuários tiveram média de 7,8 minutos e desvio-padrão amostral de 1,2 minuto. Na interface B, 10 usuários tiveram média de 6,5 minutos e desvio-padrão amostral de 1,0 minuto. Considere populações aproximadamente normais, variâncias populacionais desconhecidas e iguais. Usando o desvio-padrão conjunto (S conjunto), teste bilateralmente, com significância de 5%, se as médias diferem.",
+      "statement_template": "Uma equipe compara o tempo médio para completar uma tarefa em duas interfaces independentes. Na interface A, {n1} usuários tiveram média de {x1:1} minutos e desvio-padrão amostral de {s1:1} minuto. Na interface B, {n2} usuários tiveram média de {x2:1} minutos e desvio-padrão amostral de {s2:1} minuto. Considere populações aproximadamente normais, variâncias populacionais desconhecidas e iguais. Usando o desvio-padrão conjunto (S conjunto), teste bilateralmente, com significância de 5%, se as médias diferem.",
+      "translation_template": "Mesma pergunta do exercício 4 (“a diferença é real?”), mas agora só temos os desvios das amostras (s₁ = {s1:1} e s₂ = {s2:1}). Então juntamos os dois desvios no S conjunto e usamos a tabela t.",
+      "variables": {
+        "n1": { "type": "int", "min": 6, "max": 17, "original": 12, "unit": "usuários", "symbol": "n₁" },
+        "n2": { "type": "int", "min": 6, "max": 17, "original": 10, "unit": "usuários", "symbol": "n₂" },
+        "x1": { "type": "decimal", "decimals": 1, "min": 5.0, "max": 10.0, "original": 7.8, "unit": "min", "symbol": "x̄₁" },
+        "x2": { "type": "decimal", "decimals": 1, "min": 4.0, "max": 9.0, "original": 6.5, "unit": "min", "symbol": "x̄₂" },
+        "s1": { "type": "decimal", "decimals": 1, "min": 0.6, "max": 1.8, "original": 1.2, "unit": "min", "symbol": "s₁" },
+        "s2": { "type": "decimal", "decimals": 1, "min": 0.6, "max": 1.8, "original": 1.0, "unit": "min", "symbol": "s₂" }
+      },
+      "constraints": [
+        { "expr": "intable(n1 + n2 - 2)", "message": "gl = n₁ + n₂ − 2 precisa existir no excerto da tabela t da professora." },
+        { "expr": "max(s1, s2) / min(s1, s2) <= 2", "message": "Variâncias iguais: a razão entre os desvios amostrais fica até 2." },
+        { "expr": "x1 != x2", "message": "As médias amostrais precisam ser diferentes." },
+        { "expr": "abs(abs(t) - tc) >= 0.1", "message": "A estatística não pode ficar colada no valor crítico.", "scope": "variant" }
+      ],
+      "steps": [
+        {
+          "id": "givens", "type": "givens", "role": "data",
+          "title": "Passo 1 — Separe os dados",
+          "prompt": "Separe os dados de cada interface.",
+          "fields": [
+            { "var": "n1", "label": "n₁ — usuários da interface A" },
+            { "var": "x1", "label": "x̄₁ — média da interface A (min)" },
+            { "var": "s1", "label": "s₁ — desvio amostral da interface A (min)" },
+            { "var": "n2", "label": "n₂ — usuários da interface B" },
+            { "var": "x2", "label": "x̄₂ — média da interface B (min)" },
+            { "var": "s2", "label": "s₂ — desvio amostral da interface B (min)" }
+          ],
+          "hints": ["Grupo 1 = interface A; grupo 2 = interface B.", "n₁ = {n1}; x̄₁ = {x1:1}; s₁ = {s1:1}; n₂ = {n2}; x̄₂ = {x2:1}; s₂ = {s2:1}."],
+          "misconception": "Confira de qual interface é cada número.",
+          "worked": "Interface A: n₁ = {n1}, x̄₁ = {x1:1}, s₁ = {s1:1}. Interface B: n₂ = {n2}, x̄₂ = {x2:1}, s₂ = {s2:1}."
+        },
+        {
+          "id": "hip", "type": "choice", "role": "hypotheses", "answer": "ok",
+          "title": "Passo 2a — Hipóteses",
+          "prompt": "Quais são as hipóteses do teste bilateral?",
+          "options": [
+            { "id": "ok", "label": "H0: μ₁ = μ₂ e H1: μ₁ ≠ μ₂" },
+            { "id": "amostrais", "label": "H0: x̄₁ = x̄₂ e H1: x̄₁ ≠ x̄₂", "feedback": "As hipóteses falam das médias da população (μ)." },
+            { "id": "unilateral", "label": "H0: μ₁ = μ₂ e H1: μ₁ > μ₂", "feedback": "O enunciado pede teste bilateral." },
+            { "id": "trocadas", "label": "H0: μ₁ ≠ μ₂ e H1: μ₁ = μ₂", "feedback": "H0 é sempre “não há diferença”." }
+          ],
+          "hints": ["H0: as médias são iguais.", "Bilateral: H1 é “≠”."],
+          "misconception": "H0: μ₁ = μ₂; H1: μ₁ ≠ μ₂.",
+          "worked": "H0: μ₁ = μ₂; H1: μ₁ ≠ μ₂."
+        },
+        {
+          "id": "metodo", "type": "choice", "role": "method", "options_from": "methods", "answer": "t_pooled", "checkpoint": true,
+          "title": "Passo 2b — Escolha da fórmula",
+          "prompt": "Dois grupos, só desvios amostrais, variâncias “desconhecidas e iguais”. Qual método?",
+          "feedback": {
+            "z_two_means": "O teste Z exige σ populacionais conhecidos. Aqui só temos s₁ e s₂.",
+            "z_mean_ci": "É um teste entre dois grupos.",
+            "t_mean_ci": "É um teste entre dois grupos, não um intervalo.",
+            "prop_ci": "É tempo médio, não proporção."
+          },
+          "hints": ["Mapa de decisão: teste → σ conhecidos?", "Só s₁ e s₂ ⇒ teste t com S conjunto."],
+          "misconception": "σ desconhecidos e iguais ⇒ t com S conjunto.",
+          "worked": "S²conj = [(n₁ − 1)s₁² + (n₂ − 1)s₂²]/(n₁ + n₂ − 2); t = (x̄₁ − x̄₂)/(Sconj · √(1/n₁ + 1/n₂))."
+        },
+        {
+          "id": "gl", "type": "numeric", "role": "critical", "expr": "n1 + n2 - 2", "display_decimals": 0, "tolerance": { "abs": 0 },
+          "title": "Passo 2c — Graus de liberdade",
+          "prompt": "Calcule gl = n₁ + n₂ − 2.",
+          "bugs": [
+            { "id": "menos-um", "expr": "n1 + n2 - 1", "feedback": "Com duas amostras são −2: gl = n₁ + n₂ − 2." },
+            { "id": "so-um-grupo", "expr": "n1 - 1", "feedback": "Aqui gl = n₁ + n₂ − 2, e não n − 1." }
+          ],
+          "hints": ["Duas amostras: gl = n₁ + n₂ − 2.", "{n1} + {n2} − 2."],
+          "misconception": "Duas amostras: gl = n₁ + n₂ − 2.",
+          "worked": "gl = {n1} + {n2} − 2 = {gl}."
+        },
+        {
+          "id": "tc", "type": "numeric", "role": "critical", "expr": "tcrit(gl)", "display_decimals": 3, "tolerance": { "abs": 0.0005 },
+          "title": "Passo 2d — Valor crítico na tabela t",
+          "prompt": "Na tabela t (linha gl = {gl}, coluna 0,025), qual é o valor crítico?",
+          "bugs": [ { "id": "usou-z", "expr": "z95", "feedback": "1,96 é do teste Z. Com σ desconhecidos, leia a tabela t." } ],
+          "hints": ["Linha gl = {gl}, coluna 0,025.", "Tabela da professora (p.4): gl 10 → 2,228; 12 → 2,179; 15 → 2,131; 16 → 2,120; 19 → 2,093; 20 → 2,086; 30 → 2,042."],
+          "misconception": "Linha = gl; coluna 0,025.",
+          "worked": "t crítico = ±{tc}."
+        },
+        {
+          "id": "s1q", "type": "numeric", "role": "compute", "expr": "s1^2", "display_decimals": 2, "tolerance": { "abs": 0.0006 },
+          "title": "Passo 3a — s₁²",
+          "prompt": "Eleve s₁ ao quadrado.",
+          "hints": ["s₁ × s₁.", "{s1:1} × {s1:1}."],
+          "misconception": "s₁² = s₁ × s₁.",
+          "worked": "s₁² = {s1:1}² = {s1q}."
+        },
+        {
+          "id": "s2q", "type": "numeric", "role": "compute", "expr": "s2^2", "display_decimals": 2, "tolerance": { "abs": 0.0006 },
+          "title": "Passo 3b — s₂²",
+          "prompt": "Eleve s₂ ao quadrado.",
+          "hints": ["s₂ × s₂.", "{s2:1} × {s2:1}."],
+          "misconception": "s₂² = s₂ × s₂.",
+          "worked": "s₂² = {s2:1}² = {s2q}."
+        },
+        {
+          "id": "num", "type": "numeric", "role": "compute", "expr": "(n1 - 1) * s1q + (n2 - 1) * s2q", "display_decimals": 2, "tolerance": { "abs": 0.006 },
+          "title": "Passo 3c — Parte de cima do S²conj",
+          "prompt": "Calcule (n₁ − 1)·s₁² + (n₂ − 1)·s₂².",
+          "bugs": [ { "id": "sem-quadrado", "expr": "(n1 - 1) * s1 + (n2 - 1) * s2", "feedback": "Multiplique pelo desvio ao quadrado (s²), não pelo desvio." } ],
+          "hints": ["{n1} − 1 = {df1} e {n2} − 1 = {df2}.", "{df1} × {s1q} + {df2} × {s2q}."],
+          "misconception": "Use s², não s.",
+          "worked": "({df1} × {s1q:carry}) + ({df2} × {s2q:carry}) = {num:result}."
+        },
+        {
+          "id": "sp2", "type": "numeric", "role": "compute", "expr": "num / gl", "display_decimals": 3, "tolerance": { "abs": 0.0012 },
+          "title": "Passo 3d — S²conj",
+          "prompt": "Divida pela parte de baixo (gl).",
+          "hints": ["Divida por gl = {gl}.", "{num} ÷ {gl}."],
+          "misconception": "S²conj = parte de cima ÷ gl.",
+          "worked": "S²conj = {num:carry} ÷ {gl} = {sp2:result}."
+        },
+        {
+          "id": "sp", "type": "numeric", "role": "compute", "expr": "sqrt(sp2)", "display_decimals": 3, "tolerance": { "abs": 0.0012 }, "checkpoint": true,
+          "title": "Passo 3e — Sconj",
+          "prompt": "Tire a raiz: Sconj = √S²conj.",
+          "bugs": [ { "id": "sem-raiz", "expr": "sp2", "feedback": "Não esqueça a raiz: Sconj = √{sp2}, não {sp2}." } ],
+          "hints": ["Tecla √.", "√{sp2}."],
+          "misconception": "Depois de dividir, tire a raiz.",
+          "worked": "Sconj = √{sp2:carry} = {sp:result}."
+        },
+        {
+          "id": "raiz", "type": "numeric", "role": "compute", "expr": "sqrt(1 / n1 + 1 / n2)", "display_decimals": 4, "tolerance": { "abs": 0.0003 },
+          "title": "Passo 4a — √(1/n₁ + 1/n₂)",
+          "prompt": "Calcule √(1/n₁ + 1/n₂).",
+          "bugs": [ { "id": "sem-raiz", "expr": "1 / n1 + 1 / n2", "feedback": "Faltou a raiz da soma." } ],
+          "hints": ["1/{n1} = {inv1:4} e 1/{n2} = {inv2:4}.", "√({inv1:4} + {inv2:4})."],
+          "misconception": "Some 1/n₁ + 1/n₂ e tire a raiz.",
+          "worked": "1/{n1} ≈ {inv1:4}; 1/{n2} ≈ {inv2:4}; √(1/{n1} + 1/{n2}) = {raiz:result}."
+        },
+        {
+          "id": "ep", "type": "numeric", "role": "compute", "expr": "sp * raiz", "display_decimals": 3, "tolerance": { "abs": 0.0012 },
+          "title": "Passo 4b — Erro-padrão",
+          "prompt": "EP = Sconj × √(1/n₁ + 1/n₂).",
+          "bugs": [ { "id": "sp2", "expr": "sp2 * raiz", "feedback": "Use Sconj (com raiz), não S²conj." } ],
+          "hints": ["Multiplique os dois resultados anteriores.", "{sp} × {raiz}."],
+          "misconception": "EP = Sconj × √(1/n₁ + 1/n₂).",
+          "worked": "EP = {sp:carry} × {raiz:carry} = {ep:result}."
+        },
+        {
+          "id": "t", "type": "numeric", "role": "statistic", "expr": "(x1 - x2) / ep", "display_decimals": 3, "tolerance": { "abs": 0.001 },
+          "title": "Passo 5a — Calcule t",
+          "prompt": "t = (x̄₁ − x̄₂) / EP.",
+          "bugs": [ { "id": "sobre-sp", "expr": "(x1 - x2) / sp", "feedback": "Divida pelo EP, não pelo Sconj." } ],
+          "hints": ["Diferença das médias ÷ EP.", "({x1:1} − {x2:1}) ÷ {ep}."],
+          "misconception": "t = diferença ÷ EP.",
+          "worked": "t = ({x1:1} − {x2:1}) / {ep:carry} = {diff:1}/{ep:carry} ≈ {t}."
+        },
+        {
+          "id": "decisao", "type": "choice", "role": "decision",
+          "title": "Passo 5b — Compare e decida",
+          "prompt": "Compare |t| com o valor crítico. Qual é a decisão?",
+          "options": [
+            { "id": "rejeita", "label": "|t| = {tabs} > {tc} ⇒ rejeito H0", "when": "abs(t) > tc", "feedback": "Compare |t| = {tabs} com {tc}: {tabs} não é maior." },
+            { "id": "nao-rejeita", "label": "|t| = {tabs} ≤ {tc} ⇒ não rejeito H0", "when": "abs(t) <= tc", "feedback": "|t| = {tabs} é maior que {tc}: caiu na região de rejeição." }
+          ],
+          "hints": ["Olhe o módulo, sem o sinal.", "Maior que o crítico ⇒ rejeito H0."],
+          "misconception": "Rejeita se |t| > valor crítico.",
+          "worked": "{@decisao}."
+        },
+        {
+          "id": "interp", "type": "choice", "role": "interpretation",
+          "title": "Passo 6 — Interpretação em linguagem simples",
+          "prompt": "Qual conclusão está correta?",
+          "options": [
+            { "id": "dif-a", "label": "Há evidência de que os tempos médios são diferentes: a interface A leva mais tempo.", "when": "abs(t) > tc && x1 > x2", "feedback": "Confira a decisão e qual interface teve o tempo maior." },
+            { "id": "dif-b", "label": "Há evidência de que os tempos médios são diferentes: a interface B leva mais tempo.", "when": "abs(t) > tc && x2 > x1", "feedback": "Confira a decisão e qual interface teve o tempo maior." },
+            { "id": "sem-evidencia", "label": "A diferença pode ser acaso: não há evidência de que os tempos médios diferem.", "when": "abs(t) <= tc", "feedback": "|t| passou do valor crítico: a diferença não parece ser acaso." },
+            { "id": "prova-igual", "label": "O teste prova que as interfaces têm exatamente o mesmo tempo médio.", "when": "0", "feedback": "Um teste nunca prova igualdade." }
+          ],
+          "hints": ["Siga a decisão do passo anterior.", "Diga qual interface leva mais tempo, se houver diferença."],
+          "misconception": "A conclusão segue a decisão.",
+          "worked": "{@interp}"
+        }
+      ],
+      "derived": [
+        { "id": "df1", "expr": "n1 - 1" },
+        { "id": "df2", "expr": "n2 - 1" },
+        { "id": "inv1", "expr": "1 / n1" },
+        { "id": "inv2", "expr": "1 / n2" },
+        { "id": "invsum", "expr": "1 / n1 + 1 / n2" },
+        { "id": "diff", "expr": "x1 - x2" },
+        { "id": "tabs", "expr": "abs(t)", "decimals": 3 }
+      ],
+      "interpretation_template": "{@interp}",
+      "common_mistakes": ["Na fórmula do S conjunto, multiplique pelo desvio ao quadrado (s²), não pelo desvio.", "Depois de dividir por gl, não esqueça a raiz.", "Aqui gl = n₁ + n₂ − 2 (e não n − 1)."],
+      "preserve_answers": ["metodo", "decisao", "interp"],
+      "key_path": "precisão total: Sconj, √(1/n₁ + 1/n₂) e EP carregados sem arredondar, t = 2,7244 ≈ 2,724 (PDF p.16, regra da capa p.1).",
+      "accepted_paths": [
+        { "id": "rounded-printed", "label": "divisão pelos valores impressos já arredondados (EP = 0,477)", "note": "Você dividiu pelo EP já arredondado ({ep}). Está aceito; o gabarito carrega mais casas e dá {t}.", "overrides": { "raiz": "sqrt(round(1 / n1, 4) + round(1 / n2, 4))", "ep": "round(round(sp, 3) * round(raiz, 4), 3)" } }
+      ],
+      "source_answer_key": { "printed": { "gl": "20", "tc": "2,086", "s1q": "1,44", "s2q": "1,00", "num": "24,84", "sp2": "1,242", "sp": "1,114", "raiz": "0,4282", "ep": "0,477", "t": "2,724" }, "choices": { "decisao": "rejeita", "interp": "dif-a" }, "pages": { "gl": 15, "tc": 15, "s1q": 15, "s2q": 15, "num": 15, "sp2": 15, "sp": 15, "raiz": 16, "ep": 16, "t": 16, "decisao": 16, "interp": 16 } },
+      "plot": { "kind": "test", "dist": "t", "df": "gl", "crit": "tc", "stat": "t", "stat_symbol": "t", "overlay_normal": true, "label_values": ["t"] },
+      "explore": { "var": "x1", "min": 5.5, "max": 9.5, "step": 0.1, "label": "Média da interface A (x̄₁)", "predict": { "quantity": "t", "delta": 0.5, "question": "Antes de mexer: se o tempo médio da interface A subir, a estatística t…" } }
+    }
+  ]
+}

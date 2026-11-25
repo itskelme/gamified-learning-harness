@@ -1,0 +1,15 @@
+{
+  "format_id": "fmt-branching-case",
+  "skill_name": "fmt-branching-case",
+  "contract_version": "1.0",
+  "phase": "application",
+  "accepts": { "content_kinds": ["declarative"], "requires_fields": ["graph"], "optional_fields": ["compare_with", "principle_refs"] },
+  "selects_when": { "objective_verbs": ["decide", "evaluate"], "needs": ["graph"] },
+  "retry_class": "declarative",
+  "emits": ["item_presented", "answer_submitted", "item_completed", "outcome", "skill_progress"],
+  "outcomes": ["advance", "worked_debrief", "worked_debrief_then_requeue_branch", "retry_same", "route_to_format", "mastered"],
+  "a11y": { "keyboard": true, "untimed": true, "non_drag": true, "text_alt": true },
+  "pdf": { "renders_as": "decision-tree figure plus a table of all paths with endings, scores and principles", "key_included": true },
+  "fixtures": ["AF-BRA-01"],
+  "evidence": "HYPOTHESIS H-BRA, C"
+}

@@ -1,0 +1,15 @@
+{
+  "format_id": "fmt-match-classify",
+  "skill_name": "fmt-match-classify",
+  "contract_version": "1.0",
+  "phase": "discrimination",
+  "accepts": { "content_kinds": ["declarative", "ordered_procedure"], "requires_fields": ["categories", "cases"], "optional_fields": ["confusable_with", "mode"] },
+  "selects_when": { "objective_verbs": ["discriminate", "classify"], "needs": ["categories"] },
+  "retry_class": "declarative",
+  "emits": ["item_presented", "answer_submitted", "item_completed", "outcome", "skill_progress"],
+  "outcomes": ["advance", "retry_same", "requeue_later", "route_to_format", "worked_debrief", "mastered"],
+  "a11y": { "keyboard": true, "untimed": true, "non_drag": true, "text_alt": true },
+  "pdf": { "renders_as": "decision map plus a keyword-to-category table with a blank column and a key", "key_included": true },
+  "fixtures": ["AF-MAT-01"],
+  "evidence": "interleaving of confusable categories with decisive-cue feedback B (classify); pair mode C"
+}

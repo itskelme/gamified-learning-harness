@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Learning lesson prototype</title>
+<style>
+:root{font:18px/1.6 system-ui,sans-serif;color:#202b28;background:#f4f3ee}*{box-sizing:border-box}body{margin:0}main{max-width:900px;padding:32px 24px 80px;margin:auto}h1{font-size:clamp(2rem,5vw,3.4rem);line-height:1.08;letter-spacing:-.04em}h2{line-height:1.2}.eyebrow{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:#53635c}nav,.controls{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}button,input,select{font:inherit}button{border:1px solid #446157;border-radius:5px;background:white;color:inherit;padding:10px 17px;cursor:pointer}button.primary{background:#224d3d;color:white}button:disabled{opacity:.5;cursor:default}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #ae4a10;outline-offset:4px}article{padding:26px 0;border-top:1px solid #c0c8bf}.option{display:block;width:100%;text-align:left;margin:12px 0}input[type=text]{padding:12px;width:min(100%,350px);border:1px solid #53635c}progress{width:100%;accent-color:#224d3d}.muted{color:#53635c;font-size:.9rem}#feedback{padding:18px;background:#e6ebe3;white-space:pre-line;min-height:72px}details{margin:18px 0}summary{cursor:pointer}label{display:block}header{margin-bottom:35px}section[hidden]{display:none}.print-only{display:none}@media print{body{background:white}main{max-width:none}nav,.controls,#game,#lesson{display:none!important}.print-only{display:block}article{break-inside:avoid}h1{font-size:26pt}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+<main>
+<header><p class="eyebrow">Portable learning lab · prototype v0.1</p><h1 id="title"></h1><p id="objectives"></p><p class="muted">A local learning artifact. This prototype has no validated efficacy claim.</p></header>
+<nav aria-label="Learning modes"><button id="lessonTab" type="button">Study slides</button><button id="gameTab" type="button">Practice steps</button><button id="print" type="button">Print study preview</button></nav>
+<section id="lesson" aria-label="Study slides"><article><p id="slideCounter" class="eyebrow"></p><h2 id="slideTitle"></h2><p id="slideBody"></p><details><summary>Close the explanation and try to recall</summary><p id="slidePrompt"></p></details><div class="controls"><button id="prev" type="button">Previous</button><button id="next" type="button">Next</button></div></article></section>
+<section id="game" aria-label="Step practice" hidden><label for="policy">Restart mode</label><select id="policy"><option value="full">Full exercise restart</option><option value="failed-step">Retry the failed step</option><option value="checkpoint">Return to a checkpoint</option><option value="after-n-errors">Full restart after N errors</option></select><p class="muted">This prototype reuses the original numbers. Regenerated variants, delayed testing and adaptive mastery remain pending.</p><progress id="progress" max="100" value="0" aria-label="Practice progress"></progress><article><p class="eyebrow" id="stepCounter"></p><h2 id="statement"></h2><p id="translation"></p><h3 id="prompt" tabindex="-1"></h3><form id="answerForm"><div id="answers"></div></form><div class="controls"><button id="hint" type="button">Hint</button><button id="continue" type="button" class="primary" disabled>Continue</button></div><p id="feedback" role="status" aria-live="polite"></p></article><div class="controls"><button id="export" type="button">Export progress</button><label>Import progress <input type="file" id="import" accept="application/json"></label><button id="reset" type="button">Reset this lesson</button></div><p id="storage" class="muted"></p></section>
+<section id="printPreview" class="print-only" aria-label="Printable study preview"></section>
+<p class="muted">Use the skill's LaTeX workflow for the final didactic PDF. The print preview is a working content check, not the finished Phase 1 deliverable.</p>
+</main>
+<script type="application/json" id="lessonData">__LESSON_JSON__</script>
+<script>
+'use strict';
+const L=JSON.parse(document.getElementById('lessonData').textContent), DIGEST='__LESSON_DIGEST__';
+const $=id=>document.getElementById(id), KEY='learning-lab:'+L.id+':'+DIGEST;
+const initial=()=>({digest:DIGEST,exercise:0,step:0,errors:0,attempts:0,correct:0,hints:0,policy:L.restart_policy,events:[],finished:false});
+let state=initial(),slide=0,phase='answer',returnStep=0,hintLevel=0,storageAvailable=true;
+function text(id,value){$(id).textContent=value}
+function valid(s){return s&&s.digest===DIGEST&&Number.isInteger(s.exercise)&&s.exercise>=0&&s.exercise<L.exercises.length&&Number.isInteger(s.step)&&s.step>=0&&s.step<L.exercises[s.exercise].steps.length&&['full','failed-step','checkpoint','after-n-errors'].includes(s.policy)&&['errors','attempts','correct','hints'].every(k=>Number.isInteger(s[k])&&s[k]>=0)&&typeof s.finished==='boolean'&&Array.isArray(s.events)&&s.events.length<=10000&&s.events.every(e=>e&&typeof e==='object'&&typeof e.type==='string'&&typeof e.at==='string')}
+try{const saved=JSON.parse(localStorage.getItem(KEY));if(valid(saved))state=saved}catch(e){storageAvailable=false}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){storageAvailable=false}text('storage',storageAvailable?'Progress is stored in this browser. Export it before moving machines.':'Browser storage is unavailable. Use Export progress before closing this page.')}
+function event(type,extra={}){state.events.push({at:new Date().toISOString(),type,...extra});if(state.events.length>10000)state.events.shift();save()}
+function shuffle(items){const a=items.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function showSlide(){const s=L.slides[slide];text('slideCounter',`Slide ${slide+1} / ${L.slides.length}`);text('slideTitle',s.title);text('slideBody',s.body);text('slidePrompt',s.retrieval_prompt);$('prev').disabled=slide===0;$('next').disabled=slide===L.slides.length-1;$('lesson').querySelector('details').open=false}
+function disableAnswers(){for(const el of $('answerForm').querySelectorAll('button,input'))el.disabled=true}
+function current(){return L.exercises[state.exercise].steps[state.step]}
+function total(){return L.exercises.reduce((n,e)=>n+e.steps.length,0)}
+function render(focus=false){
+  const e=L.exercises[state.exercise],s=current();phase='answer';hintLevel=0;
+  $('policy').value=state.policy;$('continue').disabled=true;$('hint').disabled=state.finished;$('answers').replaceChildren();
+  text('stepCounter',`Exercise ${state.exercise+1} / ${L.exercises.length} · Step ${state.step+1} / ${e.steps.length}`);text('statement',e.statement);text('translation',e.translation);text('prompt',s.prompt);text('feedback','');
+  let completed=L.exercises.slice(0,state.exercise).reduce((n,x)=>n+x.steps.length,0)+state.step;
+  $('progress').value=state.finished?100:100*completed/total();
+  if(state.finished){text('prompt','Practice complete');text('feedback',e.interpretation+'\nNext: solve a changed example without the guide. Delayed recall and transfer have not been measured.');text('stepCounter',`${state.correct} correct responses across ${state.attempts} attempts; ${state.hints} hints requested.`);save();return}
+  if(s.type==='choice')for(const option of shuffle(s.options)){const b=document.createElement('button');b.type='button';b.className='option';b.textContent=option;b.onclick=()=>answer(option);$('answers').append(b)}
+  else{const label=document.createElement('label');label.htmlFor='numeric';label.textContent=`Your value (${s.unit})`;const input=document.createElement('input');input.type='text';input.id='numeric';input.inputMode='decimal';input.autocomplete='off';input.required=true;const button=document.createElement('button');button.type='submit';button.textContent='Check answer';$('answers').append(label,input,button)}
+  save();if(focus)$('prompt').focus();
+}
+function numeric(raw){const v=String(raw).trim();if(!/^[+-]?(?:\d+(?:[.,]\d+)?|[.,]\d+)(?:e[+-]?\d+)?$/i.test(v))return NaN;return Number(v.replace(',','.'))}
+function answer(value){
+  if(phase!=='answer'||state.finished)return;const s=current();let right;
+  if(s.type==='numeric'){const n=numeric(value);if(!Number.isFinite(n)){text('feedback','Enter one finite number. A decimal comma or point is accepted.');return}right=Math.abs(n-s.answer)<=s.tolerance+Number.EPSILON*Math.max(1,Math.abs(s.answer))}
+  else right=value===s.answer;
+  state.attempts++;event('answer',{exercise:L.exercises[state.exercise].id,step:s.id,value,correct:right,policy:state.policy});disableAnswers();$('hint').disabled=true;$('continue').disabled=false;
+  if(right){state.correct++;phase='advance';text('feedback','Correct. '+s.worked_solution);$('continue').textContent='Continue'}
+  else{
+    state.errors++;phase='restart';returnStep=state.step;
+    if(state.policy==='full'||(state.policy==='after-n-errors'&&state.errors>=(L.restart_after_errors||2)))returnStep=0;
+    if(state.policy==='checkpoint'){returnStep=0;for(let i=0;i<state.step;i++)if(L.exercises[state.exercise].steps[i].checkpoint)returnStep=i+1}
+    text('feedback',s.misconception+'\n'+s.hints[0]+((state.errors>=2||state.policy==='checkpoint')?'\nWorked step: '+s.worked_solution:'')+`\nReturn to step ${returnStep+1}.`);$('continue').textContent='Try again';
+  }
+  save();
+}
+$('answerForm').onsubmit=e=>{e.preventDefault();if($('numeric'))answer($('numeric').value)};
+$('continue').onclick=()=>{if(phase==='restart'){state.step=returnStep;if(returnStep===0)state.errors=0;event('restart',{returnStep});render(true);return}if(phase!=='advance')return;state.step++;if(state.step>=L.exercises[state.exercise].steps.length){if(state.exercise===L.exercises.length-1){state.step=L.exercises[state.exercise].steps.length-1;state.finished=true;event('complete')}else{state.exercise++;state.step=0;state.errors=0}}render(true)};
+$('hint').onclick=()=>{const s=current();text('feedback',s.hints[Math.min(hintLevel,s.hints.length-1)]);hintLevel++;state.hints++;event('hint',{step:s.id,level:hintLevel})};
+$('policy').onchange=()=>{state.policy=$('policy').value;event('policy-changed',{policy:state.policy});render()};
+$('prev').onclick=()=>{slide--;showSlide()};$('next').onclick=()=>{slide++;showSlide()};
+$('lessonTab').onclick=()=>{$('lesson').hidden=false;$('game').hidden=true};$('gameTab').onclick=()=>{$('lesson').hidden=true;$('game').hidden=false;render(true)};
+$('reset').onclick=()=>{if(confirm('Reset progress for this lesson in this browser?')){state=initial();save();render()}};
+$('export').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=L.id+'-progress.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+$('import').onchange=async()=>{const f=$('import').files[0];if(!f)return;try{if(f.size>5000000)throw new Error('Progress file exceeds 5 MB');const next=JSON.parse(await f.text());if(!valid(next))throw new Error('Invalid progress or a different lesson version');state=next;save();render();text('feedback','Progress imported.')}catch(e){text('feedback',e.message)}finally{$('import').value=''}};
+$('print').onclick=()=>window.print();
+function paragraph(parent,value,tag='p'){const e=document.createElement(tag);e.textContent=value;parent.append(e)}
+for(const e of L.exercises){const a=document.createElement('article');paragraph(a,e.statement,'h2');paragraph(a,e.translation);for(const s of e.steps){paragraph(a,s.prompt,'h3');paragraph(a,s.worked_solution)}paragraph(a,e.interpretation);$('printPreview').append(a)}
+document.documentElement.lang=L.language;document.title=L.title;text('title',L.title);text('objectives',L.objectives.join(' '));showSlide();render();
+</script>
+</html>

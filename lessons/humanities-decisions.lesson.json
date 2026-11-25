@@ -1,0 +1,194 @@
+{
+  "schema_version": "1.0",
+  "kind": "declarative-case",
+  "id": "humanidades-decisoes",
+  "revision": 2,
+  "title": "Decidir com dados: antes e depois não basta",
+  "language": "pt-BR",
+  "locale": "pt-BR",
+  "domain": "humanities",
+  "objectives": [
+    { "id": "o-recall", "verb": "recall", "text": "Lembrar o que é regressão à média e por que um grupo escolhido pelo pior resultado tende a melhorar sozinho." },
+    { "id": "o-disc", "verb": "discriminate", "text": "Distinguir um fato medido de uma explicação causal e de uma previsão." },
+    { "id": "o-interp", "verb": "interpret", "text": "Interpretar uma comparação entre um grupo que recebeu a ação e um grupo parecido que não recebeu." },
+    { "id": "o-seq", "verb": "sequence", "text": "Ordenar os passos de uma avaliação justa de uma política pública." },
+    { "id": "o-decide", "verb": "decide", "text": "Decidir, num caso de gestão pública, qual pergunta ou comparação testa melhor uma explicação." },
+    { "id": "o-review", "verb": "review", "text": "Revisar os princípios em dias diferentes, sem consultar o material." }
+  ],
+  "sources": [
+    { "id": "s-barnett2005", "status": "verified", "title": "Regression to the mean: what it is and how to deal with it", "citation": "Barnett, A. G.; van der Pols, J. C.; Dobson, A. J. Regression to the mean: what it is and how to deal with it. International Journal of Epidemiology, v. 34, n. 1, p. 215–220, 2005.", "doi": "10.1093/ije/dyh299", "short": "Barnett, van der Pols e Dobson (2005)", "verification": "Bibliographic metadata checked against Crossref on 2026-11-19. The claim wording in this lesson is the author's summary, not a quotation." },
+    { "id": "s-galton1886", "status": "verified", "title": "Regression towards mediocrity in hereditary stature", "citation": "Galton, F. Regression towards mediocrity in hereditary stature. The Journal of the Anthropological Institute of Great Britain and Ireland, v. 15, p. 246–263, 1886.", "doi": "10.2307/2841583", "short": "Galton (1886)", "verification": "Bibliographic metadata checked against Crossref on 2026-11-19. The claim wording is the author's summary, not a quotation." },
+    { "id": "s-hill1965", "status": "verified", "title": "The environment and disease: association or causation?", "citation": "Hill, A. B. The environment and disease: association or causation? Proceedings of the Royal Society of Medicine, v. 58, n. 5, p. 295–300, 1965.", "doi": "10.1177/003591576505800503", "short": "Hill (1965)", "verification": "Bibliographic metadata checked against Crossref on 2026-11-19. The claim wording is the author's summary, not a quotation." },
+    { "id": "s-nickerson1998", "status": "verified", "title": "Confirmation bias: a ubiquitous phenomenon in many guises", "citation": "Nickerson, R. S. Confirmation bias: a ubiquitous phenomenon in many guises. Review of General Psychology, v. 2, n. 2, p. 175–220, 1998.", "doi": "10.1037/1089-2680.2.2.175", "short": "Nickerson (1998)", "verification": "Bibliographic metadata checked against Crossref on 2026-11-19. The claim wording is the author's summary, not a quotation." },
+    { "id": "s-card1993", "status": "verified", "title": "Minimum wages and employment: a case study of the fast food industry in New Jersey and Pennsylvania", "citation": "Card, D.; Krueger, A. B. Minimum wages and employment: a case study of the fast food industry in New Jersey and Pennsylvania. NBER Working Paper 4509, 1993.", "doi": "10.3386/w4509", "short": "Card e Krueger (1993)", "verification": "Bibliographic metadata checked against Crossref on 2026-11-19 (working paper record). Cited only as a well-known example of comparing a group affected by a policy with a similar group that was not; the lesson takes no position on its minimum-wage findings." },
+    { "id": "s-caso", "status": "author-created-example", "title": "Caso fictício de Vila Serena", "citation": "Caso fictício criado para esta lição. Os números de Vila Serena não vêm de nenhuma cidade real.", "short": "caso fictício desta lição", "verification": "Invented scenario; its numbers are only for practice." }
+  ],
+  "claims": [
+    { "id": "c-associacao", "status": "sourced", "source_ids": ["s-hill1965"], "text": "Uma associação no tempo (algo mudou depois de uma ação) não basta para concluir que a ação causou a mudança: antes é preciso considerar outras explicações." },
+    { "id": "c-regressao", "status": "sourced", "source_ids": ["s-barnett2005", "s-galton1886"], "text": "Quando um grupo é escolhido porque teve valores extremos numa medição, a medição seguinte tende a ficar mais perto da média, mesmo sem nenhuma intervenção. Isso se chama regressão à média." },
+    { "id": "c-comparacao", "status": "sourced", "source_ids": ["s-barnett2005", "s-card1993"], "text": "Comparar a mudança no grupo que recebeu a ação com a mudança num grupo parecido que não recebeu ajuda a separar o efeito da ação das mudanças que aconteceriam de qualquer forma." },
+    { "id": "c-confirmacao", "status": "sourced", "source_ids": ["s-nickerson1998"], "text": "As pessoas tendem a procurar e a valorizar as informações que confirmam a ideia que já preferem. Isso se chama viés de confirmação." },
+    { "id": "c-caso", "status": "author-example", "source_ids": ["s-caso"], "text": "Em Vila Serena, os 12 cruzamentos com câmera foram escolhidos por terem tido o pior ano: média de 18 acidentes por cruzamento em 2024 e 12 em 2025. Doze cruzamentos parecidos, também com muitos acidentes em 2024, ficaram sem câmera: média de 17 em 2024 e 14 em 2025." }
+  ],
+  "study": {
+    "intro": "Este guia usa um caso fictício de uma prefeitura para treinar uma pergunta que vale para qualquer decisão: a mudança que vimos depois de uma ação foi causada por ela ou aconteceria de qualquer forma?",
+    "sections": [
+      { "id": "caso", "title": "O caso: câmeras nos cruzamentos de Vila Serena", "claim_ids": ["c-caso"],
+        "paragraphs": [
+          "A prefeitura de Vila Serena (cidade fictícia) instalou câmeras nos 12 cruzamentos que tiveram mais acidentes em 2024. Nesses cruzamentos, a média caiu de 18 acidentes por cruzamento em 2024 para 12 em 2025, uma queda de um terço.",
+          "O secretário de mobilidade quer instalar câmeras nos 200 cruzamentos da cidade e promete a mesma queda em todos eles. Você é a pessoa da prefeitura que analisa os dados antes da decisão."
+        ],
+        "retrieval": { "prompt": "Quantos acidentes por cruzamento havia antes e depois das câmeras, e como os 12 cruzamentos foram escolhidos?", "answer": "Média de 18 em 2024 e 12 em 2025; foram escolhidos por terem tido o pior ano de 2024." } },
+      { "id": "fato-explicacao", "title": "Fato medido, explicação e previsão", "claim_ids": ["c-associacao"],
+        "paragraphs": [
+          "\"A média caiu de 18 para 12\" é um fato medido: os registros mostram isso. \"As câmeras causaram a queda\" é uma explicação: ela precisa de mais apoio nos dados do que a ordem no tempo. \"Os 200 cruzamentos terão a mesma queda\" é uma previsão: depende de a explicação estar certa e de os outros cruzamentos serem parecidos com os 12.",
+          "Antes de aceitar uma explicação, liste as outras que também combinam com os dados: o acaso, mudanças no trânsito, obras, o clima, uma forma diferente de registrar os acidentes ou a própria maneira como os cruzamentos foram escolhidos."
+        ],
+        "retrieval": { "prompt": "Dê um exemplo de fato medido e um de explicação no caso de Vila Serena.", "answer": "Fato: a média caiu de 18 para 12. Explicação: as câmeras causaram a queda." } },
+      { "id": "regressao", "title": "Regressão à média: o pior ano tende a não se repetir", "claim_ids": ["c-regressao"],
+        "paragraphs": [
+          "O número de acidentes de um cruzamento varia de ano para ano. Quem escolhe os cruzamentos justamente pelo pior ano escolhe, junto com o problema real, a parte de azar daquele ano. No ano seguinte, essa parte de azar costuma não se repetir, e a média do grupo cai mesmo sem câmera.",
+          "Por isso, a queda de 18 para 12 mistura duas coisas: o efeito das câmeras, se houver, e a volta natural para perto da média. Sem outra informação, não dá para saber quanto é cada uma."
+        ],
+        "retrieval": { "prompt": "Por que cruzamentos escolhidos pelo pior ano tendem a melhorar mesmo sem câmera?", "answer": "Porque o pior ano inclui uma parte de azar que costuma não se repetir; o grupo tende a voltar para perto da média (regressão à média)." } },
+      { "id": "comparacao", "title": "Grupo de comparação: o que teria acontecido sem a ação", "claim_ids": ["c-comparacao"],
+        "paragraphs": [
+          "Doze cruzamentos parecidos, também com muitos acidentes em 2024, ficaram sem câmera. Neles, a média caiu de 17 para 14: uma queda de 3 acidentes por cruzamento, sem câmera nenhuma.",
+          "Nos cruzamentos com câmera a queda foi de 6. A parte que dá para atribuir às câmeras é a diferença entre as duas quedas: 6 − 3 = 3 acidentes a menos por cruzamento. Ainda é um efeito, mas a metade do que a comparação antes e depois sugeria. Quando é possível sortear quais cruzamentos recebem a câmera primeiro, a comparação fica ainda mais confiável."
+        ],
+        "retrieval": { "prompt": "Que conta separa o efeito das câmeras da queda que aconteceria de qualquer forma, e quanto ela dá em Vila Serena?", "answer": "A queda nos cruzamentos com câmera menos a queda nos cruzamentos parecidos sem câmera: 6 − 3 = 3 acidentes a menos por cruzamento." } },
+      { "id": "confirmacao", "title": "Viés de confirmação: procurar só o que agrada", "claim_ids": ["c-confirmacao"],
+        "paragraphs": [
+          "Quem já gosta de uma ideia tende a procurar os dados que a confirmam e a deixar de lado os que a contrariam. No caso, seria mostrar na reunião só os cruzamentos onde a queda foi maior.",
+          "Uma defesa simples é decidir antes de olhar os resultados quais comparações serão feitas e mostrar todos os cruzamentos, inclusive os que não melhoraram."
+        ],
+        "retrieval": { "prompt": "Que atitude simples protege a análise do viés de confirmação?", "answer": "Decidir antes quais comparações serão feitas e mostrar todos os dados, inclusive os que contrariam a ideia preferida." } }
+    ],
+    "glossary": [
+      { "term": "Fato medido", "definition": "O que os registros mostram, sem explicar a causa." },
+      { "term": "Explicação causal", "definition": "A afirmação de que uma coisa provocou outra; precisa de mais apoio nos dados do que a ordem no tempo." },
+      { "term": "Regressão à média", "definition": "A tendência de um grupo escolhido por valores extremos a ficar mais perto da média na medição seguinte." },
+      { "term": "Grupo de comparação", "definition": "Um grupo parecido que não recebeu a ação e mostra o que teria acontecido sem ela." },
+      { "term": "Viés de confirmação", "definition": "A tendência a procurar e valorizar só as informações que confirmam a ideia preferida." }
+    ],
+    "summary": [
+      "Antes e depois mostra uma mudança, não a sua causa.",
+      "Grupos escolhidos pelo pior resultado tendem a melhorar sozinhos.",
+      "O efeito da ação é a diferença entre a mudança com a ação e a mudança num grupo parecido sem ela.",
+      "Decida as comparações antes de ver os resultados e mostre todos os dados."
+    ]
+  },
+  "restart": {
+    "default_policy": "checkpoint",
+    "policies": ["full", "failed-step", "checkpoint", "after-n-errors"],
+    "after_n_errors": 3,
+    "learner_help": "Ao errar uma pergunta, ela volta mais tarde, depois de você responder outras. No caso de decisão, você revê o caminho e o princípio antes de refazer."
+  },
+  "practice": {
+    "units": [
+      { "id": "conceitos", "kind": "declarative", "title": "Conceitos", "objectives": ["o-recall", "o-disc", "o-interp", "o-review"],
+        "items": [
+          { "id": "lembrar", "format": "fmt-retrieval-cloze", "title": "Complete sem olhar", "claim_ids": ["c-regressao", "c-comparacao"],
+            "payload": {
+              "template": "Escolher os cruzamentos pelo pior ano faz o ano seguinte parecer melhor mesmo sem câmera: é a regressão à {{b_media}}. Para separar o efeito da câmera, compare com um grupo {{b_grupo}} que não recebeu câmeras. Com câmera a média caiu 6; sem câmera, 3. O efeito estimado é de {{b_efeito}} acidentes a menos por cruzamento.",
+              "blanks": [
+                { "id": "b_media", "label": "1", "spec": { "type": "text", "accepted": ["média"], "near_miss_min_len": 5 }, "key_text": "média" },
+                { "id": "b_grupo", "label": "2", "spec": { "type": "text", "accepted": ["parecido", "semelhante", "comparável", "de comparação", "de controle", "similar"], "near_miss_min_len": 6 }, "key_text": "parecido" },
+                { "id": "b_efeito", "label": "3", "spec": { "type": "number", "value": 3, "tolerance": 0 }, "key_text": "3" }
+              ],
+              "cue_ladder": ["A primeira lacuna é a palavra que vem depois de \"regressão à\" no guia: o valor típico do grupo.", "O efeito é a diferença entre as duas quedas: 6 menos 3."]
+            } },
+          { "id": "classificar", "format": "fmt-match-classify", "title": "Fato, explicação ou previsão?", "claim_ids": ["c-associacao"],
+            "payload": {
+              "pick_label": "Escolha o tipo…", "case_label": "Tipo da afirmação", "key_phrase": "o tipo certo é",
+              "categories": [ { "id": "fato", "label": "Fato medido" }, { "id": "explicacao", "label": "Explicação causal" }, { "id": "previsao", "label": "Previsão" } ],
+              "cases": [
+                { "id": "a1", "text": "Nos 12 cruzamentos com câmera, a média caiu de 18 para 12 acidentes.", "category": "fato", "misconception_tag": "fact_read_as_cause" },
+                { "id": "a2", "text": "As câmeras fizeram os motoristas reduzirem a velocidade.", "category": "explicacao", "misconception_tag": "cause_read_as_fact" },
+                { "id": "a3", "text": "Com câmeras nos 200 cruzamentos, os acidentes da cidade vão cair um terço.", "category": "previsao", "misconception_tag": "forecast_read_as_fact" },
+                { "id": "a4", "text": "Nos cruzamentos parecidos sem câmera, a média caiu de 17 para 14.", "category": "fato", "misconception_tag": "fact_read_as_cause" },
+                { "id": "a5", "text": "A queda nos cruzamentos sem câmera veio da volta para perto da média.", "category": "explicacao", "misconception_tag": "cause_read_as_fact" }
+              ]
+            } },
+          { "id": "interpretar", "format": "fmt-choice-feedback", "title": "O que a comparação mostra", "claim_ids": ["c-comparacao", "c-caso"],
+            "payload": {
+              "id": "interpretar",
+              "stem": "Com câmera, a média caiu de 18 para 12 acidentes por cruzamento. Em cruzamentos parecidos sem câmera, caiu de 17 para 14. O que dá para dizer?",
+              "options": [
+                { "id": "efeito-3", "text": "Dá para atribuir às câmeras cerca de 3 acidentes a menos por cruzamento; o resto da queda aconteceria de qualquer forma.", "correct": true },
+                { "id": "efeito-6", "text": "As câmeras evitaram 6 acidentes por cruzamento, porque essa foi a queda onde elas estão.", "correct": false, "misconception_tag": "regression_to_mean_ignored", "feedback": "Os cruzamentos sem câmera também caíram 3. Essa parte da queda não pode ser creditada às câmeras." },
+                { "id": "efeito-0", "text": "As câmeras não tiveram efeito, porque os cruzamentos sem câmera também melhoraram.", "correct": false, "misconception_tag": "all_or_nothing", "feedback": "Os dois grupos melhoraram, mas não igualmente: com câmera a queda foi de 6, sem câmera de 3. A diferença, 3, é o efeito estimado." },
+                { "id": "efeito-1", "text": "Não dá para comparar, porque os dois grupos começaram com números diferentes (18 e 17).", "correct": false, "misconception_tag": "comparison_rejected", "feedback": "Comparamos as quedas, não os números iniciais. Grupos parecidos com pontos de partida próximos são justamente o que se procura." }
+              ],
+              "explanation": "A queda com câmera (6) menos a queda sem câmera (3) dá o efeito estimado: 3 acidentes a menos por cruzamento."
+            } }
+        ] },
+      { "id": "caso-decisao", "kind": "declarative", "title": "O caso da prefeitura", "objectives": ["o-seq", "o-decide", "o-review"],
+        "items": [
+          { "id": "ordem-avaliacao", "format": "fmt-sequence-order", "title": "Monte a ordem de uma avaliação justa", "claim_ids": ["c-associacao", "c-comparacao", "c-confirmacao"],
+            "payload": {
+              "key_order": ["descrever", "escolha", "comparacao", "diferenca", "decidir"],
+              "entries": [
+                { "id": "descrever", "label": "Descrever o que foi medido, sem explicar a causa", "rationale": "Separar o fato da explicação evita começar pela conclusão." },
+                { "id": "escolha", "label": "Perguntar como os locais foram escolhidos", "rationale": "Locais escolhidos pelo pior resultado tendem a melhorar sozinhos." },
+                { "id": "comparacao", "label": "Encontrar um grupo parecido que não recebeu a ação", "rationale": "Ele mostra o que teria acontecido sem a ação." },
+                { "id": "diferenca", "label": "Comparar a mudança dos dois grupos", "rationale": "O efeito estimado é a diferença entre as duas mudanças." },
+                { "id": "decidir", "label": "Decidir e combinar como medir de novo", "rationale": "Decidir as próximas comparações antes de ver os resultados protege do viés de confirmação." }
+              ]
+            } },
+          { "id": "caso-cameras", "format": "fmt-branching-case", "title": "Decida no caso de Vila Serena", "claim_ids": ["c-caso", "c-associacao", "c-regressao", "c-comparacao", "c-confirmacao"],
+            "payload": {
+              "principle_refs": ["c-associacao", "c-regressao", "c-comparacao", "c-confirmacao"],
+              "graph": {
+                "start": "n1",
+                "nodes": {
+                  "n1": { "text": "O secretário mostra: nos 12 cruzamentos com câmera, a média caiu de 18 para 12 acidentes. Ele quer instalar câmeras nos 200 cruzamentos da cidade. O que você faz primeiro?",
+                    "choices": {
+                      "aprovar": { "text": "Aprovo a expansão: uma queda de um terço é clara.", "to": "n2_aprovado", "quality": 0, "misconception_tag": "post_hoc_causation", "consequence": "A expansão segue para votação sem nenhuma outra análise.", "feedback": "Uma queda depois da ação é um fato medido, não a prova de que a ação a causou." },
+                      "perguntar": { "text": "Pergunto como os 12 cruzamentos foram escolhidos e peço os dados de cruzamentos parecidos sem câmera.", "to": "n2", "quality": 2, "consequence": "Os dados chegam no dia seguinte.", "feedback": "Saber como o grupo foi escolhido e o que aconteceu com um grupo parecido separa o efeito da câmera do que aconteceria de qualquer forma." },
+                      "melhores": { "text": "Peço só os cruzamentos onde a queda foi maior, para mostrar na reunião.", "to": "n2_reuniao", "quality": 0, "misconception_tag": "confirmation_bias", "consequence": "Você prepara uma apresentação com os 5 cruzamentos que mais melhoraram.", "feedback": "Escolher só os casos que confirmam a ideia é viés de confirmação; a análise precisa de todos os dados." }
+                    } },
+                  "n2": { "text": "Os 12 cruzamentos foram escolhidos por terem tido o pior ano de 2024. Doze cruzamentos parecidos, também com muitos acidentes em 2024, ficaram sem câmera: a média deles caiu de 17 para 14. Que conclusão você leva ao secretário?",
+                    "choices": {
+                      "efeito3": { "text": "As câmeras reduziram cerca de 3 acidentes por cruzamento; a outra parte da queda aconteceria de qualquer forma.", "to": "n3", "quality": 2, "consequence": "O secretário pergunta como seguir com a expansão.", "feedback": "A queda com câmera (6) menos a queda sem câmera (3) dá o efeito estimado: 3." },
+                      "efeito0": { "text": "As câmeras não servem para nada, porque o outro grupo também melhorou.", "to": "t_tudo_ou_nada", "principle_tag": "tudo_ou_nada", "quality": 0, "misconception_tag": "all_or_nothing", "consequence": "O projeto é cancelado.", "feedback": "Os dois grupos melhoraram, mas o grupo com câmera melhorou 3 a mais por cruzamento." },
+                      "efeito6": { "text": "A queda de 6 por cruzamento é toda das câmeras.", "to": "t_regressao", "principle_tag": "regressao_ignorada", "quality": 0, "misconception_tag": "regression_to_mean_ignored", "consequence": "A prefeitura promete uma queda que não vai acontecer.", "feedback": "O grupo sem câmera caiu 3 sozinho: essa parte não é efeito da câmera." }
+                    } },
+                  "n2_aprovado": { "text": "A expansão foi aprovada. Um ano depois, os acidentes na cidade caíram bem menos do que o terço prometido. O que você faz agora?",
+                    "choices": {
+                      "estimar": { "text": "Comparo com cruzamentos e períodos parecidos para estimar o efeito real e corrigir a promessa.", "to": "t_tarde", "principle_tag": "comparacao_tardia", "quality": 1, "consequence": "Você descobre que o efeito é real, mas menor que o prometido.", "feedback": "Comparar com um grupo parecido estima o efeito real, mesmo depois da decisão." },
+                      "atipico": { "text": "Digo que foi um ano atípico e mantenho a promessa.", "to": "t_desculpa", "principle_tag": "desculpa_sem_dados", "quality": 0, "misconception_tag": "ad_hoc_excuse", "consequence": "A promessa continua sem base.", "feedback": "Chamar o resultado de atípico sem dados que mostrem isso protege a ideia, não testa a ideia." }
+                    } },
+                  "n2_reuniao": { "text": "Na reunião, alguém pergunta pelos outros cruzamentos e por cruzamentos parecidos que ficaram sem câmera. Você não trouxe esses dados. O que faz?",
+                    "choices": {
+                      "completos": { "text": "Reconheço a falha e peço os dados completos, incluindo cruzamentos parecidos sem câmera.", "to": "n2", "quality": 1, "consequence": "A reunião é remarcada e os dados chegam.", "feedback": "Pedir todos os dados corrige o rumo, mas depois de uma apresentação enviesada." },
+                      "manter": { "text": "Mantenho a apresentação: os melhores casos mostram que funciona.", "to": "t_confirmacao", "principle_tag": "vies_de_confirmacao", "quality": 0, "misconception_tag": "confirmation_bias", "consequence": "A decisão é tomada com uma parte dos dados.", "feedback": "Os melhores casos foram escolhidos por confirmarem a ideia; eles não mostram o efeito médio." }
+                    } },
+                  "n3": { "text": "O secretário aceita a estimativa menor e quer seguir com a expansão. Como você sugere fazer?",
+                    "choices": {
+                      "etapas": { "text": "Instalar em etapas, sorteando a ordem dos cruzamentos, e comparar os que já têm câmera com os que ainda esperam.", "to": "t_bom", "principle_tag": "comparar_e_sortear", "quality": 2, "consequence": "A cada etapa, a prefeitura tem uma comparação justa.", "feedback": "Sortear a ordem cria um grupo de comparação parecido a cada etapa." },
+                      "tudo": { "text": "Instalar nos 200 de uma vez e medir só no fim do ano.", "to": "t_sem_grupo", "principle_tag": "sem_grupo_de_comparacao", "quality": 1, "misconception_tag": "no_comparison_group", "consequence": "No fim do ano não há grupo de comparação.", "feedback": "Sem grupo de comparação, a medição no fim do ano volta a misturar efeito e acaso." }
+                    } },
+                  "t_bom": { "terminal": true, "principle_tag": "comparar_e_sortear", "principle": "Uma queda medida antes e depois é um candidato a efeito, não a prova. Compare com um grupo parecido que não recebeu a ação e, quando possível, sorteie quem recebe primeiro.", "ending": "Vila Serena expande as câmeras em etapas e passa a ter uma estimativa confiável do efeito." },
+                  "t_sem_grupo": { "terminal": true, "principle_tag": "sem_grupo_de_comparacao", "principle": "Uma estimativa feita uma vez não confirma o que vem depois. Instalando em todos os cruzamentos ao mesmo tempo, não sobra nenhum cruzamento parecido sem câmera, e a medição do fim do ano volta a misturar o efeito com o que aconteceria de qualquer forma.", "ending": "A prefeitura instala as 200 câmeras com a estimativa de 3 acidentes a menos por cruzamento, mas não terá como confirmar esse efeito na cidade toda." },
+                  "t_tarde": { "terminal": true, "principle_tag": "comparacao_tardia", "principle": "Comparar com um grupo parecido estima o efeito real, mesmo depois da decisão. Mas a promessa foi feita antes, só com o antes e depois, que exagerava o efeito: a comparação devia vir antes de decidir.", "ending": "Você corrige a promessa com uma estimativa do efeito real, menor que o prometido; a expansão, porém, já tinha sido aprovada com a conta exagerada." },
+                  "t_tudo_ou_nada": { "terminal": true, "principle_tag": "tudo_ou_nada", "principle": "O efeito de uma ação é a diferença entre a mudança no grupo que a recebeu e a mudança num grupo parecido que não recebeu. Se os dois melhoraram, mas um melhorou mais, essa diferença é o efeito: aqui, 3 acidentes a menos por cruzamento.", "ending": "O projeto é cancelado, embora a comparação mostre um efeito real das câmeras." },
+                  "t_regressao": { "terminal": true, "principle_tag": "regressao_ignorada", "principle": "Um grupo escolhido pelo pior ano tende a melhorar sozinho (regressão à média). Só a comparação com um grupo parecido separa essa melhora do efeito da ação.", "ending": "A prefeitura promete uma queda que as câmeras não conseguem dar: metade dela aconteceria de qualquer forma." },
+                  "t_desculpa": { "terminal": true, "principle_tag": "desculpa_sem_dados", "principle": "Chamar um resultado contrário de ano atípico, sem dados que mostrem isso, protege a ideia em vez de testá-la. Para saber o efeito, compare com cruzamentos e períodos parecidos.", "ending": "A promessa continua de pé sem base nos dados, e a cidade segue sem saber quanto as câmeras ajudam." },
+                  "t_confirmacao": { "terminal": true, "principle_tag": "vies_de_confirmacao", "principle": "Escolher só os casos que confirmam a ideia é viés de confirmação: os cruzamentos que mais melhoraram mostram o caso mais favorável, não o efeito médio. A análise precisa de todos os casos e de um grupo parecido sem a ação.", "ending": "A decisão é tomada com os 5 cruzamentos que mais melhoraram, não com todos os dados." }
+                }
+              },
+              "principle_check": {
+                "stem": "Antes de refazer o caso: por que a queda de 18 para 12 exagera o efeito das câmeras?",
+                "options": [
+                  { "id": "regressao", "text": "Cruzamentos escolhidos pelo pior ano tendem a melhorar sozinhos no ano seguinte (regressão à média).", "correct": true },
+                  { "id": "grandes", "text": "Câmeras só funcionam em cruzamentos grandes.", "correct": false, "misconception_tag": "irrelevant_cause", "feedback": "O caso não traz nenhum dado sobre o tamanho dos cruzamentos. Releia a seção sobre regressão à média." },
+                  { "id": "dados", "text": "Os números de 2025 devem estar errados.", "correct": false, "misconception_tag": "distrust_data", "feedback": "Nada indica erro nos registros. O problema está em como os cruzamentos foram escolhidos." }
+                ],
+                "explanation": "O pior ano inclui uma parte de azar que costuma não se repetir; por isso o grupo melhora mesmo sem câmera."
+              }
+            } }
+        ] }
+    ]
+  }
+}

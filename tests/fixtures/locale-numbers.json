@@ -1,0 +1,41 @@
+{
+  "contract": "docs/FORMATS.md, section 'Locale contract for typed numbers' (ACCEPTANCE line 23)",
+  "rule": "In a comma-decimal locale (pt, es, fr, de, it) the point is the thousands separator. Text with exactly one point followed by exactly three digits and no comma ('1.960') is thousands-shaped: it is refused as ambiguous (no-op, not an error) with a message that shows the comma form. A point followed by 1, 2 or 4+ digits is still read as a decimal point. Grouped text with a decimal comma ('1.960,5') is read as grouping. The mirror rule applies to point-decimal locales with the comma.",
+  "cases": {
+    "pt-BR": [
+      { "input": "1,96", "value": 1.96 },
+      { "input": "1,960", "value": 1.96 },
+      { "input": " 1,96 ", "value": 1.96 },
+      { "input": "1.96", "value": 1.96 },
+      { "input": "0.0482", "value": 0.0482 },
+      { "input": "-0,0246", "value": -0.0246 },
+      { "input": "1.960", "issue": "ambiguous_grouping" },
+      { "input": "12.345", "issue": "ambiguous_grouping" },
+      { "input": "-1.960", "issue": "ambiguous_grouping" },
+      { "input": "0.950", "value": 0.95 },
+      { "input": "0.050", "value": 0.05 },
+      { "input": "-0.975", "value": -0.975 },
+      { "input": "+0.025", "value": 0.025 },
+      { "input": "1 960", "issue": "malformed" },
+      { "input": "1,96 ", "value": 1.96 },
+      { "input": "1.960,5", "value": 1960.5 },
+      { "input": "1.234,5", "value": 1234.5 },
+      { "input": ".5", "value": 0.5 },
+      { "input": "2,5,1", "issue": "malformed" },
+      { "input": "1.2.3", "issue": "malformed" },
+      { "input": "abc", "issue": "malformed" },
+      { "input": "", "issue": "malformed" }
+    ],
+    "en-US": [
+      { "input": "1.960", "value": 1.96 },
+      { "input": "1.96", "value": 1.96 },
+      { "input": "1,96", "value": 1.96 },
+      { "input": "1,960", "issue": "ambiguous_grouping" },
+      { "input": "0,950", "value": 0.95 },
+      { "input": "-0,975", "value": -0.975 },
+      { "input": "1 960", "issue": "malformed" },
+      { "input": "1,960.5", "value": 1960.5 },
+      { "input": "abc", "issue": "malformed" }
+    ]
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "version": "1.0.0",
+  "source": "design-proposal.md rev 2 (sha256 92e22eaa...3889) section 8.2; ratings per verification.md section 7 and game-format-catalog r3 section 8. GAP = no rating exists; it is displayed only as 'GAP: no rating' and any rationale stays in the undisplayed note.",
+  "slots": {
+    "restart_on_error.procedural": {
+      "applies_to": ["fmt-step-ladder"],
+      "default": "last_checkpoint_plus_worked_step",
+      "options": {
+        "full_restart": { "rating": "C; known cost, geometric for novices. Preset strict-kelme = founder preference, no evidence that it beats the alternatives" },
+        "restart_at_failed_step_new_numbers": { "rating": "C (inference). Paas 1994 is about studying varied worked examples, not about retrying a step (verification 2026-11-19)" },
+        "last_checkpoint_plus_worked_step": { "rating": "C (inference); no study compares the restart rules (verification 2026-11-19)", "params": { "after_errors": 3 } },
+        "full_restart_after_n_errors": { "rating": "C (hits strugglers hardest; N arbitrary)", "params": { "n": 3 } },
+        "none": { "rating": "GAP", "note": "step retry with feedback only; no study isolates it" }
+      }
+    },
+    "restart_on_error.declarative": {
+      "applies_to": ["fmt-choice-feedback", "fmt-retrieval-cloze", "fmt-match-classify", "fmt-review-mix"],
+      "default": "requeue_failed_item",
+      "options": {
+        "full_restart_reshuffle": { "rating": "C as a learning engine (FGV style)" },
+        "requeue_failed_item": { "rating": "B only with a re-test at a later session; C inside one session. Not successive relearning unless the later re-test is on (F6)" },
+        "none": { "rating": "evidence against (Rowland 2014: no feedback and success at or below 50% gave g=0.03)" }
+      }
+    },
+    "variant_scope": {
+      "applies_to": ["fmt-step-ladder", "fmt-data-visual-lab"],
+      "default": "numbers_only",
+      "options": {
+        "numbers_only": { "rating": "B/C; constraint set comes from the instructor's tables and map" },
+        "numbers_then_context_after_k_variants": { "rating": "C (inference)", "params": { "k": 2 }, "requires": "context_variants" }
+      }
+    },
+    "feedback_ladder": {
+      "applies_to": ["fmt-step-ladder", "fmt-retrieval-cloze"],
+      "default": "hint_then_show_step",
+      "options": {
+        "hint_then_show_step": { "rating": "C (components A/B)", "params": { "hint_levels": 1 } },
+        "show_step_immediately": { "rating": "GAP" },
+        "explain_only_no_answer": { "rating": "GAP", "rejected_kinds": ["declarative"], "note": "procedural ladders only; evidence against for declarative items (Rowland 2014)" }
+      }
+    },
+    "step_lock": {
+      "applies_to": ["fmt-step-ladder", "fmt-sequence-order"],
+      "default": "fade_from_last_step",
+      "options": {
+        "locked_sequential": { "rating": "A for step-level feedback, C for locking itself" },
+        "fade_from_last_step": { "rating": "B for near transfer, far transfer needs principle prompts; counter-evidence F1 (Miller-Cotto 2021); fade schedule is inference (C)" },
+        "free_order": { "rating": "GAP", "rejected_kinds": ["ordered_procedure"], "note": "reorderable content only" }
+      }
+    },
+    "review_schedule": {
+      "applies_to": ["fmt-review-mix"],
+      "default": "proportional_gap",
+      "options": {
+        "proportional_gap": { "rating": "A for the direction (Cepeda 2006, 2008), C for the interpolation and the 7-365 day clamp" },
+        "fixed_intervals": { "rating": "convention, no evidence (1/3/7/21 has no source; claim 4 UNVERIFIABLE)", "params": { "days": [1, 3, 7, 21] } },
+        "adaptive_response_based": { "rating": "B for adaptive scheduling in general (Mettler 2016, Lindsey 2014), C for FSRS specifically" },
+        "none": { "rating": "evidence against (spacing, A)" }
+      }
+    },
+    "gamification.points_ladder": {
+      "applies_to": ["all"],
+      "default": "on",
+      "options": {
+        "on": { "rating": "B/C if informational, C if it gates progress" },
+        "off": { "rating": "GAP" }
+      }
+    },
+    "gamification.return_streak": {
+      "applies_to": ["fmt-review-mix"],
+      "default": "off",
+      "options": {
+        "on": { "rating": "C (company data)" },
+        "off": { "rating": "GAP" }
+      }
+    },
+    "gamification.lifelines": {
+      "applies_to": ["fmt-choice-feedback"],
+      "default": "off",
+      "options": {
+        "off": { "rating": "GAP" },
+        "fifty_fifty_assisted": { "rating": "C (inference); counted as assisted. Crowd and friend lifelines are not built (D2)" }
+      }
+    },
+    "gamification.timer": {
+      "applies_to": ["all"],
+      "default": "off",
+      "options": {
+        "off": { "rating": "GAP" },
+        "on": { "rating": "C; exam run only", "params": { "seconds": 60 } }
+      }
+    },
+    "gamification.badges": {
+      "applies_to": ["all"],
+      "default": "off",
+      "options": {
+        "on": { "rating": "C (competence satisfaction; learning not measured; Sailer 2017)" },
+        "off": { "rating": "GAP" }
+      }
+    },
+    "gamification.leaderboard": {
+      "applies_to": ["all"],
+      "default": "off",
+      "options": {
+        "off": { "rating": "C; only off is shipped in v1 (local-only product, D3)" }
+      }
+    },
+    "metrics": {
+      "applies_to": ["all"],
+      "default": "ttc_r7_r30_t_c30",
+      "options": {
+        "ttc_r7_r30_t_c30": { "rating": "C (definition adopted per Addendum 4; Kelme may override)" }
+      }
+    }
+  }
+}

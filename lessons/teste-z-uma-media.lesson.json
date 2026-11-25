@@ -1,0 +1,154 @@
+{
+  "schema_version": "1.0",
+  "kind": "ordered-procedure",
+  "id": "teste-z-uma-media",
+  "revision": 2,
+  "title": "Teste Z para uma média: o peso da embalagem de café",
+  "language": "pt-BR",
+  "locale": "pt-BR",
+  "domain": "statistics",
+  "objectives": [
+    { "id": "o-compute", "verb": "compute", "text": "Calcular o erro-padrão e a estatística Z de um teste para uma média com σ conhecido, uma conta por vez." },
+    { "id": "o-seq", "verb": "sequence", "text": "Ordenar os passos do teste: dados, hipóteses, método, valor crítico, contas, decisão e conclusão." },
+    { "id": "o-predict", "verb": "predict", "text": "Prever como o tamanho da amostra muda a estatística Z." },
+    { "id": "o-interp", "verb": "interpret", "text": "Escrever a conclusão em linguagem simples, sem dizer que o teste prova igualdade." },
+    { "id": "o-review", "verb": "review", "text": "Revisar o teste em dias diferentes." }
+  ],
+  "sources": [
+    { "id": "autor", "status": "author-created-example", "title": "Exercício criado para esta lição", "citation": "Exercício original desta lição; os números são fictícios. O gabarito foi calculado à mão pela autora e é conferido pelo motor a cada build.", "short": "exercício desta lição", "learner_label": "Exercício criado para esta lição, com números fictícios. Não vem de nenhuma prova ou material de terceiros." }
+  ],
+  "conventions": {
+    "confidence": 0.95, "alpha": 0.05, "two_sided": true, "z95": 1.96,
+    "z95_source": "tabela da distribuição normal padrão: 0,4750 da área entre 0 e 1,96",
+    "t_table": {},
+    "t_table_source": "não usada nesta lição",
+    "rounding_rule": "Guarde pelo menos 4 casas decimais nas contas do meio e arredonde só no final.",
+    "carry_decimals": 4,
+    "decision_rule": "Bilateral: rejeita H0 se |Z| > 1,96.",
+    "step_rules": {
+      "data": "Valores copiados do enunciado, sem arredondamento.",
+      "critical": "Valor da tabela normal padrão para 5% bilateral: 1,96.",
+      "compute": "Cada conta usa os resultados anteriores com precisão total; a resposta é aceita dentro da tolerância de cada passo.",
+      "statistic": "Mesma regra das contas.",
+      "decision": "Compare |Z| com o valor crítico.",
+      "interpretation": "Segue a decisão e o sinal da diferença."
+    },
+    "first_attempt": "A primeira tentativa usa os números originais do enunciado."
+  },
+  "restart": {
+    "default_policy": "after-n-errors",
+    "after_n_errors": 3,
+    "new_variant_on_retry": true,
+    "policies": ["full", "failed-step", "checkpoint", "after-n-errors"],
+    "learner_help": "Modo padrão: a cada erro você vê uma explicação e uma dica; a partir do segundo erro aparece também o passo resolvido, e você refaz só o passo errado. Depois de 3 erros no exercício, ele recomeça do passo 1, com números novos e os mesmos passos.",
+    "source_rationale": "Por que este é o modo padrão: nos primeiros erros você recebe ajuda em vez de recomeçar tudo; depois de 3 erros, o exercício recomeça para treinar a sequência inteira. Nenhum estudo comparou esses modos diretamente: é uma escolha de como praticar, não um resultado medido."
+  },
+  "carry_paths": {
+    "display": { "label": "resultados anteriores arredondados nas casas que cada passo pede", "note": "Você fez a conta com os resultados anteriores arredondados nas casas que cada passo pede. Está aceito; com mais casas, o gabarito dá {=gabarito}." },
+    "learner": { "label": "os seus próprios valores já aceitos nos passos anteriores", "note": "Você seguiu os valores que digitou e que foram aceitos nos passos anteriores. Está aceito; com os valores do gabarito, o resultado é {=gabarito}." }
+  },
+  "methods": [
+    { "id": "z_one_mean", "label": "Teste Z para uma média (σ conhecido)" },
+    { "id": "t_one_mean", "label": "Teste t para uma média (σ desconhecido, só o s da amostra)" },
+    { "id": "z_mean_ci", "label": "Intervalo de confiança para a média com Z" }
+  ],
+  "decision_map": { "source": "esta lição", "rows": [
+    { "asks": "Teste", "of": "Uma média", "condition": "σ da população conhecido", "keywords": "“desvio-padrão populacional conhecido”", "method": "z_one_mean", "exercise": 1 },
+    { "asks": "Teste", "of": "Uma média", "condition": "σ desconhecido, só o s da amostra", "keywords": "“desvio-padrão da amostra”", "method": "t_one_mean", "exercise": null }
+  ] },
+  "source_notes": [],
+  "exercises": [
+    {
+      "id": "ex1-cafe",
+      "number": 1,
+      "title": "Exercício 1 — Teste Z para uma média (σ conhecido)",
+      "branch": "z_one_mean",
+      "source": { "pdf_pages": [] },
+      "original_statement": "Uma torrefação afirma que as embalagens de café têm, em média, 500 g. Uma fiscalização pesou 36 embalagens escolhidas ao acaso e encontrou média de 497 g. Considere conhecido o desvio-padrão populacional de 6 g. Teste, com significância de 5% e teste bilateral, se o peso médio de todas as embalagens é diferente de 500 g.",
+      "statement_template": "Uma torrefação afirma que as embalagens de café têm, em média, {mu0} g. Uma fiscalização pesou {n} embalagens escolhidas ao acaso e encontrou média de {xbar} g. Considere conhecido o desvio-padrão populacional de {sigma} g. Teste, com significância de 5% e teste bilateral, se o peso médio de todas as embalagens é diferente de {mu0} g.",
+      "translation_template": "A empresa diz {mu0} g; a amostra de {n} embalagens deu {xbar} g. A diferença de {diffabs} g é grande demais para ser só acaso?",
+      "variables": {
+        "n": { "type": "int", "min": 25, "max": 100, "original": 36, "unit": "embalagens", "symbol": "n" },
+        "xbar": { "type": "int", "min": 494, "max": 506, "original": 497, "unit": "g", "symbol": "x̄" },
+        "mu0": { "type": "int", "min": 500, "max": 500, "original": 500, "unit": "g", "symbol": "μ₀" },
+        "sigma": { "type": "int", "min": 4, "max": 10, "original": 6, "unit": "g", "symbol": "σ" }
+      },
+      "constraints": [
+        { "expr": "xbar != mu0", "message": "A média da amostra precisa ser diferente do valor anunciado." },
+        { "expr": "abs(abs(z) - zc) >= 0.1", "message": "A estatística não pode ficar colada no valor crítico (decisão ambígua por arredondamento).", "scope": "variant" }
+      ],
+      "steps": [
+        { "id": "givens", "type": "givens", "role": "data", "title": "Passo 1 — Separe os dados", "prompt": "O que o problema me deu? Digite cada valor do enunciado.",
+          "fields": [ { "var": "n", "label": "n — embalagens pesadas" }, { "var": "xbar", "label": "x̄ — média da amostra (g)" }, { "var": "mu0", "label": "μ₀ — média anunciada (g)" }, { "var": "sigma", "label": "σ — desvio-padrão populacional (g)" } ],
+          "hints": ["Procure no enunciado: quantas embalagens, a média encontrada, a média anunciada e o desvio.", "n = {n}; x̄ = {xbar}; μ₀ = {mu0}; σ = {sigma}."],
+          "misconception": "Confira cada número: n é a quantidade de embalagens, x̄ a média da amostra e μ₀ a média anunciada.",
+          "worked": "n = {n}; x̄ = {xbar} g; μ₀ = {mu0} g; σ = {sigma} g (populacional, conhecido)." },
+        { "id": "hip", "type": "choice", "role": "hypotheses", "answer": "ok", "title": "Passo 2 — Hipóteses", "prompt": "Quais são as hipóteses do teste bilateral?",
+          "options": [
+            { "id": "ok", "label": "H0: μ = {mu0} g e H1: μ ≠ {mu0} g" },
+            { "id": "amostral", "label": "H0: x̄ = {mu0} g e H1: x̄ ≠ {mu0} g", "feedback": "As hipóteses falam da média de todas as embalagens (μ), não da média da amostra, que já conhecemos." },
+            { "id": "unilateral", "label": "H0: μ = {mu0} g e H1: μ < {mu0} g", "feedback": "O enunciado pede teste bilateral: H1 diz apenas “diferente”." },
+            { "id": "trocadas", "label": "H0: μ ≠ {mu0} g e H1: μ = {mu0} g", "feedback": "H0 é sempre a afirmação sem diferença: μ = {mu0} g." }
+          ],
+          "hints": ["H0 é a afirmação da empresa: μ = {mu0} g.", "Bilateral: H1 é “diferente” (≠)."],
+          "misconception": "H0: μ = {mu0}; H1: μ ≠ {mu0}.",
+          "worked": "H0: μ = {mu0} g (a empresa está certa); H1: μ ≠ {mu0} g." },
+        { "id": "metodo", "type": "choice", "role": "method", "options_from": "methods", "answer": "z_one_mean", "checkpoint": true, "title": "Passo 3 — Escolha o método",
+          "prompt": "Teste para uma média com “desvio-padrão populacional conhecido”. Qual método?",
+          "feedback": { "t_one_mean": "O teste t é para quando só temos o s da amostra. Aqui o σ da população é conhecido.", "z_mean_ci": "O problema pede um teste, não um intervalo." },
+          "hints": ["Teste ou intervalo? O σ é conhecido?", "Teste com σ conhecido ⇒ Z."],
+          "misconception": "Teste para uma média com σ conhecido ⇒ teste Z.",
+          "worked": "σ conhecido ⇒ Z = (x̄ − μ₀) / (σ/√n). Críticos: ±1,96." },
+        { "id": "zc", "type": "numeric", "role": "critical", "expr": "z95", "display_decimals": 2, "tolerance": { "abs": 0.0005 }, "title": "Passo 4 — Valor crítico", "prompt": "Qual é o valor crítico (bilateral, 5%)?",
+          "bugs": [ { "id": "unilateral", "expr": "1.645", "feedback": "1,645 é unilateral. Bilateral 5% ⇒ 2,5% em cada cauda ⇒ 1,96." } ],
+          "hints": ["5% divididos nas duas caudas.", "2,5% em cada cauda ⇒ 1,96."],
+          "misconception": "Bilateral 5% ⇒ ±1,96.",
+          "worked": "Valores críticos: −{zc} e +{zc}." },
+        { "id": "raiz", "type": "numeric", "role": "compute", "expr": "sqrt(n)", "display_decimals": 3, "tolerance": { "abs": 0.002 }, "title": "Passo 5 — Raiz de n", "prompt": "Calcule √n.",
+          "hints": ["Tecla √ da calculadora.", "√{n}."],
+          "misconception": "√n é a raiz quadrada do número de embalagens.",
+          "worked": "√{n} = {raiz:result}." },
+        { "id": "ep", "type": "numeric", "role": "compute", "expr": "sigma / raiz", "display_decimals": 3, "tolerance": { "abs": 0.002 }, "checkpoint": true, "title": "Passo 6 — Erro-padrão", "prompt": "Calcule EP = σ / √n.",
+          "bugs": [ { "id": "sobre-n", "expr": "sigma / n", "feedback": "Divida σ pela raiz de n, não por n." } ],
+          "hints": ["Divida o desvio pela raiz.", "{sigma} ÷ {raiz}."],
+          "misconception": "EP = σ / √n.",
+          "worked": "EP = {sigma} / {raiz:carry} = {ep:result}." },
+        { "id": "z", "type": "numeric", "role": "statistic", "expr": "(xbar - mu0) / ep", "display_decimals": 3, "tolerance": { "abs": 0.001 }, "title": "Passo 7 — Calcule Z", "prompt": "Z = (x̄ − μ₀) / EP.",
+          "bugs": [ { "id": "sobre-sigma", "expr": "(xbar - mu0) / sigma", "feedback": "Divida pelo EP (σ/√n), não por σ." } ],
+          "hints": ["Diferença entre a média da amostra e a anunciada, dividida pelo EP.", "({xbar} − {mu0}) ÷ {ep}."],
+          "misconception": "Z = (x̄ − μ₀) ÷ EP; o sinal mostra se a amostra ficou abaixo ou acima.",
+          "worked": "Z = ({xbar} − {mu0}) / {ep:carry} = {diff}/{ep:carry} = {z}." },
+        { "id": "decisao", "type": "choice", "role": "decision", "title": "Passo 8 — Compare e decida", "prompt": "Compare |Z| com 1,96. Qual é a decisão?",
+          "options": [
+            { "id": "rejeita", "label": "|Z| = {zabs} > {zc} ⇒ rejeito H0", "when": "abs(z) > zc", "feedback": "Compare |Z| = {zabs} com {zc}: {zabs} não é maior." },
+            { "id": "nao-rejeita", "label": "|Z| = {zabs} ≤ {zc} ⇒ não rejeito H0", "when": "abs(z) <= zc", "feedback": "|Z| = {zabs} é maior que {zc}: caiu na região de rejeição." }
+          ],
+          "hints": ["Olhe o módulo, sem o sinal.", "Maior que o crítico ⇒ rejeito H0."],
+          "misconception": "Rejeita se |Z| > valor crítico.",
+          "worked": "{@decisao}." },
+        { "id": "interp", "type": "choice", "role": "interpretation", "title": "Passo 9 — Conclusão em linguagem simples", "prompt": "Qual conclusão está correta?",
+          "options": [
+            { "id": "abaixo", "label": "Os dados indicam que o peso médio das embalagens é diferente de {mu0} g; a amostra pesou menos.", "when": "abs(z) > zc && xbar < mu0", "feedback": "Confira a decisão do passo anterior e se a amostra pesou menos ou mais que {mu0} g." },
+            { "id": "acima", "label": "Os dados indicam que o peso médio das embalagens é diferente de {mu0} g; a amostra pesou mais.", "when": "abs(z) > zc && xbar > mu0", "feedback": "Confira a decisão do passo anterior e se a amostra pesou menos ou mais que {mu0} g." },
+            { "id": "acaso", "label": "A diferença pode ser acaso: os dados não indicam que o peso médio é diferente de {mu0} g.", "when": "abs(z) <= zc", "feedback": "|Z| passou do valor crítico: a diferença é grande demais para ser só acaso." },
+            { "id": "prova", "label": "O teste prova que todas as embalagens pesam exatamente {mu0} g.", "when": "0", "feedback": "Um teste nunca prova igualdade, e fala da média, não de cada embalagem." }
+          ],
+          "hints": ["Use a decisão do passo anterior.", "Diga se a amostra pesou menos ou mais, se houver diferença."],
+          "misconception": "A conclusão segue a decisão e fala da média de todas as embalagens.",
+          "worked": "{@interp}" }
+      ],
+      "derived": [ { "id": "diff", "expr": "xbar - mu0" }, { "id": "diffabs", "expr": "abs(xbar - mu0)" }, { "id": "zabs", "expr": "abs(z)", "decimals": 3 } ],
+      "interpretation_template": "{@interp}",
+      "common_mistakes": ["Hipóteses são sobre μ (todas as embalagens), não sobre x̄.", "Dividir σ por n em vez de √n.", "Compare o módulo |Z| com 1,96."],
+      "preserve_answers": ["metodo", "decisao", "interp"],
+      "source_answer_key": {
+        "note": "Gabarito calculado à mão pela autora para os números originais (√36 = 6; EP = 6/6 = 1; Z = (497 − 500)/1 = −3), conferido pelo motor em cada build.",
+        "printed": { "raiz": "6,000", "ep": "1,000", "z": "-3,000" },
+        "choices": { "hip": "ok", "metodo": "z_one_mean", "decisao": "rejeita", "interp": "abaixo" }
+      },
+      "plot": { "kind": "test", "dist": "z", "crit": "zc", "stat": "z", "stat_symbol": "Z", "label_values": ["z"] },
+      "explore": { "var": "n", "min": 9, "max": 144, "step": 1, "label": "Embalagens pesadas (n)",
+        "predict": { "quantity": "zabs", "label": "|Z|", "delta": 20, "question": "Antes de mexer: se a fiscalização pesar mais embalagens (n maior), com a mesma média da amostra, o valor de |Z|…" } }
+    }
+  ]
+}

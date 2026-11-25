@@ -1,0 +1,11 @@
+{
+  "request": "Uma aula curta sobre viés de sobrevivência, sem indicar nenhuma fonte.",
+  "topic": "Viés de sobrevivência",
+  "language": "pt-BR",
+  "sources": [],
+  "points": [{ "title": "O erro", "text": "Concluir algo olhando só para os casos que passaram por um filtro." }],
+  "terms": [
+    { "term": "Viés de sobrevivência", "definition": "Erro de tirar conclusões olhando só para os casos que passaram por um filtro." },
+    { "term": "População", "definition": "O grupo inteiro sobre o qual queremos concluir." }
+  ]
+}

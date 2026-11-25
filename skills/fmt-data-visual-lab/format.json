@@ -1,0 +1,15 @@
+{
+  "format_id": "fmt-data-visual-lab",
+  "skill_name": "fmt-data-visual-lab",
+  "contract_version": "1.0",
+  "phase": "simulation",
+  "accepts": { "content_kinds": ["ordered_procedure", "declarative", "reorderable"], "requires_fields": ["data_model", "plot_spec"], "optional_fields": ["prompts", "image"] },
+  "selects_when": { "objective_verbs": ["explain_relationship", "predict"], "needs": ["data_model"] },
+  "retry_class": "procedural",
+  "emits": ["item_presented", "answer_submitted", "control_changed", "hint_shown", "item_completed", "outcome", "skill_progress"],
+  "outcomes": ["advance", "retry_same", "hint_next_level", "worked_debrief", "route_to_format", "mastered"],
+  "a11y": { "keyboard": true, "untimed": true, "non_drag": true, "text_alt": true },
+  "pdf": { "renders_as": "2 or 3 static snapshots of the same plot_spec at declared control values, data table, prediction question and answer", "key_included": true },
+  "fixtures": ["AF-SIM-01"],
+  "evidence": "guidance A; simulation as supplement B; prediction-first prompt C; live canvas engineering requirement"
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1", "id": "mean-confidence-interval", "revision": 1,
+  "title": "Build a confidence interval step by step", "language": "en-US", "domain": "stem",
+  "objectives": ["Compute the standard error for a known population standard deviation.", "Build a two-sided confidence interval and interpret it correctly."],
+  "sources": [{"id": "author", "title": "Original arithmetic fixture, independently recomputed in the harness tests", "url": "", "status": "author-created-example"}],
+  "restart_policy": "full",
+  "slides": [{"id": "interval", "title": "Estimate, then quantify uncertainty", "body": "For a random independent sample from a normal population with known population standard deviation, use mean ± z × sigma / square root of n. This example supplies z = 1.96 for a 95% two-sided interval.", "retrieval_prompt": "Name the estimate, the measure of uncertainty and the assumptions before calculating."}],
+  "exercises": [{
+    "id": "interval-one", "statement": "A random sample of 64 independent measurements has mean 100 g. The normal population has known standard deviation 16 g. Use z = 1.96 to construct the 95% confidence interval.",
+    "translation": "Find the uncertainty of the sample mean, scale it by the supplied critical value, then go that distance below and above the mean.",
+    "interpretation": "The interval is [96.08 g, 103.92 g]. Across repeated samples under these assumptions, about 95% of intervals made by this procedure cover the fixed population mean.",
+    "steps": [
+      {"id": "standard-error", "type": "numeric", "prompt": "Compute the standard error, 16 / sqrt(64), in grams.", "answer": 2, "tolerance": 0.0001, "unit": "g", "worked_solution": "sqrt(64) = 8. Then 16 / 8 = 2 g.", "hints": ["Calculate the square root before dividing.", "The denominator is 8; divide 16 by 8."], "misconception": "Dividing by n instead of its square root understates uncertainty.", "checkpoint": true},
+      {"id": "margin", "type": "numeric", "prompt": "Compute the margin of error, 1.96 × 2, in grams.", "answer": 3.92, "tolerance": 0.005, "unit": "g", "worked_solution": "1.96 × 2 = 3.92 g.", "hints": ["Multiply the critical value by the standard error.", "The standard error is 2 g."], "misconception": "The standard error alone is not the 95% margin of error.", "checkpoint": false},
+      {"id": "lower", "type": "numeric", "prompt": "Compute the lower endpoint, 100 − 3.92, in grams.", "answer": 96.08, "tolerance": 0.005, "unit": "g", "worked_solution": "100 − 3.92 = 96.08 g. The upper endpoint is 100 + 3.92 = 103.92 g.", "hints": ["Move below the sample mean by one margin of error.", "Subtract 3.92 from 100."], "misconception": "Moving up gives the upper endpoint, not the lower one.", "checkpoint": false}
+    ]
+  }]
+}

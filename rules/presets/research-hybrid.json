@@ -1,0 +1,16 @@
+{
+  "id": "research-hybrid",
+  "version": "1.0.0",
+  "label": "research hybrid, C overall: components B, no head-to-head study",
+  "for": "novices and mixed learners (default preset, D4)",
+  "slots": {
+    "restart_on_error.procedural": { "option": "last_checkpoint_plus_worked_step", "after_errors": 3 },
+    "restart_on_error.declarative": { "option": "requeue_failed_item" },
+    "feedback_ladder": { "option": "hint_then_show_step", "hint_levels": 1 },
+    "step_lock": { "option": "fade_from_last_step" },
+    "gamification.points_ladder": { "option": "on" },
+    "gamification.return_streak": { "option": "off" },
+    "gamification.timer": { "option": "off" },
+    "gamification.lifelines": { "option": "off" }
+  }
+}

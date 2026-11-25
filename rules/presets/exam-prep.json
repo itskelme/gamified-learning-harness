@@ -1,0 +1,12 @@
+{
+  "id": "exam-prep",
+  "version": "1.0.0",
+  "label": "exam run",
+  "for": "competent learners rehearsing; the timer stays optional (off unless overridden)",
+  "slots": {
+    "restart_on_error.procedural": { "option": "full_restart" },
+    "restart_on_error.declarative": { "option": "full_restart_reshuffle" },
+    "feedback_ladder": { "option": "hint_then_show_step", "hint_levels": 0 },
+    "step_lock": { "option": "locked_sequential" }
+  }
+}

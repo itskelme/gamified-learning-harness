@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/gamified-learning/lesson.schema.json",
+  "title": "Portable lesson v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "revision", "title", "language", "domain", "objectives", "sources", "slides", "exercises", "restart_policy"],
+  "properties": {
+    "schema_version": { "const": "0.1" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]+$" },
+    "revision": { "type": "integer", "minimum": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "language": { "type": "string", "minLength": 2 },
+    "domain": { "enum": ["stem", "humanities"] },
+    "objectives": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "sources": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["id", "title", "url", "status"], "properties": { "id": { "type": "string" }, "title": { "type": "string" }, "url": { "type": "string" }, "status": { "enum": ["verified", "unverified", "author-created-example"] } } } },
+    "slides": { "type": "array", "minItems": 1, "items": { "type": "object", "additionalProperties": false, "required": ["id", "title", "body", "retrieval_prompt"], "properties": { "id": { "type": "string" }, "title": { "type": "string" }, "body": { "type": "string" }, "retrieval_prompt": { "type": "string" } } } },
+    "restart_policy": { "enum": ["full", "failed-step", "checkpoint", "after-n-errors"] },
+    "restart_after_errors": { "type": "integer", "minimum": 2 },
+    "exercises": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/exercise" } }
+  },
+  "$defs": {
+    "step": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "type", "prompt", "answer", "worked_solution", "hints", "misconception", "checkpoint"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "type": { "enum": ["choice", "numeric"] },
+        "prompt": { "type": "string", "minLength": 1 },
+        "answer": { "type": ["string", "number"] },
+        "options": { "type": "array", "minItems": 2, "uniqueItems": true, "items": { "type": "string" } },
+        "tolerance": { "type": "number", "minimum": 0 },
+        "unit": { "type": "string" },
+        "worked_solution": { "type": "string", "minLength": 1 },
+        "hints": { "type": "array", "minItems": 2, "items": { "type": "string", "minLength": 1 } },
+        "misconception": { "type": "string", "minLength": 1 },
+        "checkpoint": { "type": "boolean" }
+      },
+      "allOf": [
+        { "if": { "properties": { "type": { "const": "numeric" } } }, "then": { "required": ["tolerance", "unit"], "properties": { "answer": { "type": "number" } } } },
+        { "if": { "properties": { "type": { "const": "choice" } } }, "then": { "required": ["options"], "properties": { "answer": { "type": "string" } } } }
+      ]
+    },
+    "exercise": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "statement", "translation", "steps", "interpretation"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "statement": { "type": "string", "minLength": 1 },
+        "translation": { "type": "string", "minLength": 1 },
+        "steps": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/step" } },
+        "interpretation": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

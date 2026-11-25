@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="__LANG__">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+<meta name="generator" content="gamified-learning-harness slides">
+<title>__TITLE__</title>
+<style>
+/* Same tokens as templates/package.html. */
+:root{--ink:#1f2a26;--muted:#4e5c56;--line:#c6cfc9;--bg:#f5f4ef;--card:#fff;--brand:#1d4b6e;--ok:#2f7a4f;--bad:#9a2b1b;--focus:#b35400;font:18px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}
+*{box-sizing:border-box}body{margin:0}
+/* The navigation bar sticks to the bottom: focused controls scroll clear of it (WCAG 2.4.11). */
+html{scroll-padding-bottom:5rem}
+.wrap{max-width:1100px;margin:0 auto;padding:16px 16px 40px}
+header{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between}
+header h1{font-size:clamp(1.1rem,3vw,1.4rem);margin:.2em 0}
+.slide{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:clamp(16px,4vw,40px);min-height:min(70vh,640px)}
+.slide h2{font-size:clamp(1.4rem,4.5vw,2.2rem);line-height:1.2;margin:.1em 0 .5em}
+.kicker{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+.flag{border-left:5px solid var(--bad);background:#fbefed;padding:8px 12px;border-radius:4px;font-weight:600}
+ol.steps{padding-left:1.4em}ol.steps li{margin:0 0 8px}
+.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+figure{margin:12px 0}figure svg{width:100%;height:auto;display:block;max-height:60vh}.figure-scroll{overflow-x:auto}.figure-scroll svg{min-width:600px;max-height:none}.scroll-hint{display:none;font-size:.85rem;color:var(--muted);margin:0 0 4px}
+@media (max-width:599px){.scroll-hint{display:block}.figure-scroll{border:1px solid var(--line);border-radius:6px}}figcaption{font-size:.9rem;color:var(--muted)}
+.sources{font-size:.85rem;color:var(--muted)}
+.retrieval{border-top:1px dashed var(--line);margin-top:16px;padding-top:8px}
+.answer{border-left:5px solid var(--ok);background:#eef5f0;padding:8px 12px;border-radius:4px}
+nav{display:flex;gap:12px;align-items:center;justify-content:space-between;margin:12px 0;position:sticky;bottom:0;padding:8px 0;background:var(--bg)}
+button{font:inherit;border:1px solid var(--brand);border-radius:6px;background:#fff;color:var(--brand);padding:9px 16px;cursor:pointer;min-height:44px;min-width:44px}
+button:disabled{opacity:.55;cursor:not-allowed}
+#counter{color:var(--muted)}
+/* The slide heading takes focus on every move: the ring shows for keyboard users (focus-visible), not after a click. */
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+[hidden]{display:none!important}
+@media (max-width:599px){.wrap{padding:10px 8px 32px}.slide{border-radius:8px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+@media print{body{background:#fff}nav,.reveal{display:none!important}.slide{display:block!important;break-after:page;border:0;min-height:0;padding:0}.answer{display:block!important}}
+@media screen {
+  :root { --bg:#f4f1e9; --card:#fffdf8; --ink:#192c26; --brand:#235543; --line:#d7d9cc; }
+  .wrap { padding-inline:clamp(12px, 3vw, 28px); }
+  .wrap > header { border-bottom:1px solid var(--line); }
+  header h1 { color:var(--brand); font-weight:650; }
+  .kicker { margin:.7rem 0 .9rem; }
+  .slide { border-radius:14px; border-top:4px solid #57816a; }
+  .slide h2 {
+    max-width:30ch; font:500 clamp(1.75rem, 4.6vw, 3.5rem)/1.05 Georgia,serif;
+    letter-spacing:-.045em; text-wrap:balance;
+  }
+  .slide p { max-width:74ch; }
+  #next:not(:disabled) { background:var(--brand); color:#fff; }
+  #next:not(:disabled):hover { background:#173f31; }
+  #prev:not(:disabled):hover, .reveal:hover { background:#e8eee4; }
+}
+</style>
+__MATH_RENDERER__
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1 id="title"></h1>
+  <p id="counter" role="status" aria-live="polite"></p>
+</header>
+<p class="kicker">__UI_HINT__</p>
+<main id="slides" aria-roledescription="__UI_DECK__"></main>
+<nav aria-label="__UI_NAV__">
+  <button type="button" id="prev">__UI_PREV__</button>
+  <button type="button" id="next">__UI_NEXT__</button>
+</nav>
+</div>
+<script type="application/json" id="deck-data">__DECK_JSON__</script>
+<script>__PLAYER__</script>
+</body>
+</html>

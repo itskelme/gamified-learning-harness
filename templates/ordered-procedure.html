@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; font-src data:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+<meta name="generator" content="gamified-learning-harness ordered-procedure __FORMAT_VERSION__">
+<meta name="description" content="Estude exercícios resolvidos e pratique estatística passo a passo, com gráficos interativos.">
+<title>Lição</title>
+<!-- __FONT_LICENSE__ -->
+<style>
+:root{--ink:#1f2a26;--muted:#4e5c56;--line:#c6cfc9;--bg:#f5f4ef;--card:#fff;--brand:#1d4b6e;--ok:#2f7a4f;--bad:#9a2b1b;--warn:#8a4b00;--focus:#b35400;font:17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}
+*{box-sizing:border-box}body{margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding:20px 16px 64px}
+header h1{font-size:clamp(1.5rem,4.5vw,2.4rem);line-height:1.15;margin:.2em 0}
+.eyebrow{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+.muted{color:var(--muted);font-size:.92rem}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0;background:var(--bg);padding:8px 0;z-index:2}
+@media (min-width:768px){.tabs{position:sticky;top:0}h2,h3{scroll-margin-top:72px}}
+@media (max-width:599px){.card{padding:12px}.wrap{padding:16px 10px 48px}}
+button,input,select{font:inherit;color:inherit}
+button{border:1px solid var(--brand);border-radius:6px;background:#fff;padding:9px 16px;cursor:pointer;min-height:44px}
+button.primary,.tabs button[aria-pressed=true]{background:var(--brand);color:#fff}
+button:disabled{opacity:.55;cursor:not-allowed}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin:0 0 16px;min-width:0}
+.box{border-left:5px solid var(--brand);background:#f1f5f8;padding:10px 14px;margin:12px 0;border-radius:4px}
+.box p{margin:.3em 0}
+.box.translation{border-color:#b86b00;background:#fdf6ec}.box.result{border-color:var(--ok);background:#eef6f0}
+.box.interp{border-color:#b86b00;background:#fdf6ec}.box.mistake{border-color:var(--bad);background:#fbefed}
+/* Step lists reach 15 items: the left padding must hold a two-digit marker ("15. "). */
+ol.worked{padding-left:2.2em}ol.worked h4{margin:.8em 0 .2em}
+dl dt{font-weight:600;margin-top:.6em}dl dd{margin:.2em 0 0 1.2em}
+.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.plot svg{width:100%;height:auto;display:block}figure{margin:12px 0}figcaption,.alt{font-size:.9rem;color:var(--muted)}
+.explore{border-top:1px dashed var(--line);margin-top:16px;padding-top:8px}
+.range-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.range-row input{flex:1 1 220px;min-height:44px}
+fieldset{border:1px solid var(--line);border-radius:6px;margin:10px 0}.opt{display:flex;gap:10px;align-items:flex-start;margin:8px 0}.opt input{margin-top:.35em;width:20px;height:20px;flex:none}
+label{display:block;margin:10px 0 4px;font-weight:600}.opt label,.check label{font-weight:400;margin:0}
+input[type=text],select{width:100%;max-width:360px;padding:10px;border:1px solid var(--muted);border-radius:4px;background:#fff;min-height:44px}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.check{display:flex;gap:10px;align-items:flex-start;margin:10px 0}
+.ex-list{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0 0 12px}.ex-list button[aria-current=step]{background:var(--brand);color:#fff}
+.badge{font-size:.78rem;border-radius:999px;padding:1px 8px;background:#e7ece9;white-space:nowrap}.badge.recomputed{background:#fdf0dc;color:var(--warn)}.badge.hinted{background:#e8eef6}
+ol.done{font-size:.92rem;padding-left:2.2em}ol.done li{margin:3px 0}.step-name{font-weight:600}.val{font-variant-numeric:tabular-nums}
+progress{width:100%;height:12px;accent-color:var(--brand)}
+.feedback{min-height:3em;padding:10px 14px;border-radius:6px;background:#eef2ef;margin-top:12px}.feedback.wrong{background:#fbefed}
+.path-note{color:var(--warn)}.prompt{font-size:1.05rem}
+.practice-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}.practice-grid>.card{margin:0}
+@media (min-width:1024px){
+  .practice-grid{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);grid-template-rows:auto auto 1fr}
+  .practice-grid>.play{grid-column:1;grid-row:1}.practice-grid>.settings{grid-column:1;grid-row:2;align-self:start}
+  .practice-grid>.io{grid-column:1;grid-row:3;align-self:start}
+  /* The plot is alone in its column, so sticking never slides it over another panel. */
+  .practice-grid>.linked{grid-column:2;grid-row:1/-1;align-self:start;position:sticky;top:72px}
+}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+@media print{
+  :root{font-size:11pt;background:#fff}.wrap{max-width:none;padding:0}
+  .tabs,#view-practice,.explore,.recall,button{display:none!important}
+  #view-study,#view-source{display:block!important}
+  .card{break-inside:auto;border:none;padding:0}.exercise{break-before:page}
+  figure,.box{break-inside:avoid}.print-note{display:block!important}
+  ol.worked>li{break-inside:avoid}ol.worked h4{break-after:avoid}
+  /* A heading or a term label never ends a page without its content (checked by pdfOrphans in the build). */
+  h2,h3,h4,dt{break-after:avoid}dd{break-before:avoid}
+  /* The closing version line never turns a page on its own (pdfOrphans widow-page rule). */
+  #view-source .card>p:last-child{break-before:avoid}
+}
+.print-note{display:none}
+@media print{.skip-link,.screen-only{display:none!important}.hero-topic{display:inline}}
+__SCREEN_STYLE__
+</style>
+__MATH_RENDERER__
+</head>
+<body>
+<div class="wrap">
+<a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+<header class="lesson-hero">
+ <div class="hero-lead">
+  <p class="eyebrow">Revisão de estatística · estudar e praticar</p>
+  <h1 id="title"></h1>
+ </div>
+ <div class="hero-objectives">
+  <p class="objectives-label screen-only">Você vai praticar</p>
+  <ul id="objectives"></ul>
+  <p class="muted">Sem cronômetro e sem cadastro: funciona sem internet.</p>
+  <p class="print-note muted">Material de estudo impresso com os mesmos números, gráficos e explicações da versão interativa.</p>
+ </div>
+</header>
+<nav class="tabs" aria-label="Modos">
+  <button type="button" id="tab-study" aria-pressed="true">Estudar</button>
+  <button type="button" id="tab-practice" aria-pressed="false">Praticar</button>
+  <button type="button" id="tab-source" aria-pressed="false">Fonte e convenções</button>
+</nav>
+<main id="conteudo" tabindex="-1">
+  <section id="view-study" aria-label="Estudar"></section>
+  <section id="view-practice" aria-label="Praticar" hidden></section>
+  <section id="view-source" aria-label="Fonte e convenções" hidden></section>
+</main>
+</div>
+<script type="application/json" id="lesson-data">__LESSON_JSON__</script>
+<script>window.LESSON_DIGEST = "__DIGEST__";</script>
+<script>__ENGINE__</script>
+<script>__PLOTS__</script>
+<script>__APP__</script>
+</body>
+</html>

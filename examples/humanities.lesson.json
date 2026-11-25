@@ -1,0 +1,20 @@
+{
+  "schema_version": "0.1", "id": "evidence-and-inference", "revision": 1,
+  "title": "Evidence, inference and a better decision", "language": "en-US", "domain": "humanities",
+  "objectives": ["Distinguish a directly observed fact from an inference.", "Choose a bounded next check before making a claim."],
+  "sources": [{"id": "author", "title": "Original demonstration scenario; not a research finding", "url": "", "status": "author-created-example"}],
+  "restart_policy": "checkpoint",
+  "slides": [
+    {"id": "observe", "title": "Start with what you can observe", "body": "A shop's sales fell after its opening hours changed. The sales report establishes a change in sales. It does not isolate its cause.", "retrieval_prompt": "Without looking back, state the observed fact and the proposed explanation separately."},
+    {"id": "compare", "title": "Compare explanations", "body": "Opening hours, seasonality, prices and missing records are competing explanations. Check the relevant records before choosing an explanation.", "retrieval_prompt": "Name one comparison that could weaken the opening-hours explanation."}
+  ],
+  "exercises": [{
+    "id": "shop", "statement": "Sales dropped 12% in the first month after a shop shortened its hours. A manager says the new hours caused the entire decline.",
+    "translation": "Separate the measurement from the causal claim, then choose what to check.",
+    "interpretation": "The timing makes the hours a candidate explanation. It does not establish how much of the decline they caused.",
+    "steps": [
+      {"id": "fact", "type": "choice", "prompt": "Which statement is directly supported by the report?", "options": ["Sales fell by 12% in that month.", "The new hours caused every lost sale.", "Demand will keep falling."], "answer": "Sales fell by 12% in that month.", "worked_solution": "The report measures the decline. The other statements add causation or a forecast.", "hints": ["Find the statement that only describes a measurement.", "A causal explanation needs evidence beyond a before-and-after change."], "misconception": "A sequence in time is being treated as a complete causal explanation.", "checkpoint": true},
+      {"id": "next-check", "type": "choice", "prompt": "Which next check best tests the hours explanation?", "options": ["Compare sales by hour and similar periods, and check other changes.", "Repeat the manager's explanation.", "Assume the same decline will occur next month."], "answer": "Compare sales by hour and similar periods, and check other changes.", "worked_solution": "Compare the lost trading periods and plausible competing explanations; the result may still have limitations.", "hints": ["Choose a check that could challenge your preferred explanation.", "Look for comparable periods and changes other than hours."], "misconception": "Restating a claim adds no independent evidence.", "checkpoint": false}
+    ]
+  }]
+}
